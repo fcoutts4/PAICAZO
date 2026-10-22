@@ -171,3 +171,12 @@ export function posicionEnVivo(jugadores: Jugador[], filas: Golpe[], c: Cancha, 
   const grupo = { pos: mg.filter(j => j.puntos > mios && !igual(j.puntos)).length + 1, de: mg.length, empatado: mg.filter(j => igual(j.puntos)).length > 1 }
   return { hoyo: N, general, grupo }
 }
+
+/** Sorteo de grupos de 3 (lo más parejo posible, nadie solo si hay 2+); cada uno marca al siguiente de su grupo. */
+export function armarGrupos(ids: string[], azar: () => number = Math.random): { id: string; grupo: number; marca: string }[] {
+  const mezcla = [...ids]
+  for (let i = mezcla.length - 1; i > 0; i--) { const k = Math.floor(azar() * (i + 1)); [mezcla[i], mezcla[k]] = [mezcla[k], mezcla[i]] }
+  const n = Math.ceil(mezcla.length / 3)
+  const grupos = Array.from({ length: n }, (_, g) => mezcla.filter((_, i) => i % n === g)) // reparte en ronda: tamaños parejos
+  return grupos.flatMap((g, gi) => g.map((id, i) => ({ id, grupo: gi + 1, marca: g.length > 1 ? g[(i + 1) % g.length] : '' })))
+}

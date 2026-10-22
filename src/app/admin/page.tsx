@@ -1,9 +1,10 @@
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
-import { cancha, firmadas, golpes, guardarGolpe, jugador, jugadores, renombrar } from '@/lib/datos'
+import { borrarScores, cancha, firmadas, golpes, guardarGolpe, guardarGrupos, jugador, jugadores, renombrar } from '@/lib/datos'
 import { sql } from '@/lib/db'
-import { limpiarNombre, tarjeta } from '@/lib/golf'
+import { armarGrupos, limpiarNombre, tarjeta } from '@/lib/golf'
 import { pinDe, requiereUsuario } from '@/lib/sesion'
+import BotonPeligroso from './BotonPeligroso'
 
 export const dynamic = 'force-dynamic'
 
@@ -28,6 +29,22 @@ async function cambiarNombre(form: FormData) {
   const id = String(form.get('jugador')), nombre = limpiarNombre(String(form.get('nombre') ?? ''))
   if (!jugador(id) || !nombre) return
   await renombrar(id, nombre)
+  revalidatePath('/', 'layout')
+}
+
+async function resetear(form: FormData) {
+  'use server'
+  await soloAdmin()
+  if (form.get('confirmacion') !== 'BORRAR') return // segunda confirmación, revisada en el servidor
+  await borrarScores()
+  revalidatePath('/', 'layout')
+}
+
+async function sortear(form: FormData) {
+  'use server'
+  await soloAdmin()
+  if (form.get('confirmacion') !== 'SORTEAR') return
+  await guardarGrupos(armarGrupos((await jugadores()).map(j => j.id)))
   revalidatePath('/', 'layout')
 }
 
@@ -85,6 +102,22 @@ export default async function Admin() {
         <input name="golpes" type="number" min={1} max={15} placeholder="Golpes" style={{ width: 90 }} />
         <button className="btn chico">Guardar</button>
       </form>
+
+      <h2>Zona de peligro</h2>
+      <div className="peligro-zona">
+        <div>
+          <b>Armar grupos al azar</b>
+          <p className="nota">Grupos de 3 sorteados; cada uno marca al siguiente de su grupo. Cambia quién marca a quién: mejor hacerlo antes de jugar.</p>
+          <BotonPeligroso accion={sortear} texto="Sortear grupos" palabra="SORTEAR"
+            aviso="Se van a sortear grupos nuevos y cambiar los marcadores de todos." />
+        </div>
+        <div>
+          <b>Borrar todos los scores</b>
+          <p className="nota">Borra los golpes y las firmas de todos los jugadores. No se puede deshacer.</p>
+          <BotonPeligroso accion={resetear} texto="Borrar scores" palabra="BORRAR"
+            aviso="Se van a borrar TODOS los golpes y firmas del campeonato." />
+        </div>
+      </div>
     </main>
   )
 }

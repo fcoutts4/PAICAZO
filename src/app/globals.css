@@ -258,3 +258,9 @@ td.bonus { color: var(--gris); }
 /* nombres del ranking: se tocan para ver la tarjeta */
 a.ver-tarjeta { color: var(--verde); font-weight: 700; text-decoration: none; display: inline-block; padding: 6px 0; }
 a.ver-tarjeta::after { content: ' ›'; color: var(--gris); }
+
+/* admin: zona de peligro */
+.peligro-zona { display: grid; gap: 12px; background: #FDECEE; border: 1px solid #F2B8C0; border-radius: var(--radio); padding: 14px; }
+.peligro-zona b { color: var(--rojo); }
+.peligro-zona .nota { margin: 4px 0 8px; }
+.btn.peligro { background: var(--rojo); width: 100%; min-height: 44px; }

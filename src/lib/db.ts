@@ -9,6 +9,7 @@ const ESQUEMA = [
      PRIMARY KEY (jugador, hoyo, por_marcador))`,
   `CREATE TABLE IF NOT EXISTS firmas (jugador text PRIMARY KEY, firmada timestamptz NOT NULL DEFAULT now())`,
   `CREATE TABLE IF NOT EXISTS nombres (jugador text PRIMARY KEY, nombre text NOT NULL)`, // los cambia el admin
+  `CREATE TABLE IF NOT EXISTS grupos (jugador text PRIMARY KEY, grupo int NOT NULL, marca text NOT NULL)`, // sorteo del admin
 ]
 
 // una sola conexión por proceso: Next carga este módulo por separado para páginas y API,

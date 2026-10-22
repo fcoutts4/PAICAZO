@@ -11,9 +11,23 @@ export const jugador = (id: string) => base.find(j => j.id === id)
 
 /** Jugadores con el nombre vigente; una consulta por request. */
 export const jugadores = cache(async (): Promise<Jugador[]> => {
-  const cambios = new Map((await sql('SELECT jugador, nombre FROM nombres')).map(f => [f.jugador as string, f.nombre as string]))
-  return base.map(j => ({ ...j, nombre: cambios.get(j.id) ?? j.nombre }))
+  const [nombres, grupos] = await Promise.all([sql('SELECT jugador, nombre FROM nombres'), sql('SELECT jugador, grupo, marca FROM grupos')])
+  const cambios = new Map(nombres.map(f => [f.jugador as string, f.nombre as string]))
+  const sorteo = new Map(grupos.map(f => [f.jugador as string, { grupo: f.grupo as number, marca: f.marca as string }]))
+  return base.map(j => ({ ...j, nombre: cambios.get(j.id) ?? j.nombre, ...sorteo.get(j.id) }))
 })
+
+/** Reemplaza los grupos y marcadores por un sorteo nuevo. */
+export async function guardarGrupos(asignacion: { id: string; grupo: number; marca: string }[]) {
+  await sql('DELETE FROM grupos')
+  for (const a of asignacion) await sql('INSERT INTO grupos (jugador, grupo, marca) VALUES ($1, $2, $3)', [a.id, a.grupo, a.marca])
+}
+
+/** Deja el campeonato en blanco: borra todos los golpes y las firmas. */
+export async function borrarScores() {
+  await sql('DELETE FROM golpes')
+  await sql('DELETE FROM firmas')
+}
 
 export async function renombrar(id: string, nombre: string) {
   return sql('INSERT INTO nombres (jugador, nombre) VALUES ($1, $2) ON CONFLICT (jugador) DO UPDATE SET nombre = EXCLUDED.nombre', [id, nombre])

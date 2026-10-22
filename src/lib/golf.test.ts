@@ -3,7 +3,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import {
   hcpJuego, golpesRecibidos, puntosStableford, estadoHoyo, tarjeta, ranking,
-  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, type Cancha, type Jugador, type Golpe,
+  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, armarGrupos, type Cancha, type Jugador, type Golpe,
 } from './golf.ts'
 
 const par = [4, 4, 3, 4, 5, 4, 4, 3, 4, 4, 4, 3, 4, 5, 4, 4, 3, 4]
@@ -375,3 +375,37 @@ test('ranking stableford trae gross y vs par de cada jugador', () => {
   assert.equal(r.stableford[0].vsPar, 2)
   assert.equal(r.stableford[0].jugados, 3)
 })
+
+// --- sorteo de grupos (admin) ---
+const azar = (semilla: number) => () => ((semilla = (semilla * 16807) % 2147483647) - 1) / 2147483646
+const ids = (n: number) => Array.from({ length: n }, (_, i) => 'j' + i)
+const tamanos = (g: ReturnType<typeof armarGrupos>) =>
+  [...new Set(g.map(x => x.grupo))].map(n => g.filter(x => x.grupo === n).length).sort((a, b) => b - a)
+test('grupos: 11 jugadores → 3, 3, 3, 2', () => assert.deepEqual(tamanos(armarGrupos(ids(11), azar(1))), [3, 3, 3, 2]))
+test('grupos: 12 jugadores → cuatro de 3', () => assert.deepEqual(tamanos(armarGrupos(ids(12), azar(1))), [3, 3, 3, 3]))
+test('grupos: 4 jugadores → 2 y 2 (nadie queda solo)', () => assert.deepEqual(tamanos(armarGrupos(ids(4), azar(1))), [2, 2]))
+test('grupos: cada jugador aparece una vez', () => {
+  const g = armarGrupos(ids(11), azar(7))
+  assert.deepEqual(g.map(x => x.id).sort(), ids(11).sort())
+})
+test('grupos: cada uno marca a otro de su grupo y todos son marcados una vez', () => {
+  const g = armarGrupos(ids(11), azar(3))
+  for (const x of g) {
+    const m = g.find(y => y.id === x.marca)!
+    assert.notEqual(x.marca, x.id)
+    assert.equal(m.grupo, x.grupo)
+  }
+  assert.equal(new Set(g.map(x => x.marca)).size, 11)
+})
+test('grupos: el sorteo cambia con el azar', () => {
+  const a = armarGrupos(ids(11), azar(1)).map(x => x.id + x.grupo).join()
+  const b = armarGrupos(ids(11), azar(99)).map(x => x.id + x.grupo).join()
+  assert.notEqual(a, b)
+})
+test('grupos: numerados desde 1', () => {
+  assert.deepEqual([...new Set(armarGrupos(ids(9), azar(2)).map(x => x.grupo))].sort(), [1, 2, 3])
+})
+test('grupos: un solo jugador no se marca a sí mismo', () => {
+  assert.deepEqual(armarGrupos(['a'], azar(1)), [{ id: 'a', grupo: 1, marca: '' }])
+})
+test('grupos: sin jugadores → vacío', () => assert.deepEqual(armarGrupos([], azar(1)), []))
