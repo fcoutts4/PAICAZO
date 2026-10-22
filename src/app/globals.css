@@ -57,10 +57,21 @@ h2 { font-size: 16px; margin: 20px 0 8px; color: var(--verde); text-transform: u
 .login img { width: 180px; height: 180px; }
 .login form { display: grid; gap: 12px; margin-top: 16px; text-align: left; }
 .login label { font-size: 13px; font-weight: 600; color: var(--gris); }
-.login select, .login input {
+/* elección de jugador: botones con el estilo de la app en vez del desplegable del sistema */
+.nombres { border: 0; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.nombres legend { font-size: 13px; font-weight: 600; color: var(--gris); margin-bottom: 8px; padding: 0; }
+.nombres label { position: relative; }
+.nombres input { position: absolute; inset: 0; opacity: 0; margin: 0; }
+.nombres span {
+  display: block; padding: 12px 8px; border-radius: 12px; border: 1px solid var(--linea); background: #fff;
+  text-align: center; font-weight: 700; color: var(--verde); cursor: pointer;
+}
+.nombres input:checked + span { background: var(--verde); color: #fff; border-color: var(--verde); }
+.nombres input:focus-visible + span { outline: 3px solid var(--lima); outline-offset: 2px; }
+.login input[name=pin] {
   width: 100%; font-size: 18px; padding: 14px; border-radius: 12px; border: 1px solid var(--linea); background: #fff;
 }
-.login input { letter-spacing: 8px; text-align: center; font-weight: 700; }
+.login input[name=pin] { letter-spacing: 8px; text-align: center; font-weight: 700; }
 .btn {
   background: var(--verde); color: #fff; border: 0; border-radius: 12px; padding: 14px 18px; font-weight: 700; font-size: 16px;
 }

@@ -22,11 +22,15 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
       <img src="/logo.png" alt="PAICAZO" />
       {e && <div className="aviso error">Nombre o PIN incorrecto.</div>}
       <form action={entrar}>
-        <label htmlFor="id">Jugador</label>
-        <select id="id" name="id" required defaultValue="">
-          <option value="" disabled>Elige tu nombre…</option>
-          {orden.map(j => <option key={j.id} value={j.id}>{j.nombre}</option>)}
-        </select>
+        <fieldset className="nombres">
+          <legend>¿Quién eres?</legend>
+          {orden.map(j => (
+            <label key={j.id}>
+              <input type="radio" name="id" value={j.id} required />
+              <span>{j.nombre}</span>
+            </label>
+          ))}
+        </fieldset>
         <label htmlFor="pin">PIN</label>
         <input id="pin" name="pin" inputMode="numeric" pattern="[0-9]{4}" maxLength={4} autoComplete="off" required placeholder="••••" />
         <button className="btn">Entrar</button>
