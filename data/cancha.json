@@ -1,6 +1,8 @@
 {
   "club": "Club de Golf El Paico",
-  "par": [4, 4, 4, 5, 3, 4, 4, 3, 4, 4, 4, 4, 5, 3, 4, 4, 3, 4],
+  "salida": "azul",
+  "par": [4, 4, 3, 4, 5, 4, 4, 3, 4, 4, 4, 4, 5, 3, 4, 4, 3, 4],
+  "yardas": [401, 397, 185, 407, 506, 381, 327, 211, 466, null, null, null, null, null, null, null, null, null],
   "hcp": null,
   "slope": null,
   "course_rating": null
