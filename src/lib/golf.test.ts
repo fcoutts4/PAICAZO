@@ -207,10 +207,15 @@ test('skins: los puntos repartidos suman 1 por hoyo completo', () => {
   const total = Object.values(r.skins.porJugador).reduce((x, y) => x + y, 0)
   assert.ok(Math.abs(total - 18) < 1e-9)
 })
-test('skins: usa neto, no gross', () => {
-  // ambos hacen par en el hoyo 9 (HCP 1); "b" recibe golpe ahí → neto 3 contra 4, gana "b"
+test('skins: usa gross, el hándicap no cuenta', () => {
+  // ambos hacen par en el hoyo 9 (HCP 1); "b" recibe golpe ahí, pero en gross empatan
   const r = ranking([J('a', 0), J('b', 1)], [...filas('a', pares()), ...filas('b', pares())], cancha)
-  assert.deepEqual(r.skins.ganados.find(s => s.hoyo === 9)?.ids, ['b'])
+  assert.deepEqual(r.skins.ganados.find(s => s.hoyo === 9)?.ids, ['a', 'b'])
+})
+test('skins: gross gana aunque el otro reciba golpes', () => {
+  const ga = pares(); ga[8] = 3 // "a" birdie bruto; "b" par con golpe recibido (neto 3) → igual gana "a"
+  const r = ranking([J('a', 0), J('b', 1)], [...filas('a', ga), ...filas('b', pares())], cancha)
+  assert.deepEqual(r.skins.ganados.find(s => s.hoyo === 9)?.ids, ['a'])
 })
 test('skins: hoyo que alguien no ha jugado no cuenta, los demás sí', () => {
   const gb: (number | null)[] = pares(); gb[1] = null

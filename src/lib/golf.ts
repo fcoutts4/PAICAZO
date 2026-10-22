@@ -119,14 +119,14 @@ export function ranking(jugadores: Jugador[], filas: Golpe[], c: Cancha, firmada
       .sort((a, b) => (a.jugados ? 0 : 1) - (b.jugados ? 0 : 1) || a.vsPar - b.vsPar || b.jugados - a.jugados),
     f => [f.jugados ? 0 : 1, f.vsPar, f.jugados])
 
-  // skins netos: 1 punto por hoyo al mejor neto; si empatan, se reparte en partes iguales.
+  // skins gross: 1 punto por hoyo a quien haga menos golpes; si empatan, se reparte en partes iguales.
   // Solo cuentan los hoyos que ya jugaron todos.
   const ganados: { hoyo: number; ids: string[]; valor: number }[] = []
   for (let i = 0; i < HOYOS && ts.length; i++) {
-    const netos = ts.map(({ j, t }) => ({ id: j.id, neto: t.hoyos[i].golpes == null ? null : t.hoyos[i].golpes! - t.hoyos[i].recibidos }))
-    if (netos.some(n => n.neto == null)) continue
-    const mejor = Math.min(...netos.map(n => n.neto!))
-    const ids = netos.filter(n => n.neto === mejor).map(n => n.id)
+    const brutos = ts.map(({ j, t }) => ({ id: j.id, golpes: t.hoyos[i].golpes }))
+    if (brutos.some(b => b.golpes == null)) continue
+    const mejor = Math.min(...brutos.map(b => b.golpes!))
+    const ids = brutos.filter(b => b.golpes === mejor).map(b => b.id)
     ganados.push({ hoyo: i + 1, ids, valor: 1 / ids.length })
   }
   const porJugador: Record<string, number> = {}

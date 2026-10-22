@@ -60,7 +60,7 @@ export default async function Ranking({ searchParams }: { searchParams: Promise<
 
       {vista === 'skins' && (
         <>
-          <p className="aviso">Cada hoyo vale 1 punto para el mejor neto. Si empatan, el punto se reparte (½, ⅓…).
+          <p className="aviso">Cada hoyo vale 1 punto para quien haga menos golpes (gross, sin hándicap). Si empatan, el punto se reparte (½, ⅓…).
             Cuentan los hoyos que ya jugaron todos: van {r.skins.jugados} de 18.</p>
           <table>
             <thead><tr><th>Jugador</th><th className="num">Skins</th><th>Hoyos</th></tr></thead>
