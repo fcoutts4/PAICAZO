@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { usuario, cerrarSesion } from '@/lib/sesion'
 import { redirect } from 'next/navigation'
 import Menu from './Menu'
+import BotonSalir from './BotonSalir'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -27,7 +28,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
           <header className="cabecera">
             <img src="/logo.png" alt="" />
             <div><b>PAICAZO</b><small>{u.nombre}</small></div>
-            <form action={salir} style={{ marginLeft: 'auto' }}><button className="salir">Salir</button></form>
+            <BotonSalir salir={salir} />
           </header>
         )}
         {children}

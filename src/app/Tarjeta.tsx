@@ -57,12 +57,37 @@ export default function Tarjeta({ cancha, yo, marcado }: Props) {
     timers.current[k] = setTimeout(() => enviar(e), 500)
   }
 
+  // avanzar solo: con tus golpes y los de tu marcado anotados, pasa al siguiente hoyo.
+  // Cada toque reinicia la cuenta, así alcanzas a corregir.
+  const avance = useRef<ReturnType<typeof setTimeout>>(undefined)
+  const [avanzando, setAvanzando] = useState(0) // 0 = no; cada toque cambia el número y reinicia la barra
+  function irA(i: number) { clearTimeout(avance.current); setAvanzando(0); setH(i) }
+
   function cambiar(quien: 'mio' | 'suyo', delta: number) {
     const actual = quien === 'mio' ? mio[h] : suyo[h]
     const nuevo = actual == null ? cancha.par[h] : actual + delta < 1 ? null : Math.min(15, actual + delta)
     if (quien === 'mio') guardar({ jugador: yo.t.id, por_marcador: false, hoyo: h + 1, golpes: nuevo })
     else if (marcado) guardar({ jugador: marcado.id, por_marcador: true, hoyo: h + 1, golpes: nuevo })
+
+    clearTimeout(avance.current)
+    const yoListo = (quien === 'mio' ? nuevo : mio[h]) != null
+    const marcadoListo = !marcado || marcado.firmada || (quien === 'suyo' ? nuevo : suyo[h]) != null
+    const listo = yoListo && marcadoListo && h < 17
+    setAvanzando(listo ? Date.now() : 0)
+    if (listo) avance.current = setTimeout(() => irA(h + 1), 2000)
   }
+  useEffect(() => () => clearTimeout(avance.current), [])
+
+  // pantalla siempre encendida mientras la tarjeta está abierta (si el teléfono lo permite)
+  useEffect(() => {
+    let lock: { release: () => Promise<void> } | null = null
+    const pedir = async () => {
+      try { if (document.visibilityState === 'visible') lock = await (navigator as Navigator & { wakeLock?: { request: (t: 'screen') => Promise<typeof lock> } }).wakeLock?.request('screen') ?? null } catch {}
+    }
+    pedir()
+    document.addEventListener('visibilitychange', pedir) // el teléfono la suelta al salir de la app
+    return () => { document.removeEventListener('visibilitychange', pedir); lock?.release().catch(() => {}) }
+  }, [])
   const nPend = Object.keys(pend).length
 
   async function firmar() {
@@ -93,12 +118,13 @@ export default function Tarjeta({ cancha, yo, marcado }: Props) {
 
       <section className="anotar">
         <div className="nav-hoyo">
-          <button aria-label="Hoyo anterior" disabled={h === 0} onClick={() => setH(h - 1)}><Icono n="antes" /></button>
+          {avanzando > 0 && <span key={avanzando} className="barra-avance" />}
+          <button aria-label="Hoyo anterior" disabled={h === 0} onClick={() => irA(h - 1)}><Icono n="antes" /></button>
           <div>
             <b>Hoyo {h + 1}</b>
             <small>Par {cancha.par[h]} · {cancha.yardas[h]} yds · HCP {cancha.hcp[h]}{recibe > 0 ? ` · recibes ${recibe}` : ''}</small>
           </div>
-          <button aria-label="Hoyo siguiente" disabled={h === 17} onClick={() => setH(h + 1)}><Icono n="despues" /></button>
+          <button aria-label="Hoyo siguiente" disabled={h === 17} onClick={() => irA(h + 1)}><Icono n="despues" /></button>
         </div>
         <Fila nombre="Tú" detalle={`Te marca ${yo.marcador}`} valor={mio[h]} estado={miEstado(h)} otro={yo.t.hoyos[h].marcador}
           bloqueado={yo.firmada} onMenos={() => cambiar('mio', -1)} onMas={() => cambiar('mio', 1)} />
@@ -118,8 +144,8 @@ export default function Tarjeta({ cancha, yo, marcado }: Props) {
         </nav>
       )}
       {ver === 'yo' || !marcado
-        ? <TarjetaPGA par={cancha.par} golpe={miGolpe} estado={miEstado} recibidos={i => yo.t.hoyos[i].recibidos} sel={h} onSel={setH} />
-        : <TarjetaPGA par={cancha.par} golpe={suGolpe} estado={suEstado} recibidos={i => marcado.t.hoyos[i].recibidos} sel={h} onSel={setH} />}
+        ? <TarjetaPGA par={cancha.par} golpe={miGolpe} estado={miEstado} recibidos={i => yo.t.hoyos[i].recibidos} sel={h} onSel={irA} />
+        : <TarjetaPGA par={cancha.par} golpe={suGolpe} estado={suEstado} recibidos={i => marcado.t.hoyos[i].recibidos} sel={h} onSel={irA} />}
 
       {yo.firmada
         ? <div className="aviso ok"><Icono n="ok" size={16} /> Tarjeta firmada. Para corregir algo, pídeselo al admin.</div>

@@ -231,3 +231,8 @@ main.compacta { padding: 8px 10px; }
 .girando { width: 36px; height: 36px; border-radius: 50%; border: 4px solid var(--lima-suave); border-top-color: var(--verde); animation: girar .8s linear infinite; }
 @keyframes girar { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .girando { animation-duration: 3s; } }
+
+/* avanzar solo: barra que se llena antes de pasar al hoyo siguiente */
+.nav-hoyo { position: relative; }
+.barra-avance { position: absolute; left: 0; bottom: 0; height: 3px; background: var(--lima); animation: llenar 2s linear forwards; }
+@keyframes llenar { from { width: 0 } to { width: 100% } }
