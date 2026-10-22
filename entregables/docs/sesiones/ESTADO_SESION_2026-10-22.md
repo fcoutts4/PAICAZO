@@ -22,8 +22,13 @@ Verificado en navegador local (375 px): login, anotar, conflicto marcador ≠ ju
 ## Pendiente
 - HCP oficial por hoyo, slope y rating de la salida azul.
 - Jugador 12.
-- Publicar en Vercel (cuenta GitHub + Vercel + Neon).
 - Approach / long drive: no implementados (se anotan a mano).
+- Preview deploys sin `PAICAZO_SECRET` (solo está en Production): fallan al abrir, no importa.
+
+## Publicado
+- https://paicazo.vercel.app (repo privado github.com/fcoutts4/PAICAZO, rama `main`).
+- Base Neon `paicazo-db` (Free, iad1) → `DATABASE_URL`. `PAICAZO_SECRET` en Production; copia local en `.env.produccion.local` (ignorado).
+- Verificado sin sesión: /login 200; /, /ranking, /admin, /cancha → 307 a /login; API 401 sin sesión o con cookie falsa.
 
 ## Siguiente paso
-Crear el repo en GitHub y conectarlo a Vercel con Neon.
+Entrar como F. Coutts en producción y repartir los PIN desde Admin.
