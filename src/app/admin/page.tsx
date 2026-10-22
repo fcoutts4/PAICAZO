@@ -47,9 +47,9 @@ export default async function Admin() {
       <h1>Admin</h1>
       <h2>Jugadores y PIN</h2>
       <p className="nota">Manda a cada uno su PIN por interno. Cambiar PAICAZO_SECRET cambia todos los PIN.</p>
-      <div className="tabla-scroll">
-        <table>
-          <thead><tr><th>Jugador</th><th className="num">Índ.</th><th className="num">HCP</th><th>PIN</th><th>Gr.</th><th>Marca a</th><th>Hoyos ok / mal / falta</th><th /></tr></thead>
+      <div>
+        <table className="admin-tabla">
+          <thead><tr><th>Jugador</th><th className="num">Índ</th><th className="num">HCP</th><th>PIN</th><th>G</th><th>Marca</th><th>Ok/mal/falta</th><th /></tr></thead>
           <tbody>
             {js.map(j => {
               const t = tarjeta(j, filas, cancha)

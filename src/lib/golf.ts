@@ -139,5 +139,14 @@ export function ranking(jugadores: Jugador[], filas: Golpe[], c: Cancha, firmada
     return { grupo, jugadores: js, hoyos: r.hoyos }
   })
 
-  return { stableford, skins: { ganados: skins.hoyos, jugados: skins.hoyos.length, porJugador: skins.puntos }, grupos }
+  // general: suma de los 3 campeonatos; a igual total, desempata el Stableford (con su propio desempate)
+  const enGrupo = new Map(grupos.flatMap(g => g.jugadores.map(j => [j.id, j.puntos] as const)))
+  const genConClave = ts.map(({ j, t }) => {
+    const sk = skins.puntos[j.id] ?? 0, gr = enGrupo.get(j.id) ?? 0, total = t.puntos + sk + gr
+    return { k: [Math.round(total * 1000), ...claveStb(t)], f: { id: j.id, nombre: j.nombre, stableford: t.puntos, skins: sk, grupo: gr, total, pos: 0 } }
+  }).sort((a, b) => compara(a.k, b.k))
+  const clavesGen = new Map(genConClave.map(x => [x.f, x.k]))
+  const general = posiciones(genConClave.map(x => x.f), f => clavesGen.get(f)!)
+
+  return { general, stableford, skins: { ganados: skins.hoyos, jugados: skins.hoyos.length, porJugador: skins.puntos }, grupos }
 }

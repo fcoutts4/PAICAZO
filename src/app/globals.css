@@ -143,8 +143,9 @@ tr.lider td { background: var(--lima-suave); font-weight: 700; }
 .pos { width: 30px; text-align: center; font-weight: 800; color: var(--verde); }
 .firmada { color: var(--verde-2); font-size: 12px; }
 .tabla-scroll { overflow-x: auto; }
-.tabs { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 12px; }
-.tabs a { white-space: nowrap; padding: 8px 14px; border-radius: 999px; background: #fff; border: 1px solid var(--linea); text-decoration: none; font-weight: 600; font-size: 14px; color: var(--verde); }
+/* pestañas: se reparten el ancho, nunca scroll horizontal */
+.tabs { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px; margin-bottom: 12px; }
+.tabs a { text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 8px 4px; border-radius: 999px; background: #fff; border: 1px solid var(--linea); text-decoration: none; font-weight: 600; font-size: 14px; color: var(--verde); }
 .tabs a[aria-current] { background: var(--verde); color: #fff; border-color: var(--verde); }
 .nota { color: var(--gris); font-size: 13px; margin: 0 0 12px; }
 
@@ -188,3 +189,9 @@ main.compacta { padding: 8px 10px; }
 .compacta .leyenda { margin: 0; font-size: 10px; }
 .compacta .leyenda .m { width: 11px; height: 11px; border-width: 1.5px; }
 .compacta .leyenda .m.eagle, .compacta .leyenda .m.doble { box-shadow: 0 0 0 1.5px #fff, 0 0 0 3px currentColor; margin: 0 2px; }
+
+/* admin: tabla compacta, cabe en el teléfono sin scroll horizontal */
+.admin-tabla { font-size: 12px; }
+.admin-tabla th { font-size: 9px; padding: 6px 3px; letter-spacing: 0; }
+.admin-tabla td { padding: 7px 3px; }
+.admin-tabla .btn.chico { padding: 4px 6px; font-size: 11px; }

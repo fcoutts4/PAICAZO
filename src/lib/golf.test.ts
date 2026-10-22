@@ -291,3 +291,34 @@ test('nombre: más de 24 caracteres → null', () => {
 test('nombre: colapsa espacios internos', () => assert.equal(limpiarNombre('Juan   Pablo'), 'Juan Pablo'))
 test('nombre: rechaza < > (no HTML)', () => assert.equal(limpiarNombre('<b>Juan</b>'), null))
 test('nombre: no texto → null', () => assert.equal(limpiarNombre(null as unknown as string), null))
+
+// --- ranking general: suma de los 3 campeonatos ---
+test('general: total = Stableford + Skins + Grupo', () => {
+  const ga = pares(); ga[0] = 3 // "a" birdie en el 1: gana skin y punto de grupo
+  const r = ranking([J('a', 0, 1), J('b', 0, 1)], [...filas('a', ga), ...filas('b', pares())], cancha)
+  const a = r.general.find(f => f.id === 'a')!
+  assert.equal(a.stableford, 37)
+  assert.equal(a.skins, 1 + 17 * 0.5)
+  assert.equal(a.grupo, 1 + 17 * 0.5)
+  assert.equal(a.total, 37 + 9.5 + 9.5)
+})
+test('general: ordena por total y el líder va primero con pos 1', () => {
+  const ga = pares(); ga[0] = 3
+  const r = ranking([J('b', 0, 1), J('a', 0, 1)], [...filas('a', ga), ...filas('b', pares())], cancha)
+  assert.deepEqual(r.general.map(f => [f.id, f.pos]), [['a', 1], ['b', 2]])
+})
+test('general: empate total comparte posición', () => {
+  // cada uno solo en su grupo (gana sus 18), skins empatados (9 c/u), Stableford 36 → mismo total
+  const r = ranking([J('a', 0, 1), J('b', 0, 2)], [...filas('a', pares()), ...filas('b', pares())], cancha)
+  assert.deepEqual(r.general.map(f => f.pos), [1, 1])
+})
+test('general: ordena por total sumando los 3 campeonatos', () => {
+  const ga = pares(); ga[0] = 3          // a: 37 stb, gana skin 1 → skins 1 + 17×0,5 = 9,5; grupo (solo) 18 → 64,5
+  const gb = pares(); gb[1] = 3; gb[0] = 5 // b: 36 stb, gana skin 2, pierde 1 → 9,5; grupo 18 → 63,5
+  const r = ranking([J('b', 0, 2), J('a', 0, 1)], [...filas('a', ga), ...filas('b', gb)], cancha)
+  assert.deepEqual(r.general.map(f => f.id), ['a', 'b'])
+})
+test('general: sin hoyos jugados todos en 0', () => {
+  const r = ranking([J('a', 0, 1), J('b', 0, 1)], [], cancha)
+  assert.ok(r.general.every(f => f.total === 0))
+})
