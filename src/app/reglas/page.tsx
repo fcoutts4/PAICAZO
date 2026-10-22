@@ -1,0 +1,78 @@
+import { cancha, jugadores } from '@/lib/datos'
+import { hcpJuego } from '@/lib/golf'
+import { requiereUsuario } from '@/lib/sesion'
+import Simulador from './Simulador'
+
+export default async function Reglas() {
+  const u = await requiereUsuario()
+  const grupo = (await jugadores()).filter(j => j.grupo === u.grupo && j.id !== u.id).map(j => j.nombre)
+  const hj = hcpJuego(u.indice, cancha)
+  return (
+    <main className="reglas">
+      <h1>Reglas</h1>
+
+      <section className="gana">
+        <p>Gana el que sume más en el <b>ranking General</b>:</p>
+        <div className="suma">
+          <span><b>Stableford</b><small>neto · todos</small></span>+
+          <span><b>Skins</b><small>gross · todos</small></span>+
+          <span><b>Grupo</b><small>neto · tu grupo</small></span>
+        </div>
+      </section>
+
+      <details open>
+        <summary>Prueba un hoyo</summary>
+        <Simulador par={cancha.par} hcp={cancha.hcp} hj={hj} />
+      </details>
+
+      <details>
+        <summary>1 · Stableford (la copa)</summary>
+        <p>Cada hoyo da puntos según tu score <b>neto</b> (tus golpes menos los que recibes):</p>
+        <table className="tabla-puntos">
+          <tbody>
+            <tr><td>Doble bogey o peor</td><td>0</td></tr>
+            <tr><td>Bogey</td><td>1</td></tr>
+            <tr><td>Par</td><td>2</td></tr>
+            <tr><td>Birdie</td><td>3</td></tr>
+            <tr><td>Eagle</td><td>4</td></tr>
+          </tbody>
+        </table>
+        <p className="nota">Si ya no puedes sumar puntos en un hoyo, levanta la bola: el juego es más rápido.</p>
+      </details>
+
+      <details>
+        <summary>2 · Skins (gross)</summary>
+        <p>Cada hoyo vale <b>1 punto</b> para quien haga <b>menos golpes reales</b>, sin hándicap, contra todos.</p>
+        <p>Si empatan, se reparte: 2 empatados → 0,5 cada uno; 3 → 0,33.</p>
+      </details>
+
+      <details>
+        <summary>3 · Grupo (neto)</summary>
+        <p>Juegas solo contra tu grupo{grupo.length ? <>: <b>{grupo.join(' y ')}</b></> : ''}.</p>
+        <p>Cada hoyo vale <b>1 punto</b> para el mejor <b>neto</b> del grupo. Si empatan, se reparte.</p>
+      </details>
+
+      <details>
+        <summary>Tu hándicap</summary>
+        <p>Con índice <b>{u.indice}</b> juegas con hándicap <b>{hj}</b> (95% del de la cancha).</p>
+        <p>Recibes 1 golpe en los {Math.min(hj, 18)} hoyos más difíciles{hj > 18 ? ` y 2 en los ${hj - 18} más difíciles` : ''}.
+          En tu tarjeta los ves con un circulito verde con el número.</p>
+      </details>
+
+      <details>
+        <summary>Cómo anotar</summary>
+        <ol>
+          <li>Tú anotas tus golpes y los de quien marcas.</li>
+          <li>Tu marcador anota los tuyos.</li>
+          <li>Si coinciden, el hoyo queda validado. Si no, la celda se pone roja: conversen y corrijan.</li>
+          <li>Con los 18 hoyos validados, firmas tu tarjeta.</li>
+        </ol>
+      </details>
+
+      <details>
+        <summary>Empates</summary>
+        <p>En el General y en el Stableford desempata el Stableford de los últimos 9, 6, 3 y el último hoyo.</p>
+      </details>
+    </main>
+  )
+}

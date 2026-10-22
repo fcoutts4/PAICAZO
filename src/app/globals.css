@@ -195,3 +195,28 @@ main.compacta { padding: 8px 10px; }
 .admin-tabla th { font-size: 9px; padding: 6px 3px; letter-spacing: 0; }
 .admin-tabla td { padding: 7px 3px; }
 .admin-tabla .btn.chico { padding: 4px 6px; font-size: 11px; }
+
+/* reglas: corto, con secciones que se abren y un simulador */
+.reglas details { background: #fff; border: 1px solid var(--linea); border-radius: var(--radio); margin-bottom: 8px; }
+.reglas summary { padding: 12px 14px; font-weight: 800; color: var(--verde); cursor: pointer; list-style: none; position: relative; }
+.reglas summary::-webkit-details-marker { display: none; }
+.reglas summary::after { content: '+'; position: absolute; right: 14px; font-size: 20px; line-height: 1; color: var(--verde-2); }
+.reglas details[open] summary::after { content: '−'; }
+.reglas details > :not(summary) { margin: 0 14px 12px; font-size: 14px; }
+.reglas ol { padding-left: 18px; }
+.reglas li { margin-bottom: 4px; }
+.gana { background: var(--verde); color: #fff; border-radius: var(--radio); padding: 12px; margin-bottom: 8px; text-align: center; }
+.gana p { margin: 0 0 8px; font-size: 14px; }
+.suma { display: flex; align-items: center; justify-content: center; gap: 4px; font-weight: 800; color: var(--lima); }
+.suma span { background: #ffffff1a; border-radius: 10px; padding: 6px 8px; color: #fff; }
+.suma b { display: block; font-size: 15px; }
+.suma small { display: block; font-size: 10px; font-weight: 500; color: #CFE3C2; }
+.tabla-puntos td { padding: 6px 10px; }
+.tabla-puntos td:last-child { text-align: right; font-weight: 800; color: var(--verde); }
+.simulador { border: 1px solid var(--linea); border-radius: 12px; overflow: hidden; margin: 0 14px 12px !important; }
+.resultado { display: grid; grid-template-columns: 1fr 1fr 1fr; text-align: center; border-top: 1px solid var(--linea); }
+.resultado div { padding: 8px 4px; }
+.resultado small { display: block; font-size: 11px; color: var(--gris); }
+.resultado b { display: block; font-size: 24px; color: var(--verde); }
+.resultado .pts-grande { background: var(--verde); }
+.resultado .pts-grande b, .resultado .pts-grande small { color: #fff; }
