@@ -264,3 +264,17 @@ a.ver-tarjeta::after { content: ' ›'; color: var(--gris); }
 .peligro-zona b { color: var(--rojo); }
 .peligro-zona .nota { margin: 4px 0 8px; }
 .btn.peligro { background: var(--rojo); width: 100%; min-height: 44px; }
+
+/* ranking por hoyos: aquí sí se desliza hacia el lado, con el nombre fijo a la izquierda */
+.tabla-hoyos { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--linea); border-radius: var(--radio); background: #fff; }
+.tabla-hoyos table { overflow: visible; border: 0; border-radius: 0; font-size: 13px; width: max-content; border-collapse: separate; border-spacing: 0; }
+.tabla-hoyos th, .tabla-hoyos td { text-align: center; padding: 6px 4px; min-width: 30px; white-space: nowrap; }
+.tabla-hoyos .fijo { position: sticky; left: 0; z-index: 1; text-align: left; min-width: 112px; max-width: 112px; overflow: hidden; text-overflow: ellipsis;
+  background: #fff; box-shadow: 2px 0 4px #0000001a; }
+.tabla-hoyos th.fijo { background: var(--verde); z-index: 2; }
+.tabla-hoyos tr.par td { color: var(--gris); font-size: 12px; background: #FAFBF8; }
+.tabla-hoyos tr.par td.fijo { background: #FAFBF8; font-weight: 700; }
+.tabla-hoyos .sub { background: var(--lima-suave); font-weight: 800; color: var(--verde); }
+.tabla-hoyos th.sub { background: var(--verde-2); color: #fff; }
+.tabla-hoyos tr.yo td, .tabla-hoyos tr.yo td.fijo { background: #EEF6E2; }
+.tabla-hoyos .m { width: 22px; height: 22px; }

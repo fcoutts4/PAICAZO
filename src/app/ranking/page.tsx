@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import { cancha, firmadas, golpes, jugadores } from '@/lib/datos'
-import { ranking } from '@/lib/golf'
+import { marcaPGA, ranking, tarjeta } from '@/lib/golf'
 import { requiereUsuario } from '@/lib/sesion'
 import Refresco from '../Refresco'
 import Icono from '../Icono'
 
 export const dynamic = 'force-dynamic'
-const VISTAS = { general: 'General', stableford: 'Copa', skins: 'Pellejos', grupo: 'Gallos' } as const
+const VISTAS = { general: 'General', stableford: 'Copa', skins: 'Pellejos', grupo: 'Gallos', hoyos: 'Hoyos' } as const
 const vsParTxt = (n: number) => (n > 0 ? `+${n}` : n === 0 ? 'E' : String(n))
 const decimal = (n: number) => n.toLocaleString('es-CL', { maximumFractionDigits: 2 })
 
@@ -16,7 +16,8 @@ export default async function Ranking({ searchParams }: { searchParams: Promise<
   const vista = (v in VISTAS ? v : 'general') as keyof typeof VISTAS
   const js = await jugadores()
   const nombre = (id: string) => js.find(j => j.id === id)?.nombre ?? id
-  const r = ranking(js, await golpes(), cancha, await firmadas())
+  const filas = await golpes()
+  const r = ranking(js, filas, cancha, await firmadas())
 
   return (
     <main>
@@ -100,6 +101,47 @@ export default async function Ranking({ searchParams }: { searchParams: Promise<
           ))}
         </>
       )}
+      {vista === 'hoyos' && (() => {
+        // todos los jugadores, golpes reales hoyo a hoyo; ordenados como leaderboard gross
+        const ts = js.map(j => ({ j, t: tarjeta(j, filas, cancha) }))
+          .sort((a, b) => (a.t.jugados ? 0 : 1) - (b.t.jugados ? 0 : 1) || a.t.vsPar - b.t.vsPar || b.t.jugados - a.t.jugados)
+        const suma = (xs: (number | null)[]) => xs.reduce<number>((x, y) => x + (y ?? 0), 0)
+        const mitad = (t: (typeof ts)[number]['t'], d: number) => t.hoyos.slice(d, d + 9).map(h => h.golpes)
+        const celda = (g: number | null, par: number) => <span className={`m ${marcaPGA(g, par) ?? ''}`}>{g ?? ''}</span>
+        return (
+          <>
+            <p className="aviso">Golpes reales (gross) de todos, hoyo a hoyo. Desliza hacia el lado; el nombre queda fijo.</p>
+            <div className="tabla-hoyos">
+              <table>
+                <thead>
+                  <tr>
+                    <th className="fijo">Jugador</th><th>±Par</th><th>Hoyos</th>
+                    {cancha.par.slice(0, 9).map((_, i) => <th key={i}>{i + 1}</th>)}<th className="sub">Ida</th>
+                    {cancha.par.slice(9).map((_, i) => <th key={i}>{i + 10}</th>)}<th className="sub">Vta</th><th className="sub">Tot</th>
+                  </tr>
+                  <tr className="par">
+                    <td className="fijo">Par</td><td /><td />
+                    {cancha.par.slice(0, 9).map((p, i) => <td key={i}>{p}</td>)}<td className="sub">{suma(cancha.par.slice(0, 9))}</td>
+                    {cancha.par.slice(9).map((p, i) => <td key={i}>{p}</td>)}<td className="sub">{suma(cancha.par.slice(9))}</td><td className="sub">{suma(cancha.par)}</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ts.map(({ j, t }) => (
+                    <tr key={j.id} className={j.id === u.id ? 'yo' : ''}>
+                      <td className="fijo"><Link className="ver-tarjeta" href={`/jugador/${j.id}`}>{j.nombre}</Link></td>
+                      <td><b>{t.jugados ? vsParTxt(t.vsPar) : '–'}</b></td><td>{t.jugados}</td>
+                      {mitad(t, 0).map((g, i) => <td key={i}>{celda(g, cancha.par[i])}</td>)}<td className="sub">{suma(mitad(t, 0)) || ''}</td>
+                      {mitad(t, 9).map((g, i) => <td key={i}>{celda(g, cancha.par[i + 9])}</td>)}<td className="sub">{suma(mitad(t, 9)) || ''}</td>
+                      <td className="sub"><b>{t.gross || ''}</b></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )
+      })()}
+
       <p style={{ color: 'var(--gris)', fontSize: 12 }}>Se actualiza solo cada 20 segundos.</p>
     </main>
   )
