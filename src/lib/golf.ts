@@ -85,7 +85,7 @@ export function puedeAnotar(quien: Jugador, g: Golpe, firmadas: Set<string>, adm
   return g.por_marcador ? quien.marca === g.jugador && g.jugador !== quien.id : g.jugador === quien.id
 }
 
-type FilaStableford = { id: string; nombre: string; hj: number; jugados: number; puntos: number; pos: number; firmada: boolean }
+type FilaStableford = { id: string; nombre: string; hj: number; jugados: number; puntos: number; gross: number; vsPar: number; pos: number; firmada: boolean }
 
 /** Asigna posición; empatados en todas las claves comparten puesto. */
 function posiciones<T extends { pos: number }>(filas: T[], clave: (f: T) => number[]): T[] {
@@ -123,7 +123,7 @@ export function ranking(jugadores: Jugador[], filas: Golpe[], c: Cancha, firmada
   const claveStb = (t: Tarjeta) => [t.puntos, ptsDesde(t, 10), ptsDesde(t, 13), ptsDesde(t, 16), ptsDesde(t, 18)]
 
   const stbConClave = ts
-    .map(({ j, t }) => ({ k: claveStb(t), f: { id: j.id, nombre: j.nombre, hj: t.hj, jugados: t.jugados, puntos: t.puntos, pos: 0, firmada: firmadas.has(j.id) } }))
+    .map(({ j, t }) => ({ k: claveStb(t), f: { id: j.id, nombre: j.nombre, hj: t.hj, jugados: t.jugados, puntos: t.puntos, gross: t.gross, vsPar: t.vsPar, pos: 0, firmada: firmadas.has(j.id) } }))
     .sort((a, b) => compara(a.k, b.k))
   const claves = new Map(stbConClave.map(x => [x.f, x.k]))
   const stableford: FilaStableford[] = posiciones(stbConClave.map(x => x.f), f => claves.get(f)!)

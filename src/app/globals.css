@@ -128,7 +128,7 @@ h2 { font-size: 16px; margin: 20px 0 8px; color: var(--verde); text-transform: u
 .recibe { display: inline-grid; place-items: center; min-width: 12px; height: 12px; padding: 0 2px; border-radius: 6px;
   background: var(--verde); color: #fff; font-size: 9px; font-weight: 800; font-style: normal; line-height: 1; vertical-align: middle; }
 .pga td .recibe { position: absolute; left: 2px; top: 2px; }
-.leyenda { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 11px; color: var(--gris); margin: 4px 0 0; }
+.leyenda { margin-bottom: 8px !important; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 11px; color: var(--gris); margin: 4px 0 0; }
 .leyenda .m { width: 14px; height: 14px; }
 
 .resumen { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
@@ -249,3 +249,12 @@ main.compacta { padding: 8px 10px; }
 .suma span.principal small { color: var(--verde); }
 .gana .chico { margin: 8px 0 0; font-size: 12px; color: #CFE3C2; }
 td.bonus { color: var(--gris); }
+
+/* tarjeta de otro jugador */
+.otro-cabecera { display: grid; grid-template-columns: 44px 1fr; align-items: center; background: var(--verde); color: #fff; border-radius: var(--radio); margin-bottom: 8px; }
+.otro-cabecera a { color: #fff; height: 52px; display: grid; place-items: center; }
+.otro-cabecera b { display: block; font-size: 18px; }
+.otro-cabecera small { color: #CFE3C2; font-size: 12px; }
+/* nombres del ranking: se tocan para ver la tarjeta */
+a.ver-tarjeta { color: var(--verde); font-weight: 700; text-decoration: none; display: inline-block; padding: 6px 0; }
+a.ver-tarjeta::after { content: ' ›'; color: var(--gris); }

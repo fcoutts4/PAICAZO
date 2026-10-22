@@ -366,3 +366,12 @@ test('en vivo: mi hoyo es el último seguido desde el 1 (si salté uno, cuenta h
   const r = posicionEnVivo([J('a', 0, 1)], filas('a', ga), cancha, 'a')!
   assert.equal(r.hoyo, 3)
 })
+
+// --- gross en el ranking (para ver cómo van los demás en golpes reales) ---
+test('ranking stableford trae gross y vs par de cada jugador', () => {
+  const ga = hasta(pares(), 3); ga[0] = 6 // doble bogey en el 1
+  const r = ranking([J('a', 0, 1)], filas('a', ga), cancha)
+  assert.equal(r.stableford[0].gross, 6 + 4 + 3)
+  assert.equal(r.stableford[0].vsPar, 2)
+  assert.equal(r.stableford[0].jugados, 3)
+})
