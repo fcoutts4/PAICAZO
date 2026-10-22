@@ -16,15 +16,16 @@ Campeonato de golf entre amigos, 18 hoyos, Club de Golf El Paico.
   índice de dificultad (HCP) de cada hoyo de la tarjeta.
 - Desempate: últimos 9, últimos 6, últimos 3, último hoyo (en puntos).
 
-**Juegos paralelos (lo que lo hace entretenido):**
+**Juegos paralelos** (definidos con el organizador; Stableford es la copa principal):
 
-| Juego | Cómo | Dónde lo calcula la app |
+| Juego | Contra quién | Cómo |
 |---|---|---|
-| Skins netos | Cada hoyo lo gana quien tenga el mejor neto **solo**; si empatan, el skin se acumula al siguiente | Automático |
-| Gross (scratch) | Premio al menor número de golpes brutos | Automático |
-| Approach | Más cerca del hoyo en los par 3 | Carga manual del marcador |
-| Long drive | Drive más largo en un par 5 elegido | Carga manual del marcador |
-| Copa por grupos | Grupos de 3–4; suman los 2 mejores Stableford del grupo por hoyo | Automático |
+| Skins gross | Todos | Cada hoyo vale 1 punto para quien haga menos golpes brutos; si empatan, se reparte (½, ⅓…). Sin arrastre. |
+| Grupo neto | Tu grupo de 3 | Cada hoyo vale 1 punto para el mejor neto del grupo; si empatan, se reparte. |
+| Approach / Long drive | Todos | Se anotan a mano (no están en la app). |
+
+Grupos de 3, intercalados por índice: G1 PM · A. Guzman · MG — G2 M. Covarrubias · A. Ochagavía · IU —
+G3 F. Coutts · JPO · VC — G4 M. Undu · JP Undu (+ jugador 12).
 
 ## 2. Validación cruzada de tarjetas
 

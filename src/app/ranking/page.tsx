@@ -6,9 +6,8 @@ import Refresco from '../Refresco'
 import Icono from '../Icono'
 
 export const dynamic = 'force-dynamic'
-const VISTAS = { stableford: 'Stableford neto', gross: 'Gross', skins: 'Skins', grupos: 'Copa grupos' } as const
+const VISTAS = { stableford: 'Stableford (copa)', skins: 'Skins gross', grupo: 'Grupo neto' } as const
 const decimal = (n: number) => n.toLocaleString('es-CL', { maximumFractionDigits: 2 })
-const vsPar = (n: number) => (n > 0 ? `+${n}` : n === 0 ? 'E' : String(n))
 
 export default async function Ranking({ searchParams }: { searchParams: Promise<{ v?: string }> }) {
   const u = await requiereUsuario()
@@ -43,21 +42,6 @@ export default async function Ranking({ searchParams }: { searchParams: Promise<
         </table>
       )}
 
-      {vista === 'gross' && (
-        <table>
-          <thead><tr><th className="pos">#</th><th>Jugador</th><th className="num">Hoyos</th><th className="num">Golpes</th><th className="num">vs par</th></tr></thead>
-          <tbody>
-            {r.gross.map(f => (
-              <tr key={f.id} className={f.pos === 1 && f.jugados ? 'lider' : ''}>
-                <td className="pos">{f.jugados ? f.pos : '–'}</td><td>{f.nombre}</td>
-                <td className="num">{f.jugados}</td><td className="num">{f.gross || '–'}</td>
-                <td className="num"><b>{f.jugados ? vsPar(f.vsPar) : '–'}</b></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-
       {vista === 'skins' && (
         <>
           <p className="aviso">Cada hoyo vale 1 punto para quien haga menos golpes (gross, sin hándicap). Si empatan, el punto se reparte (½, ⅓…).
@@ -77,21 +61,23 @@ export default async function Ranking({ searchParams }: { searchParams: Promise<
         </>
       )}
 
-      {vista === 'grupos' && (
+      {vista === 'grupo' && (
         <>
-          <p className="aviso">Por cada hoyo suman los 2 mejores puntajes Stableford del grupo.</p>
-          <table>
-            <thead><tr><th className="pos">#</th><th>Grupo</th><th className="num">Puntos</th></tr></thead>
-            <tbody>
-              {r.grupos.map((g, i) => (
-                <tr key={g.grupo} className={i === 0 ? 'lider' : ''}>
-                  <td className="pos">{i + 1}</td>
-                  <td><b>Grupo {g.grupo}</b><br /><small>{g.jugadores.join(' · ')}</small></td>
-                  <td className="num"><b>{g.puntos}</b></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <p className="aviso">Juegas solo contra tu grupo. Cada hoyo vale 1 punto para el mejor neto del grupo (con tus golpes de hándicap). Si empatan, se reparte.</p>
+          {r.grupos.map(g => (
+            <section key={g.grupo} style={{ marginBottom: 12 }}>
+              <h2 style={{ margin: '8px 0 6px' }}>Grupo {g.grupo} <small style={{ color: 'var(--gris)', textTransform: 'none', letterSpacing: 0 }}>· {g.hoyos.length} de 18 hoyos</small></h2>
+              <table>
+                <tbody>
+                  {g.jugadores.map((j, i) => (
+                    <tr key={j.id} className={i === 0 && g.hoyos.length ? 'lider' : ''}>
+                      <td>{j.nombre}{j.id === u.id && ' (tú)'}</td><td className="num"><b>{decimal(j.puntos)}</b></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+          ))}
         </>
       )}
       <p style={{ color: 'var(--gris)', fontSize: 12 }}>Se actualiza solo cada 20 segundos.</p>

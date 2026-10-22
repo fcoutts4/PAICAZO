@@ -86,7 +86,6 @@ export function puedeAnotar(quien: Jugador, g: Golpe, firmadas: Set<string>, adm
 }
 
 type FilaStableford = { id: string; nombre: string; hj: number; jugados: number; puntos: number; pos: number; firmada: boolean }
-type FilaGross = { id: string; nombre: string; jugados: number; gross: number; vsPar: number; pos: number }
 
 /** Asigna posición; empatados en todas las claves comparten puesto. */
 function posiciones<T extends { pos: number }>(filas: T[], clave: (f: T) => number[]): T[] {
@@ -95,6 +94,21 @@ function posiciones<T extends { pos: number }>(filas: T[], clave: (f: T) => numb
     f.pos = prev && clave(prev).join() === clave(f).join() ? prev.pos : i + 1
   })
   return filas
+}
+
+/** 1 punto por hoyo a quien haga menos (según `valor`); si empatan, se reparte. Solo hoyos que jugaron todos. */
+function repartir(ts: { j: Jugador; t: Tarjeta }[], valor: (h: Hoyo) => number | null) {
+  const hoyos: { hoyo: number; ids: string[]; valor: number }[] = []
+  for (let i = 0; i < HOYOS && ts.length; i++) {
+    const vs = ts.map(({ j, t }) => ({ id: j.id, v: valor(t.hoyos[i]) }))
+    if (vs.some(x => x.v == null)) continue
+    const mejor = Math.min(...vs.map(x => x.v!))
+    const ids = vs.filter(x => x.v === mejor).map(x => x.id)
+    hoyos.push({ hoyo: i + 1, ids, valor: 1 / ids.length })
+  }
+  const puntos: Record<string, number> = {}
+  for (const h of hoyos) for (const id of h.ids) puntos[id] = (puntos[id] ?? 0) + h.valor
+  return { hoyos, puntos }
 }
 
 function compara(a: number[], b: number[]): number {
@@ -114,34 +128,16 @@ export function ranking(jugadores: Jugador[], filas: Golpe[], c: Cancha, firmada
   const claves = new Map(stbConClave.map(x => [x.f, x.k]))
   const stableford: FilaStableford[] = posiciones(stbConClave.map(x => x.f), f => claves.get(f)!)
 
-  const gross: FilaGross[] = posiciones(
-    ts.map(({ j, t }) => ({ id: j.id, nombre: j.nombre, jugados: t.jugados, gross: t.gross, vsPar: t.vsPar, pos: 0 }))
-      .sort((a, b) => (a.jugados ? 0 : 1) - (b.jugados ? 0 : 1) || a.vsPar - b.vsPar || b.jugados - a.jugados),
-    f => [f.jugados ? 0 : 1, f.vsPar, f.jugados])
+  // skins: todos contra todos, en gross (golpes brutos)
+  const skins = repartir(ts, h => h.golpes)
 
-  // skins gross: 1 punto por hoyo a quien haga menos golpes; si empatan, se reparte en partes iguales.
-  // Solo cuentan los hoyos que ya jugaron todos.
-  const ganados: { hoyo: number; ids: string[]; valor: number }[] = []
-  for (let i = 0; i < HOYOS && ts.length; i++) {
-    const brutos = ts.map(({ j, t }) => ({ id: j.id, golpes: t.hoyos[i].golpes }))
-    if (brutos.some(b => b.golpes == null)) continue
-    const mejor = Math.min(...brutos.map(b => b.golpes!))
-    const ids = brutos.filter(b => b.golpes === mejor).map(b => b.id)
-    ganados.push({ hoyo: i + 1, ids, valor: 1 / ids.length })
-  }
-  const porJugador: Record<string, number> = {}
-  for (const g of ganados) for (const id of g.ids) porJugador[id] = (porJugador[id] ?? 0) + g.valor
-
-  // copa por grupos: por hoyo suman los 2 mejores Stableford del grupo
-  const grupos = [...new Set(jugadores.map(j => j.grupo))].map(grupo => {
+  // juego de grupo: solo contra los de tu grupo, en neto (golpes − golpes recibidos)
+  const grupos = [...new Set(jugadores.map(j => j.grupo))].sort((a, b) => a - b).map(grupo => {
     const del = ts.filter(x => x.j.grupo === grupo)
-    let puntos = 0
-    for (let i = 0; i < HOYOS; i++) {
-      const pts = del.map(x => x.t.hoyos[i].puntos).filter((p): p is number => p != null).sort((a, b) => b - a)
-      puntos += (pts[0] ?? 0) + (pts[1] ?? 0)
-    }
-    return { grupo, puntos, jugadores: del.map(x => x.j.nombre) }
-  }).sort((a, b) => b.puntos - a.puntos)
+    const r = repartir(del, h => (h.golpes == null ? null : h.golpes - h.recibidos))
+    const js = del.map(({ j }) => ({ id: j.id, nombre: j.nombre, puntos: r.puntos[j.id] ?? 0 })).sort((a, b) => b.puntos - a.puntos)
+    return { grupo, jugadores: js, hoyos: r.hoyos }
+  })
 
-  return { stableford, gross, skins: { ganados, jugados: ganados.length, porJugador }, grupos }
+  return { stableford, skins: { ganados: skins.hoyos, jugados: skins.hoyos.length, porJugador: skins.puntos }, grupos }
 }

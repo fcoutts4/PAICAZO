@@ -173,12 +173,7 @@ test('ranking stableford: empate total comparte posición', () => {
   const r = ranking([J('a', 0), J('b', 0)], [...filas('a', pares()), ...filas('b', pares())], cancha)
   assert.deepEqual(r.stableford.map(x => x.pos), [1, 1])
 })
-test('ranking gross: menor sobre el par primero, sin hoyos al final', () => {
-  const gb = pares(); gb[0] = 6
-  const r = ranking([J('a', 0), J('b', 0), J('c', 0)], [...filas('b', gb), ...filas('a', pares())], cancha)
-  assert.deepEqual(r.gross.map(x => x.id), ['a', 'b', 'c'])
-})
-test('skins: 1 punto al mejor neto del hoyo', () => {
+test('skins: 1 punto a quien haga menos golpes en el hoyo', () => {
   const ga = pares(); ga[1] = 3
   const r = ranking([J('a', 0), J('b', 0)], [...filas('a', ga), ...filas('b', pares())], cancha)
   assert.deepEqual(r.skins.ganados.find(s => s.hoyo === 2), { hoyo: 2, ids: ['a'], valor: 1 })
@@ -225,18 +220,48 @@ test('skins: hoyo que alguien no ha jugado no cuenta, los demás sí', () => {
   assert.deepEqual(r.skins.ganados.find(s => s.hoyo === 3)?.ids, ['a'])
   assert.equal(r.skins.jugados, 17)
 })
-test('copa por grupos: suma los 2 mejores Stableford de cada hoyo', () => {
-  const js = [J('a', 0, 1), J('b', 0, 1), J('c', 0, 1), J('d', 0, 2)]
-  const gc = pares().map(g => g + 2) // "c" hace 0 pts por hoyo: no suma
-  const r = ranking(js, [...filas('a', pares()), ...filas('b', pares()), ...filas('c', gc), ...filas('d', pares())], cancha)
-  assert.equal(r.grupos.find(g => g.grupo === 1)?.puntos, 72)
-  assert.equal(r.grupos.find(g => g.grupo === 2)?.puntos, 36)
-  assert.equal(r.grupos[0].grupo, 1)
+// --- juego de grupo: 1 punto por hoyo al mejor neto dentro del grupo ---
+const enGrupo = (r: ReturnType<typeof ranking>, g: number, id: string) =>
+  r.grupos.find(x => x.grupo === g)?.jugadores.find(j => j.id === id)?.puntos
+test('grupo: 1 punto al mejor neto del grupo en el hoyo', () => {
+  const ga = pares(); ga[0] = 3
+  const r = ranking([J('a', 0, 1), J('b', 0, 1), J('c', 0, 1)], [...filas('a', ga), ...filas('b', pares()), ...filas('c', pares())], cancha)
+  assert.ok(Math.abs(enGrupo(r, 1, 'a')! - (1 + 17 / 3)) < 1e-9)
+})
+test('grupo: empate se reparte; cada hoyo suma 1', () => {
+  const r = ranking([J('a', 0, 1), J('b', 0, 1), J('c', 0, 1)], ['a', 'b', 'c'].flatMap(id => filas(id, pares())), cancha)
+  const total = r.grupos[0].jugadores.reduce((x, j) => x + j.puntos, 0)
+  assert.ok(Math.abs(total - 18) < 1e-9)
+  assert.ok(Math.abs(enGrupo(r, 1, 'b')! - 6) < 1e-9)
+})
+test('grupo: usa neto (golpe recibido cuenta)', () => {
+  // en el hoyo 9 (HCP 1) "b" recibe golpe: par bruto = neto 3, gana a "a" que hizo par
+  const r = ranking([J('a', 0, 1), J('b', 1, 1)], [...filas('a', pares()), ...filas('b', pares())], cancha)
+  assert.equal(r.grupos[0].hoyos.find(h => h.hoyo === 9)?.ids.join(), 'b')
+})
+test('grupo: cada grupo juega aparte', () => {
+  const gd = pares().map(g => g - 1) // "d" juega mejor, pero en otro grupo
+  const r = ranking([J('a', 0, 1), J('b', 0, 1), J('d', 0, 2)], [...filas('a', pares()), ...filas('b', pares()), ...filas('d', gd)], cancha)
+  assert.equal(enGrupo(r, 1, 'a'), 9)
+  assert.equal(enGrupo(r, 2, 'd'), 18)
+})
+test('grupo: hoyo que alguien del grupo no ha jugado no cuenta', () => {
+  const gb: (number | null)[] = pares(); gb[4] = null
+  const r = ranking([J('a', 0, 1), J('b', 0, 1)], [...filas('a', pares()), ...filas('b', gb)], cancha)
+  assert.equal(r.grupos[0].hoyos.length, 17)
+  assert.equal(r.grupos[0].hoyos.find(h => h.hoyo === 5), undefined)
+})
+test('grupo: jugadores ordenados por puntos y grupos por número', () => {
+  const gb = pares(); gb[0] = 3
+  const r = ranking([J('x', 0, 2), J('a', 0, 1), J('b', 0, 1)], [...filas('a', pares()), ...filas('b', gb), ...filas('x', pares())], cancha)
+  assert.deepEqual(r.grupos.map(g => g.grupo), [1, 2])
+  assert.deepEqual(r.grupos[0].jugadores.map(j => j.id), ['b', 'a'])
 })
 test('ranking sin jugadores no falla', () => {
   const r = ranking([], [], cancha)
   assert.deepEqual(r.stableford, [])
   assert.deepEqual(r.skins.ganados, [])
+  assert.deepEqual(r.grupos, [])
 })
 
 // --- símbolo de la tarjeta estilo PGA (sobre golpes brutos) ---

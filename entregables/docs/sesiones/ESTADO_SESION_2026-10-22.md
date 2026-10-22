@@ -7,7 +7,8 @@ Rama: `sesion/2026-10-22-app` (sale de `sesion/2026-10-22-plan`). Sin remoto.
 - Cancha: par 70 (hoyos 1-9 × 2), yardas azules del plano. Par confirmado por el usuario con la tarjeta física (hoyo 3 par 3, hoyo 6 par 4; la app de golf del usuario los muestra al revés y se descartó). HCP oficial por hoyo (app del usuario): ida impares, vuelta pares. Slope 113 y rating 70 **provisorios**.
 - Mapa propio generado desde el plano (`scripts/mapa.py`): cancha completa + 9 vistas giradas (tee abajo), etiquetas "1-10"… sin superposición.
 - App Next.js 16: login nombre + PIN (derivado de `PAICAZO_SECRET`), tarjeta con validación cruzada jugador/marcador, firma, ranking (Stableford 95%, gross, skins netos con arrastre, copa por grupos), cancha, admin.
-- Grupos (snake por índice): G1 PM/JPO/A. Ochagavía · G2 M. Covarrubias/JP Undu/A. Guzman/VC · G3 F. Coutts/M. Undu/MG/IU. Cada uno marca al siguiente de su grupo.
+- Grupos de 3 (intercalados por índice): G1 PM/A. Guzman/MG · G2 M. Covarrubias/A. Ochagavía/IU · G3 F. Coutts/JPO/VC · G4 M. Undu/JP Undu. Cada uno marca al siguiente de su grupo.
+- Juegos: Stableford neto 95% (copa), Skins gross (1 pto/hoyo, empates repartidos), Grupo neto (1 pto/hoyo dentro del grupo).
 
 ## Pruebas
 `npm test`: 49 pruebas del motor de cálculo (node --test) + 7 del mapa (python), en verde. `tsc` sin errores.
