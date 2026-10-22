@@ -155,7 +155,7 @@ function TarjetaPGA({ par, golpe, estado, recibidos, sel, onSel }: {
                 {idx.map(i => (
                   <td key={i} className={estado(i)} aria-current={i === sel || undefined} onClick={() => onSel(i)}>
                     <span className={`m ${marcaPGA(golpe(i), par[i]) ?? ''}`}>{golpe(i) ?? ''}</span>
-                    {recibidos(i) > 0 && <i className="golpe-recibido" title="Recibe golpe" />}
+                    {recibidos(i) > 0 && <i className="recibe" title={`Recibe ${recibidos(i)} golpe(s)`}>{recibidos(i)}</i>}
                   </td>
                 ))}
                 <td><b>{suma(idx.map(golpe)) || ''}</b></td>
@@ -167,7 +167,7 @@ function TarjetaPGA({ par, golpe, estado, recibidos, sel, onSel }: {
       })}
       <p className="leyenda">
         <span className="m eagle" /> eagle <span className="m birdie" /> birdie <span className="m bogey" /> bogey
-        <span className="m doble" /> doble+ <i className="golpe-recibido" /> recibe golpe
+        <span className="m doble" /> doble+ <i className="recibe">1</i> golpes que recibes
       </p>
     </div>
   )

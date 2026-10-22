@@ -116,15 +116,16 @@ h2 { font-size: 16px; margin: 20px 0 8px; color: var(--verde); text-transform: u
 .pga tr.par td { color: var(--gris); font-size: 12px; }
 .pga tr.golpes td { position: relative; height: 34px; cursor: pointer; }
 .pga tr.golpes td.conflicto { background: #FDECEE; }
-.pga tr.golpes td.pendiente::after { content: ''; position: absolute; top: 3px; right: 3px; width: 5px; height: 5px; border-radius: 50%; background: var(--ambar); }
 .pga tr.pts td { color: var(--verde-2); font-size: 12px; font-weight: 700; }
 .m { display: inline-grid; place-items: center; width: 24px; height: 24px; font-weight: 800; font-variant-numeric: tabular-nums; }
 .m.birdie { border: 1.5px solid var(--rojo); border-radius: 50%; color: var(--rojo); }
 .m.eagle { border: 1.5px solid var(--rojo); border-radius: 50%; color: var(--rojo); box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px var(--rojo); }
 .m.bogey { border: 1.5px solid #2B4C7E; color: #2B4C7E; }
 .m.doble { border: 1.5px solid #2B4C7E; color: #2B4C7E; box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px #2B4C7E; }
-.golpe-recibido { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--verde); vertical-align: middle; }
-.pga td .golpe-recibido { position: absolute; left: 3px; top: 3px; }
+/* golpes de hándicap que recibe en el hoyo */
+.recibe { display: inline-grid; place-items: center; min-width: 12px; height: 12px; padding: 0 2px; border-radius: 6px;
+  background: var(--verde); color: #fff; font-size: 9px; font-weight: 800; font-style: normal; line-height: 1; vertical-align: middle; }
+.pga td .recibe { position: absolute; left: 2px; top: 2px; }
 .leyenda { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 11px; color: var(--gris); margin: 4px 0 0; }
 .leyenda .m { width: 14px; height: 14px; }
 
