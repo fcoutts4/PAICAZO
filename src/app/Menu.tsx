@@ -1,15 +1,16 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import Icono, { type NombreIcono } from './Icono'
 
 export default function Menu({ admin }: { admin: boolean }) {
   const ruta = usePathname()
-  const items: [string, string, string][] = [['/', '📝', 'Tarjeta'], ['/ranking', '🏆', 'Ranking'], ['/cancha', '⛳', 'Cancha']]
-  if (admin) items.push(['/admin', '⚙️', 'Admin'])
+  const items: [string, NombreIcono, string][] = [['/', 'tarjeta', 'Tarjeta'], ['/ranking', 'ranking', 'Ranking'], ['/cancha', 'cancha', 'Cancha']]
+  if (admin) items.push(['/admin', 'admin', 'Admin'])
   return (
     <nav className="menu">
       {items.map(([href, icono, texto]) => (
-        <Link key={href} href={href} aria-current={ruta === href ? 'page' : undefined}><span>{icono}</span>{texto}</Link>
+        <Link key={href} href={href} aria-current={ruta === href ? 'page' : undefined}><Icono n={icono} />{texto}</Link>
       ))}
     </nav>
   )

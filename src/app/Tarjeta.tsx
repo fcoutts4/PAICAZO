@@ -1,7 +1,8 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { estadoHoyo, puntosStableford, type Tarjeta as T } from '@/lib/golf'
+import { estadoHoyo, marcaPGA, puntosStableford, type Estado, type Tarjeta as T } from '@/lib/golf'
+import Icono from './Icono'
 
 type Props = {
   cancha: { par: number[]; hcp: number[]; yardas: number[] }
@@ -10,27 +11,20 @@ type Props = {
 }
 type Valores = (number | null)[]
 
-const TEXTO_ESTADO = {
-  ok: '✔ Validado con tu marcador',
-  conflicto: '✖ No coincide: conversen y corrijan',
-  pendiente: '… Falta que anote el otro',
-  vacio: 'Sin anotar',
-}
-
 export default function Tarjeta({ cancha, yo, marcado }: Props) {
   const router = useRouter()
   const mios = yo.t.hoyos.map(h => h.propio)
   const suyos = marcado?.t.hoyos.map(h => h.marcador) ?? []
   const [mio, setMio] = useState<Valores>(mios)
   const [suyo, setSuyo] = useState<Valores>(suyos)
-  const [h, setH] = useState(() => Math.max(0, mios.findIndex(v => v == null)))
+  const [h, setH] = useState(() => { const i = mios.findIndex(v => v == null); return i < 0 ? 17 : i })
+  const [ver, setVer] = useState<'yo' | 'marcado'>('yo')
   const [error, setError] = useState('')
   const timers = useRef<Record<string, ReturnType<typeof setTimeout>>>({})
 
-  // lo que llega del servidor (refresco) manda sobre lo local
+  // lo que llega del servidor manda sobre lo local; cada 15 s trae lo que anotó el otro
   useEffect(() => setMio(mios), [JSON.stringify(mios)]) // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => setSuyo(suyos), [JSON.stringify(suyos)]) // eslint-disable-line react-hooks/exhaustive-deps
-  // trae lo que anotó el otro cada 15 s
   useEffect(() => { const i = setInterval(() => router.refresh(), 15000); return () => clearInterval(i) }, [router])
 
   function guardar(jugador: string, porMarcador: boolean, hoyo: number, golpes: number | null) {
@@ -41,7 +35,7 @@ export default function Tarjeta({ cancha, yo, marcado }: Props) {
         method: 'POST', headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ jugador, hoyo, por_marcador: porMarcador, golpes }),
       }).catch(() => null)
-      setError(r?.ok ? '' : 'No se pudo guardar. Revisa la señal y vuelve a intentar.')
+      setError(r?.ok ? '' : 'No se pudo guardar. Revisa la señal e inténtalo de nuevo.')
       router.refresh()
     }, 500)
   }
@@ -61,92 +55,122 @@ export default function Tarjeta({ cancha, yo, marcado }: Props) {
     router.refresh()
   }
 
-  const hy = yo.t.hoyos[h]
-  const estadoMio = estadoHoyo(mio[h], hy.marcador)
-  const estadoSuyo = marcado ? estadoHoyo(marcado.t.hoyos[h].propio, suyo[h]) : 'vacio'
-  const ptsMio = (i: number) => puntosStableford(mio[i] ?? yo.t.hoyos[i].marcador, cancha.par[i], yo.t.hoyos[i].recibidos)
-  const total = mio.reduce<number>((a, _, i) => a + (ptsMio(i) ?? 0), 0)
-  const jugados = mio.filter((v, i) => (v ?? yo.t.hoyos[i].marcador) != null)
-  const gross = mio.reduce<number>((a, v, i) => a + (v ?? yo.t.hoyos[i].marcador ?? 0), 0)
-  const vsPar = gross - cancha.par.reduce((a, p, i) => a + ((mio[i] ?? yo.t.hoyos[i].marcador) != null ? p : 0), 0)
+  // mi tarjeta: lo que anoté yo (o, si falta, lo que anotó mi marcador)
+  const miGolpe = (i: number) => mio[i] ?? yo.t.hoyos[i].marcador
+  const miEstado = (i: number) => estadoHoyo(mio[i], yo.t.hoyos[i].marcador)
+  const suGolpe = (i: number) => marcado ? marcado.t.hoyos[i].propio ?? suyo[i] : null
+  const suEstado = (i: number): Estado => marcado ? estadoHoyo(marcado.t.hoyos[i].propio, suyo[i]) : 'vacio'
+  const recibe = yo.t.hoyos[h].recibidos
+  const total = cancha.par.reduce((a, p, i) => a + (puntosStableford(miGolpe(i), p, yo.t.hoyos[i].recibidos) ?? 0), 0)
+  const jugados = cancha.par.filter((_, i) => miGolpe(i) != null).length
+  const vsPar = cancha.par.reduce((a, p, i) => a + (miGolpe(i) != null ? miGolpe(i)! - p : 0), 0)
   const listoFirmar = !yo.firmada && yo.t.hoyos.every(x => x.estado === 'ok')
-  const recibe = hy.recibidos > 0 ? `+${hy.recibidos}` : hy.recibidos < 0 ? '−1' : '0'
 
   return (
     <>
       <div className="resumen">
         <div><b>{total}</b><small>Puntos</small></div>
-        <div><b>{jugados.length}</b><small>Hoyos</small></div>
         <div><b>{vsPar > 0 ? `+${vsPar}` : vsPar || 'E'}</b><small>vs par</small></div>
-        <div><b>{yo.t.hj}</b><small>HCP juego</small></div>
+        <div><b>{jugados}</b><small>Hoyos</small></div>
+        <div><b>{yo.t.hj}</b><small>HCP</small></div>
       </div>
 
-      {(['Ida', 'Vuelta'] as const).map((nombre, v) => (
-        <div key={nombre}>
-          <h2 style={{ margin: '6px 0' }}>{nombre}</h2>
-          <div className="hoyos">
-            {cancha.par.slice(v * 9, v * 9 + 9).map((_, k) => {
-              const i = v * 9 + k
-              const est = estadoHoyo(mio[i], yo.t.hoyos[i].marcador)
-              return (
-                <button key={i} aria-pressed={i === h} className={est} onClick={() => setH(i)}>
-                  {i + 1}<small>{mio[i] ?? ''}</small>
-                </button>
-              )
-            })}
+      <section className="anotar">
+        <div className="nav-hoyo">
+          <button aria-label="Hoyo anterior" disabled={h === 0} onClick={() => setH(h - 1)}><Icono n="antes" /></button>
+          <div>
+            <b>Hoyo {h + 1}</b>
+            <small>Par {cancha.par[h]} · {cancha.yardas[h]} yds · HCP {cancha.hcp[h]}{recibe > 0 ? ` · recibes ${recibe}` : ''}</small>
           </div>
+          <button aria-label="Hoyo siguiente" disabled={h === 17} onClick={() => setH(h + 1)}><Icono n="despues" /></button>
         </div>
-      ))}
-
-      <section className="hoyo-info">
-        <img key={h} src={`/hoyo-${(h % 9) + 1}.svg`} alt={`Mapa del hoyo ${h + 1}`} />
-        <div className="n">{h + 1}{h >= 9 && <small>= hoyo {h - 8}</small>}</div>
-        <div className="hoyo-datos">
-          <div><b>{cancha.par[h]}</b>Par</div>
-          <div><b>{cancha.yardas[h]}</b>Yardas</div>
-          <div><b>{cancha.hcp[h]}</b>HCP</div>
-          <div><b>{recibe}</b>Recibes</div>
-          <div><b><span className="pts">{ptsMio(h) ?? '–'}</span></b>Puntos</div>
-        </div>
+        <Fila nombre="Tú" detalle={`Marca: ${yo.marcador}`} valor={mio[h]} estado={miEstado(h)} otro={yo.t.hoyos[h].marcador}
+          bloqueado={yo.firmada} onMenos={() => cambiar('mio', -1)} onMas={() => cambiar('mio', 1)} />
+        {marcado && (
+          <Fila nombre={marcado.nombre} detalle="Tú marcas" valor={suyo[h]} estado={suEstado(h)} otro={marcado.t.hoyos[h].propio}
+            bloqueado={marcado.firmada} onMenos={() => cambiar('suyo', -1)} onMas={() => cambiar('suyo', 1)} />
+        )}
       </section>
 
       {error && <div className="aviso error">{error}</div>}
 
-      <section className="tarjeta-ui anotar">
-        <div className="contador">
-          <div className="quien">Tus golpes<small>Tu marcador: {yo.marcador}{hy.marcador != null ? ` · anotó ${hy.marcador}` : ''}</small></div>
-          <Paso valor={mio[h]} bloqueado={yo.firmada} onMenos={() => cambiar('mio', -1)} onMas={() => cambiar('mio', 1)} />
-        </div>
-        <div className={`estado ${estadoMio}`}>{TEXTO_ESTADO[estadoMio]}</div>
-
-        {marcado && (
-          <>
-            <hr style={{ border: 0, borderTop: '1px solid var(--linea)', width: '100%' }} />
-            <div className="contador">
-              <div className="quien">Golpes de {marcado.nombre}<small>Tú marcas esta tarjeta{marcado.t.hoyos[h].propio != null ? ` · ${marcado.nombre} anotó ${marcado.t.hoyos[h].propio}` : ''}</small></div>
-              <Paso valor={suyo[h]} bloqueado={marcado.firmada} onMenos={() => cambiar('suyo', -1)} onMas={() => cambiar('suyo', 1)} />
-            </div>
-            <div className={`estado ${estadoSuyo}`}>{TEXTO_ESTADO[estadoSuyo].replace('tu marcador', marcado.nombre)}</div>
-          </>
-        )}
-        {h < 17 && <button className="btn lima" onClick={() => setH(h + 1)}>Siguiente hoyo →</button>}
-      </section>
+      {marcado && (
+        <nav className="tabs">
+          <a href="#" aria-current={ver === 'yo' ? 'page' : undefined} onClick={e => { e.preventDefault(); setVer('yo') }}>Mi tarjeta</a>
+          <a href="#" aria-current={ver === 'marcado' ? 'page' : undefined} onClick={e => { e.preventDefault(); setVer('marcado') }}>{marcado.nombre}</a>
+        </nav>
+      )}
+      {ver === 'yo' || !marcado
+        ? <TarjetaPGA par={cancha.par} golpe={miGolpe} estado={miEstado} recibidos={i => yo.t.hoyos[i].recibidos} sel={h} onSel={setH} />
+        : <TarjetaPGA par={cancha.par} golpe={suGolpe} estado={suEstado} recibidos={i => marcado.t.hoyos[i].recibidos} sel={h} onSel={setH} />}
 
       {yo.firmada
-        ? <div className="aviso" style={{ background: 'var(--lima-suave)', borderColor: 'var(--lima)', color: 'var(--verde)' }}>✔ Tarjeta firmada. Si hay que corregir algo, pídeselo al admin.</div>
-        : <button className="btn" style={{ width: '100%' }} disabled={!listoFirmar} onClick={firmar}>
-            {listoFirmar ? 'Firmar mi tarjeta' : 'Firmar (cuando los 18 hoyos estén validados)'}
+        ? <div className="aviso ok"><Icono n="ok" size={16} /> Tarjeta firmada. Para corregir algo, pídeselo al admin.</div>
+        : <button className="btn" style={{ width: '100%', marginTop: 12 }} disabled={!listoFirmar} onClick={firmar}>
+            {listoFirmar ? 'Firmar mi tarjeta' : 'Firmar (con los 18 hoyos validados)'}
           </button>}
     </>
   )
 }
 
-function Paso({ valor, bloqueado, onMenos, onMas }: { valor: number | null; bloqueado: boolean; onMenos: () => void; onMas: () => void }) {
+function Fila({ nombre, detalle, valor, estado, otro, bloqueado, onMenos, onMas }: {
+  nombre: string; detalle: string; valor: number | null; estado: Estado; otro: number | null
+  bloqueado: boolean; onMenos: () => void; onMas: () => void
+}) {
+  const aviso = estado === 'ok' ? <><Icono n="ok" size={14} /> Coincide</>
+    : estado === 'conflicto' ? <><Icono n="mal" size={14} /> El otro anotó {otro}</>
+    : estado === 'pendiente' ? <><Icono n="espera" size={14} /> {valor == null ? `El otro anotó ${otro}` : 'Falta el otro'}</>
+    : null
   return (
-    <div className="paso">
-      <button aria-label="Restar golpe" disabled={bloqueado} onClick={onMenos}>−</button>
-      <output>{valor ?? '–'}</output>
-      <button aria-label="Sumar golpe" disabled={bloqueado} onClick={onMas}>+</button>
+    <div className="fila">
+      <div className="quien">{nombre}<small>{detalle}</small>{aviso && <span className={`estado ${estado}`}>{aviso}</span>}</div>
+      <div className="paso">
+        <button aria-label={`Restar golpe a ${nombre}`} disabled={bloqueado} onClick={onMenos}>−</button>
+        <output>{valor ?? '–'}</output>
+        <button aria-label={`Sumar golpe a ${nombre}`} disabled={bloqueado} onClick={onMas}>+</button>
+      </div>
+    </div>
+  )
+}
+
+/** Tarjeta estilo PGA Tour: círculo birdie, doble círculo eagle, cuadrado bogey, doble cuadrado doble bogey+. */
+function TarjetaPGA({ par, golpe, estado, recibidos, sel, onSel }: {
+  par: number[]; golpe: (i: number) => number | null; estado: (i: number) => Estado
+  recibidos: (i: number) => number; sel: number; onSel: (i: number) => void
+}) {
+  const suma = (xs: (number | null)[]) => xs.reduce<number>((a, b) => a + (b ?? 0), 0)
+  const pts = (i: number) => puntosStableford(golpe(i), par[i], recibidos(i))
+  const mitades = [[0, 'Ida'], [9, 'Vta']] as const
+  return (
+    <div className="pga">
+      {mitades.map(([desde, nombre]) => {
+        const idx = Array.from({ length: 9 }, (_, k) => desde + k)
+        return (
+          <table key={nombre}>
+            <thead>
+              <tr><th>Hoyo</th>{idx.map(i => <th key={i} aria-current={i === sel || undefined} onClick={() => onSel(i)}>{i + 1}</th>)}<th>{nombre}</th></tr>
+            </thead>
+            <tbody>
+              <tr className="par"><td>Par</td>{idx.map(i => <td key={i}>{par[i]}</td>)}<td>{suma(idx.map(i => par[i]))}</td></tr>
+              <tr className="golpes">
+                <td>Golpes</td>
+                {idx.map(i => (
+                  <td key={i} className={estado(i)} aria-current={i === sel || undefined} onClick={() => onSel(i)}>
+                    <span className={`m ${marcaPGA(golpe(i), par[i]) ?? ''}`}>{golpe(i) ?? ''}</span>
+                    {recibidos(i) > 0 && <i className="golpe-recibido" title="Recibe golpe" />}
+                  </td>
+                ))}
+                <td><b>{suma(idx.map(golpe)) || ''}</b></td>
+              </tr>
+              <tr className="pts"><td>Pts</td>{idx.map(i => <td key={i}>{pts(i) ?? ''}</td>)}<td><b>{suma(idx.map(pts)) || ''}</b></td></tr>
+            </tbody>
+          </table>
+        )
+      })}
+      <p className="leyenda">
+        <span className="m eagle">3</span> eagle <span className="m birdie">3</span> birdie <span className="m bogey">5</span> bogey
+        <span className="m doble">6</span> doble+ <i className="golpe-recibido" /> recibe golpe
+      </p>
     </div>
   )
 }

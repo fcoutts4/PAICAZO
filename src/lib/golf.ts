@@ -62,6 +62,20 @@ export function tarjeta(j: Jugador, filas: Golpe[], c: Cancha): Tarjeta {
 
 export const puedeFirmar = (t: Tarjeta) => t.hoyos.every(h => h.estado === 'ok')
 
+/** Marca de la tarjeta estilo PGA (golpes brutos vs par): círculo birdie, cuadrado bogey, dobles para eagle/doble bogey. */
+export function marcaPGA(golpes: number | null, par: number) {
+  if (golpes == null) return null
+  const d = golpes - par
+  return d <= -2 ? 'eagle' : d === -1 ? 'birdie' : d === 0 ? 'par' : d === 1 ? 'bogey' : 'doble'
+}
+
+/** Nombre que el admin le pone a un jugador: 1-24 caracteres, sin < > (se muestra en toda la app). */
+export function limpiarNombre(s: string): string | null {
+  if (typeof s !== 'string') return null
+  const n = s.trim().replace(/\s+/g, ' ')
+  return n && n.length <= 24 && !/[<>]/.test(n) ? n : null
+}
+
 /** Quién puede anotar qué: el jugador su tarjeta, el marcador la de su marcado, el admin todo. */
 export function puedeAnotar(quien: Jugador, g: Golpe, firmadas: Set<string>, admin: boolean): boolean {
   if (!Number.isInteger(g.hoyo) || g.hoyo < 1 || g.hoyo > HOYOS) return false

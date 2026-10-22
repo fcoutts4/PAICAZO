@@ -16,7 +16,7 @@ async function entrar(form: FormData) {
 export default async function Login({ searchParams }: { searchParams: Promise<{ e?: string }> }) {
   if (await usuario()) redirect('/')
   const { e } = await searchParams
-  const orden = [...jugadores].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'))
+  const orden = [...await jugadores()].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'))
   return (
     <main className="login">
       <img src="/logo.png" alt="PAICAZO" />

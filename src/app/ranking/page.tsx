@@ -1,19 +1,21 @@
 import Link from 'next/link'
-import { cancha, firmadas, golpes, jugador, jugadores } from '@/lib/datos'
+import { cancha, firmadas, golpes, jugadores } from '@/lib/datos'
 import { ranking } from '@/lib/golf'
 import { requiereUsuario } from '@/lib/sesion'
 import Refresco from '../Refresco'
+import Icono from '../Icono'
 
 export const dynamic = 'force-dynamic'
 const VISTAS = { stableford: 'Stableford neto', gross: 'Gross', skins: 'Skins', grupos: 'Copa grupos' } as const
-const nombre = (id: string) => jugador(id)?.nombre ?? id
 const vsPar = (n: number) => (n > 0 ? `+${n}` : n === 0 ? 'E' : String(n))
 
 export default async function Ranking({ searchParams }: { searchParams: Promise<{ v?: string }> }) {
   const u = await requiereUsuario()
   const { v = 'stableford' } = await searchParams
   const vista = (v in VISTAS ? v : 'stableford') as keyof typeof VISTAS
-  const r = ranking(jugadores, await golpes(), cancha, await firmadas())
+  const js = await jugadores()
+  const nombre = (id: string) => js.find(j => j.id === id)?.nombre ?? id
+  const r = ranking(js, await golpes(), cancha, await firmadas())
 
   return (
     <main>
@@ -32,7 +34,7 @@ export default async function Ranking({ searchParams }: { searchParams: Promise<
             {r.stableford.map(f => (
               <tr key={f.id} className={f.pos === 1 && f.jugados ? 'lider' : ''}>
                 <td className="pos">{f.pos}</td>
-                <td>{f.nombre}{f.id === u.id && ' (tú)'} {f.firmada && <span className="firmada">✔ firmada</span>}</td>
+                <td>{f.nombre}{f.id === u.id && ' (tú)'} {f.firmada && <span className="firmada"><Icono n="ok" size={12} /> firmada</span>}</td>
                 <td className="num">{f.hj}</td><td className="num">{f.jugados}</td><td className="num"><b>{f.puntos}</b></td>
               </tr>
             ))}

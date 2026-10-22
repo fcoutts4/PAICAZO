@@ -2,7 +2,7 @@
 import { createHmac, timingSafeEqual } from 'node:crypto'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { jugador } from './datos'
+import { jugador, jugadores } from './datos'
 
 function hmac(valor: string) {
   const s = process.env.PAICAZO_SECRET
@@ -19,7 +19,7 @@ export const pinValido = (id: string, pin: string) => !!jugador(id) && igual(pin
 export async function usuario() {
   const [id, firma] = (await cookies()).get('s')?.value.split('.') ?? []
   if (!id || !firma || !igual(firma, hmac(`s:${id}`))) return null
-  return jugador(id) ?? null
+  return (await jugadores()).find(j => j.id === id) ?? null
 }
 
 export async function requiereUsuario() {

@@ -1,11 +1,23 @@
+import { cache } from 'react'
 import canchaJson from '../../data/cancha.json'
 import jugadoresJson from '../../data/jugadores.json'
 import { sql } from './db'
 import type { Cancha, Golpe, Jugador } from './golf'
 
 export const cancha: Cancha & { yardas: number[]; provisorio?: string } = canchaJson
-export const jugadores: Jugador[] = jugadoresJson
-export const jugador = (id: string) => jugadores.find(j => j.id === id)
+const base: Jugador[] = jugadoresJson
+/** Solo para validar ids; para mostrar usa jugadores() (trae los nombres que cambió el admin). */
+export const jugador = (id: string) => base.find(j => j.id === id)
+
+/** Jugadores con el nombre vigente; una consulta por request. */
+export const jugadores = cache(async (): Promise<Jugador[]> => {
+  const cambios = new Map((await sql('SELECT jugador, nombre FROM nombres')).map(f => [f.jugador as string, f.nombre as string]))
+  return base.map(j => ({ ...j, nombre: cambios.get(j.id) ?? j.nombre }))
+})
+
+export async function renombrar(id: string, nombre: string) {
+  return sql('INSERT INTO nombres (jugador, nombre) VALUES ($1, $2) ON CONFLICT (jugador) DO UPDATE SET nombre = EXCLUDED.nombre', [id, nombre])
+}
 
 export async function golpes(ids?: string[]): Promise<Golpe[]> {
   const filas = ids

@@ -3,7 +3,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import {
   hcpJuego, golpesRecibidos, puntosStableford, estadoHoyo, tarjeta, ranking,
-  puedeAnotar, puedeFirmar, type Cancha, type Jugador, type Golpe,
+  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, type Cancha, type Jugador, type Golpe,
 } from './golf.ts'
 
 const par = [4, 4, 3, 4, 5, 4, 4, 3, 4, 4, 4, 3, 4, 5, 4, 4, 3, 4]
@@ -212,3 +212,31 @@ test('ranking sin jugadores no falla', () => {
   assert.deepEqual(r.stableford, [])
   assert.deepEqual(r.skins.ganados, [])
 })
+
+// --- símbolo de la tarjeta estilo PGA (sobre golpes brutos) ---
+test('PGA: par sin marca, birdie círculo, bogey cuadrado', () => {
+  assert.equal(marcaPGA(4, 4), 'par')
+  assert.equal(marcaPGA(3, 4), 'birdie')
+  assert.equal(marcaPGA(5, 4), 'bogey')
+})
+test('PGA: eagle o mejor y doble bogey o peor', () => {
+  assert.equal(marcaPGA(3, 5), 'eagle')
+  assert.equal(marcaPGA(1, 4), 'eagle')
+  assert.equal(marcaPGA(6, 4), 'doble')
+  assert.equal(marcaPGA(10, 3), 'doble')
+})
+test('PGA: sin golpes → null', () => assert.equal(marcaPGA(null, 4), null))
+
+// --- nombre editado por el admin ---
+test('nombre: recorta espacios y acepta tildes', () => assert.equal(limpiarNombre('  J. Ñuñez  '), 'J. Ñuñez'))
+test('nombre: vacío o solo espacios → null', () => {
+  assert.equal(limpiarNombre(''), null)
+  assert.equal(limpiarNombre('   '), null)
+})
+test('nombre: más de 24 caracteres → null', () => {
+  assert.equal(limpiarNombre('x'.repeat(24)), 'x'.repeat(24))
+  assert.equal(limpiarNombre('x'.repeat(25)), null)
+})
+test('nombre: colapsa espacios internos', () => assert.equal(limpiarNombre('Juan   Pablo'), 'Juan Pablo'))
+test('nombre: rechaza < > (no HTML)', () => assert.equal(limpiarNombre('<b>Juan</b>'), null))
+test('nombre: no texto → null', () => assert.equal(limpiarNombre(null as unknown as string), null))

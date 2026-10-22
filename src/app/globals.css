@@ -41,7 +41,7 @@ button { font: inherit; cursor: pointer; }
   flex: 1; text-align: center; padding: 10px 4px 12px; text-decoration: none;
   font-size: 12px; font-weight: 600; color: var(--gris);
 }
-.menu a span { display: block; font-size: 20px; line-height: 26px; }
+.menu a svg { display: block; margin: 0 auto 2px; }
 .menu a[aria-current] { color: var(--verde); box-shadow: inset 0 3px var(--lima); }
 
 main { max-width: 720px; margin: 0 auto; padding: 16px; }
@@ -79,50 +79,54 @@ h2 { font-size: 16px; margin: 20px 0 8px; color: var(--verde); text-transform: u
 .btn.lima { background: var(--lima); color: var(--verde); }
 .btn.chico { padding: 8px 12px; font-size: 13px; border-radius: 10px; }
 
-/* tarjeta: selector de hoyos */
-.hoyos { display: grid; grid-template-columns: repeat(9, 1fr); gap: 4px; margin-bottom: 12px; }
-.hoyos button {
-  border: 1px solid var(--linea); background: #fff; border-radius: 8px; padding: 6px 0 4px;
-  font-weight: 700; font-size: 14px; color: var(--verde); position: relative;
-}
-.hoyos button small { display: block; font-size: 11px; font-weight: 600; color: var(--gris); min-height: 14px; }
-.hoyos button[aria-pressed='true'] { background: var(--verde); color: #fff; border-color: var(--verde); }
-.hoyos button[aria-pressed='true'] small { color: #CFE3C2; }
-.hoyos .ok { box-shadow: inset 0 -4px var(--lima); }
-.hoyos .conflicto { box-shadow: inset 0 -4px var(--rojo); }
-.hoyos .pendiente { box-shadow: inset 0 -4px var(--ambar); }
-
-/* hoyo actual: mapa girado (tee abajo) a la izquierda, datos a la derecha */
-.hoyo-info {
-  display: grid; grid-template-columns: 1fr 96px; border-radius: var(--radio); overflow: hidden;
-  border: 1px solid var(--linea); background: #fff; margin-bottom: 12px; position: relative;
-}
-.hoyo-info img { width: 100%; height: auto; display: block; background: #86B45A; }
-.hoyo-info .n {
-  position: absolute; top: 10px; left: 10px; background: var(--verde); color: #fff; border-radius: 12px;
-  padding: 6px 12px; font-size: 28px; font-weight: 900; line-height: 1;
-}
-.hoyo-info .n small { display: block; font-size: 11px; font-weight: 600; color: #CFE3C2; }
-.hoyo-datos { display: grid; align-content: space-evenly; text-align: center; padding: 8px 4px; gap: 6px; }
-.hoyo-datos div { font-size: 11px; color: var(--gris); font-weight: 600; text-transform: uppercase; }
-.hoyo-datos b { display: block; font-size: 18px; color: var(--verde); text-transform: none; }
-
-.anotar { display: grid; gap: 10px; }
-.contador { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 8px; }
-.contador .quien { font-weight: 700; }
-.contador .quien small { display: block; font-weight: 500; color: var(--gris); font-size: 12px; }
-.paso { display: flex; align-items: center; gap: 6px; }
+/* tarjeta: anotar el hoyo actual */
+.anotar { background: #fff; border: 1px solid var(--linea); border-radius: var(--radio); margin-bottom: 12px; overflow: hidden; }
+.nav-hoyo { display: grid; grid-template-columns: 48px 1fr 48px; align-items: center; background: var(--verde); color: #fff; text-align: center; }
+.nav-hoyo b { display: block; font-size: 22px; font-weight: 900; }
+.nav-hoyo small { display: block; font-size: 12px; color: #CFE3C2; padding-bottom: 6px; }
+.nav-hoyo button { background: none; border: 0; color: #fff; height: 64px; display: grid; place-items: center; }
+.nav-hoyo button:disabled { opacity: .3; }
+.fila { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 8px; padding: 12px 14px; }
+.fila + .fila { border-top: 1px solid var(--linea); }
+.quien { font-weight: 800; color: var(--verde); font-size: 17px; }
+.quien small { display: block; font-weight: 500; color: var(--gris); font-size: 12px; }
+.paso { display: flex; align-items: center; gap: 4px; }
 .paso button {
   width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--lima-suave); color: var(--verde);
   font-size: 28px; font-weight: 700;
 }
 .paso button:active { background: var(--lima); }
-.paso output { width: 52px; text-align: center; font-size: 30px; font-weight: 900; color: var(--verde); }
-.estado { font-size: 13px; font-weight: 600; border-radius: 8px; padding: 6px 10px; }
+.paso button:disabled { opacity: .35; }
+.paso output { width: 46px; text-align: center; font-size: 32px; font-weight: 900; color: var(--verde); }
+.estado { display: inline-flex; align-items: center; gap: 4px; margin-top: 4px; font-size: 12px; font-weight: 700; border-radius: 6px; padding: 2px 8px; }
 .estado.ok { background: var(--lima-suave); color: var(--verde-2); }
 .estado.conflicto { background: #FDECEE; color: var(--rojo); }
-.estado.pendiente, .estado.vacio { background: #FFF6E5; color: #7A5300; }
-.pts { display: inline-block; min-width: 26px; text-align: center; padding: 2px 8px; border-radius: 999px; background: var(--verde); color: #fff; font-weight: 800; font-size: 13px; }
+.estado.pendiente { background: #FFF6E5; color: #7A5300; }
+.aviso.ok { display: flex; align-items: center; gap: 6px; background: var(--lima-suave); border-color: var(--lima); color: var(--verde); margin-top: 12px; }
+
+/* tarjeta estilo PGA Tour */
+.pga table { table-layout: fixed; font-size: 13px; text-align: center; margin-bottom: 8px; border-radius: 10px; }
+.pga th, .pga td { padding: 6px 0; text-align: center; }
+.pga th:first-child, .pga td:first-child { width: 52px; text-align: left; padding-left: 8px; font-size: 11px; font-weight: 700; color: var(--gris); }
+.pga th:first-child { color: #fff; }
+.pga th:last-child, .pga td:last-child { width: 36px; background: var(--lima-suave); font-weight: 800; color: var(--verde); }
+.pga th:last-child { background: var(--verde-2); color: #fff; }
+.pga th[aria-current], .pga td[aria-current] { background: #E3F0D3; }
+.pga thead th[aria-current] { background: var(--lima); color: var(--verde); }
+.pga tr.par td { color: var(--gris); font-size: 12px; }
+.pga tr.golpes td { position: relative; height: 34px; cursor: pointer; }
+.pga tr.golpes td.conflicto { background: #FDECEE; }
+.pga tr.golpes td.pendiente::after { content: ''; position: absolute; top: 3px; right: 3px; width: 5px; height: 5px; border-radius: 50%; background: var(--ambar); }
+.pga tr.pts td { color: var(--verde-2); font-size: 12px; font-weight: 700; }
+.m { display: inline-grid; place-items: center; width: 24px; height: 24px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.m.birdie { border: 1.5px solid var(--rojo); border-radius: 50%; color: var(--rojo); }
+.m.eagle { border: 1.5px solid var(--rojo); border-radius: 50%; color: var(--rojo); box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px var(--rojo); }
+.m.bogey { border: 1.5px solid #2B4C7E; color: #2B4C7E; }
+.m.doble { border: 1.5px solid #2B4C7E; color: #2B4C7E; box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px #2B4C7E; }
+.golpe-recibido { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--verde); vertical-align: middle; }
+.pga td .golpe-recibido { position: absolute; left: 3px; top: 3px; }
+.leyenda { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 11px; color: var(--gris); margin: 4px 0 0; }
+.leyenda .m { width: 18px; height: 18px; font-size: 10px; }
 
 .resumen { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
 .resumen div { background: #fff; border: 1px solid var(--linea); border-radius: 12px; padding: 8px; text-align: center; }
