@@ -1,7 +1,6 @@
 import { cancha, jugadores } from '@/lib/datos'
 import { hcpJuego } from '@/lib/golf'
 import { requiereUsuario } from '@/lib/sesion'
-import Simulador from './Simulador'
 
 export default async function Reglas() {
   const u = await requiereUsuario()
@@ -15,15 +14,10 @@ export default async function Reglas() {
         <p>Lo que importa es la <b>Copa Paicazo</b> (Stableford neto).</p>
         <div className="suma">
           <span className="principal"><b>Copa Paicazo</b><small>Stableford neto</small></span>+
-          <span><b>Bonus</b><small>Pellejos + Gallos</small></span>
+          <span><b>Bonus</b><small>Rey del Hoyo + Puto</small></span>
         </div>
         <p className="chico">Los bonus suman unos puntos extra en el ranking General.</p>
       </section>
-
-      <details open>
-        <summary>Prueba un hoyo</summary>
-        <Simulador par={cancha.par} hcp={cancha.hcp} hj={hj} />
-      </details>
 
       <details>
         <summary>Copa Paicazo · Stableford neto</summary>
@@ -41,13 +35,13 @@ export default async function Reglas() {
       </details>
 
       <details>
-        <summary>Bonus · Los Pellejos (skins gross)</summary>
+        <summary>Bonus · Rey del Hoyo (skins gross)</summary>
         <p>Cada hoyo vale <b>1 punto</b> para quien haga <b>menos golpes reales</b>, sin hándicap, contra todos.</p>
         <p>Si empatan, el punto se reparte <b>entre todos los que empataron</b>: 2 → 0,5 cada uno; 3 → 0,33; 4 → 0,25.</p>
       </details>
 
       <details>
-        <summary>Bonus · Pelea de Gallos (grupo neto)</summary>
+        <summary>Bonus · Puto (grupo neto)</summary>
         <p>Juegas solo contra tu grupo{grupo.length ? <>: <b>{grupo.join(' y ')}</b></> : ''}.</p>
         <p>Cada hoyo vale <b>1 punto</b> para el mejor <b>neto</b> del grupo. Si empatan, se reparte.</p>
       </details>

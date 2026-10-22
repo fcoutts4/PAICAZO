@@ -6,7 +6,7 @@ import Refresco from '../Refresco'
 import Icono from '../Icono'
 
 export const dynamic = 'force-dynamic'
-const VISTAS = { general: 'General', stableford: 'Copa', skins: 'Pellejos', grupo: 'Gallos', hoyos: 'Gross' } as const
+const VISTAS = { general: 'General', stableford: 'Copa', skins: 'Rey', grupo: 'Puto', hoyos: 'Gross' } as const
 const vsParTxt = (n: number) => (n > 0 ? `+${n}` : n === 0 ? 'E' : String(n))
 const decimal = (n: number) => n.toLocaleString('es-CL', { maximumFractionDigits: 2 })
 
@@ -31,7 +31,7 @@ export default async function Ranking({ searchParams }: { searchParams: Promise<
 
       {vista === 'general' && (
         <>
-          <p className="aviso"><b>Copa Paicazo</b> (Stableford neto, lo principal) + <b>bonus</b> de Los Pellejos y Pelea de Gallos. Toca un nombre para ver su tarjeta.</p>
+          <p className="aviso"><b>Copa Paicazo</b> (Stableford neto, lo principal) + <b>bonus</b> de Rey del Hoyo y Puto. Toca un nombre para ver su tarjeta.</p>
           <table className="general">
             <thead><tr><th className="pos">#</th><th>Jugador</th><th className="num">Copa</th><th className="num">Bonus</th><th className="num">Total</th></tr></thead>
             <tbody>
@@ -65,10 +65,10 @@ export default async function Ranking({ searchParams }: { searchParams: Promise<
 
       {vista === 'skins' && (
         <>
-          <p className="aviso"><b>Los Pellejos (skins gross, bonus):</b> cada hoyo vale 1 punto para quien haga menos golpes (sin hándicap). Si empatan, el punto se reparte entre todos los que empataron (½, ⅓…).
+          <p className="aviso"><b>Rey del Hoyo (skins gross, bonus):</b> cada hoyo vale 1 punto para quien haga menos golpes (sin hándicap). Si empatan, el punto se reparte entre todos los que empataron (½, ⅓…).
             Cuentan los hoyos que ya jugaron todos: van {r.skins.jugados} de 18.</p>
           <table>
-            <thead><tr><th>Jugador</th><th className="num">Pellejos</th><th>Hoyos</th></tr></thead>
+            <thead><tr><th>Jugador</th><th className="num">Puntos</th><th>Hoyos</th></tr></thead>
             <tbody>
               {Object.entries(r.skins.porJugador).sort((a, b) => b[1] - a[1]).map(([id, n]) => (
                 <tr key={id}>
@@ -84,7 +84,7 @@ export default async function Ranking({ searchParams }: { searchParams: Promise<
 
       {vista === 'grupo' && (
         <>
-          <p className="aviso"><b>Pelea de Gallos (grupo neto, bonus):</b> juegas solo contra tu grupo. Cada hoyo vale 1 punto para el mejor neto del grupo (con tus golpes de hándicap). Si empatan, se reparte.</p>
+          <p className="aviso"><b>Puto (grupo neto, bonus):</b> juegas solo contra tu grupo. Cada hoyo vale 1 punto para el mejor neto del grupo (con tus golpes de hándicap). Si empatan, se reparte.</p>
           {r.grupos.map(g => (
             <section key={g.grupo} style={{ marginBottom: 12 }}>
               <h2 style={{ margin: '8px 0 6px' }}>Grupo {g.grupo} <small style={{ color: 'var(--gris)', textTransform: 'none', letterSpacing: 0 }}>· {g.hoyos.length} de 18 hoyos</small></h2>
