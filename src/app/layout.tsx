@@ -9,7 +9,8 @@ export const metadata: Metadata = {
   description: 'Campeonato de golf PAICAZO · Paico Alto',
   appleWebApp: { capable: true, title: 'PAICAZO', statusBarStyle: 'black-translucent' },
 }
-export const viewport: Viewport = { themeColor: '#1B4332', width: 'device-width', initialScale: 1 }
+// viewportFit cover: en iPhone (app en pantalla de inicio) el contenido respeta la barra de estado con safe-area
+export const viewport: Viewport = { themeColor: '#1B4332', width: 'device-width', initialScale: 1, viewportFit: 'cover' }
 
 async function salir() {
   'use server'
