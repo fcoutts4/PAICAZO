@@ -3,7 +3,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import {
   hcpJuego, golpesRecibidos, puntosStableford, estadoHoyo, tarjeta, ranking,
-  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, type Cancha, type Jugador, type Golpe,
+  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, type Cancha, type Jugador, type Golpe,
 } from './golf.ts'
 
 const par = [4, 4, 3, 4, 5, 4, 4, 3, 4, 4, 4, 3, 4, 5, 4, 4, 3, 4]
@@ -321,4 +321,48 @@ test('general: ordena por total sumando los 3 campeonatos', () => {
 test('general: sin hoyos jugados todos en 0', () => {
   const r = ranking([J('a', 0, 1), J('b', 0, 1)], [], cancha)
   assert.ok(r.general.every(f => f.total === 0))
+})
+
+// --- posición en vivo "a la misma altura" (los grupos salen uno después del otro) ---
+const hasta = (g: number[], n: number) => g.map((x, i) => (i < n ? x : null))
+test('en vivo: sin hoyos jugados → null', () => {
+  assert.equal(posicionEnVivo([J('a', 0, 1)], [], cancha, 'a'), null)
+})
+test('en vivo: compara solo hasta mi último hoyo', () => {
+  // "a" va en el hoyo 3 con birdie en el 1; "b" ya terminó y hace birdies del 4 en adelante: no cuentan
+  const ga = hasta(pares(), 3); ga[0] = 3
+  const gb = pares().map((x, i) => (i >= 3 ? x - 1 : x))
+  const r = posicionEnVivo([J('a', 0, 1), J('b', 0, 2)], [...filas('a', ga), ...filas('b', gb)], cancha, 'a')!
+  assert.equal(r.hoyo, 3)
+  assert.deepEqual(r.general, { pos: 1, de: 2, empatado: false })
+})
+test('en vivo: no cuenta a quienes no han llegado a mi hoyo', () => {
+  const r = posicionEnVivo([J('a', 0, 1), J('b', 0, 2), J('c', 0, 3)],
+    [...filas('a', hasta(pares(), 9)), ...filas('b', pares()), ...filas('c', hasta(pares(), 4))], cancha, 'a')!
+  assert.equal(r.general.de, 2)
+})
+test('en vivo: empate marca empatado y comparte puesto', () => {
+  const r = posicionEnVivo([J('a', 0, 1), J('b', 0, 2)], [...filas('a', hasta(pares(), 5)), ...filas('b', pares())], cancha, 'a')!
+  assert.deepEqual(r.general, { pos: 1, de: 2, empatado: true })
+})
+test('en vivo: segundo de tres en el general', () => {
+  const gb = pares(); gb[0] = 3
+  const gc = pares(); gc[0] = 5
+  const r = posicionEnVivo([J('a', 0, 1), J('b', 0, 2), J('c', 0, 3)],
+    [...filas('a', hasta(pares(), 2)), ...filas('b', gb), ...filas('c', gc)], cancha, 'a')!
+  assert.equal(r.general.pos, 2)
+  assert.equal(r.general.empatado, false)
+})
+test('en vivo: posición dentro del grupo (juego de grupo neto)', () => {
+  const ga = hasta(pares(), 4)
+  const gb = hasta(pares(), 4); gb[1] = 3
+  const gc = hasta(pares(), 4); gc[2] = 4
+  const r = posicionEnVivo([J('a', 0, 1), J('b', 0, 1), J('c', 0, 1), J('x', 0, 2)],
+    [...filas('a', ga), ...filas('b', gb), ...filas('c', gc), ...filas('x', pares())], cancha, 'a')!
+  assert.deepEqual(r.grupo, { pos: 2, de: 3, empatado: false })
+})
+test('en vivo: mi hoyo es el último seguido desde el 1 (si salté uno, cuenta hasta antes)', () => {
+  const ga: (number | null)[] = hasta(pares(), 6); ga[3] = null
+  const r = posicionEnVivo([J('a', 0, 1)], filas('a', ga), cancha, 'a')!
+  assert.equal(r.hoyo, 3)
 })

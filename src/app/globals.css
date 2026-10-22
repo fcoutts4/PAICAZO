@@ -236,3 +236,9 @@ main.compacta { padding: 8px 10px; }
 .nav-hoyo { position: relative; }
 .barra-avance { position: absolute; left: 0; bottom: 0; height: 3px; background: var(--lima); animation: llenar 2s linear forwards; }
 @keyframes llenar { from { width: 0 } to { width: 100% } }
+
+/* posición en vivo "a la misma altura" (grupos salen uno después del otro) */
+.posicion { display: flex; justify-content: space-between; gap: 6px; margin-bottom: 8px; padding: 8px 12px; border-radius: 10px;
+  background: var(--lima-suave); border: 1px solid var(--lima); color: var(--verde); text-decoration: none; font-size: 13px; min-height: 40px; align-items: center; }
+.posicion span:first-child { color: var(--gris); font-size: 12px; }
+.posicion b { font-size: 16px; }

@@ -150,3 +150,24 @@ export function ranking(jugadores: Jugador[], filas: Golpe[], c: Cancha, firmada
 
   return { general, stableford, skins: { ganados: skins.hoyos, jugados: skins.hoyos.length, porJugador: skins.puntos }, grupos }
 }
+
+type Puesto = { pos: number; de: number; empatado: boolean }
+
+/** Tu posición "a la misma altura": tus hoyos 1..N contra los hoyos 1..N de quienes ya pasaron por ahí.
+ *  Los grupos salen uno después del otro, así que comparar totales sin cortar no dice nada. */
+export function posicionEnVivo(jugadores: Jugador[], filas: Golpe[], c: Cancha, id: string): { hoyo: number; general: Puesto; grupo: Puesto } | null {
+  const yo = jugadores.find(j => j.id === id)
+  if (!yo) return null
+  const seguidos = (j: Jugador) => { const t = tarjeta(j, filas, c); let n = 0; while (n < HOYOS && t.hoyos[n].golpes != null) n++; return n }
+  const N = seguidos(yo)
+  if (!N) return null
+  const r = ranking(jugadores.filter(j => seguidos(j) >= N), filas.filter(f => f.hoyo <= N), c)
+
+  const g = r.general.find(f => f.id === id)!
+  const general = { pos: g.pos, de: r.general.length, empatado: r.general.filter(f => f.pos === g.pos).length > 1 }
+  const mg = r.grupos.find(x => x.grupo === yo.grupo)!.jugadores
+  const mios = mg.find(j => j.id === id)!.puntos
+  const igual = (x: number) => Math.abs(x - mios) < 1e-9
+  const grupo = { pos: mg.filter(j => j.puntos > mios && !igual(j.puntos)).length + 1, de: mg.length, empatado: mg.filter(j => igual(j.puntos)).length > 1 }
+  return { hoyo: N, general, grupo }
+}

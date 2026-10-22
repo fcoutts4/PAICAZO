@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { estadoHoyo, marcaPGA, puntosStableford, type Estado, type Tarjeta as T } from '@/lib/golf'
 import Icono from './Icono'
@@ -8,13 +9,16 @@ type Props = {
   cancha: { par: number[]; hcp: number[]; yardas: number[] }
   yo: { nombre: string; t: T; firmada: boolean; marcador: string }
   marcado: { id: string; nombre: string; t: T; firmada: boolean } | null
+  posicion: { hoyo: number; general: Puesto; grupo: Puesto } | null
 }
+type Puesto = { pos: number; de: number; empatado: boolean }
+const puesto = (p: Puesto) => `${p.empatado ? 'T' : ''}${p.pos}º`
 type Envio = { jugador: string; hoyo: number; por_marcador: boolean; golpes: number | null }
 const CLAVE = 'paicazo-pendientes' // golpes anotados que aún no llegan al servidor (sin señal)
 const clave = (e: Omit<Envio, 'golpes'>) => `${e.jugador}-${e.por_marcador}-${e.hoyo}`
 const enTelefono = (p: Record<string, Envio>) => { try { localStorage.setItem(CLAVE, JSON.stringify(p)) } catch {} return p }
 
-export default function Tarjeta({ cancha, yo, marcado }: Props) {
+export default function Tarjeta({ cancha, yo, marcado, posicion }: Props) {
   const router = useRouter()
   const [pend, setPend] = useState<Record<string, Envio>>({})
   const [h, setH] = useState(() => { const i = yo.t.hoyos.findIndex(x => x.propio == null); return i < 0 ? 17 : i })
@@ -115,6 +119,13 @@ export default function Tarjeta({ cancha, yo, marcado }: Props) {
         <div><b>{jugados}</b><small>Hoyos</small></div>
         <div><b>{yo.t.hj}</b><small>HCP</small></div>
       </div>
+      {posicion && (
+        <Link href="/ranking" className="posicion">
+          <span>Al hoyo {posicion.hoyo}</span>
+          <span>General <b>{puesto(posicion.general)}</b> de {posicion.general.de}</span>
+          <span>Grupo <b>{puesto(posicion.grupo)}</b> de {posicion.grupo.de}</span>
+        </Link>
+      )}
 
       <section className="anotar">
         <div className="nav-hoyo">

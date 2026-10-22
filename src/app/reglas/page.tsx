@@ -70,6 +70,12 @@ export default async function Reglas() {
       </details>
 
       <details>
+        <summary>Tu posición en la tarjeta</summary>
+        <p>Los grupos salen uno después del otro, así que &quot;Al hoyo 9&quot; te compara con lo que hicieron los demás <b>en esos mismos 9 hoyos</b>.
+          Solo cuentan los que ya pasaron por ese hoyo. <b>T3</b> = empatado en el 3º lugar.</p>
+      </details>
+
+      <details>
         <summary>Empates</summary>
         <p>En el General y en el Stableford desempata el Stableford de los últimos 9, 6, 3 y el último hoyo.</p>
       </details>
