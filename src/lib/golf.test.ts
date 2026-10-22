@@ -3,7 +3,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import {
   hcpJuego, golpesRecibidos, puntosStableford, estadoHoyo, tarjeta, ranking,
-  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, armarGrupos, type Cancha, type Jugador, type Golpe,
+  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, armarGrupos, golpesDemo, type Cancha, type Jugador, type Golpe,
 } from './golf.ts'
 
 const par = [4, 4, 3, 4, 5, 4, 4, 3, 4, 4, 4, 3, 4, 5, 4, 4, 3, 4]
@@ -409,3 +409,24 @@ test('grupos: un solo jugador no se marca a sí mismo', () => {
   assert.deepEqual(armarGrupos(['a'], azar(1)), [{ id: 'a', grupo: 1, marca: '' }])
 })
 test('grupos: sin jugadores → vacío', () => assert.deepEqual(armarGrupos([], azar(1)), []))
+
+// --- scores de demo (para mostrar la app llena) ---
+test('demo: 18 golpes entre 1 y 10', () => {
+  const g = golpesDemo(J('a', 15), cancha, azar(5))
+  assert.equal(g.length, 18)
+  assert.ok(g.every(x => Number.isInteger(x) && x >= 1 && x <= 10))
+})
+test('demo: mismo azar → mismos golpes', () => {
+  assert.deepEqual(golpesDemo(J('a', 15), cancha, azar(9)), golpesDemo(J('a', 15), cancha, azar(9)))
+})
+test('demo: el de menor hándicap hace en promedio menos golpes', () => {
+  const r = azar(11), prom = (ind: number) => {
+    let t = 0
+    for (let k = 0; k < 40; k++) t += golpesDemo(J('x', ind), cancha, r).reduce((a, b) => a + b, 0)
+    return t / 40
+  }
+  const bueno = prom(2.7), malo = prom(22.1)
+  assert.ok(bueno < malo, `${bueno} < ${malo}`)
+  assert.ok(Math.abs(bueno - 73) < 4, `bueno ${bueno}`)   // ~par 70 + hándicap 3
+  assert.ok(Math.abs(malo - 91) < 5, `malo ${malo}`)      // ~par 70 + hándicap 21
+})

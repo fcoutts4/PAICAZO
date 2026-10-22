@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
-import { borrarScores, cancha, firmadas, golpes, guardarGolpe, guardarGrupos, jugador, jugadores, renombrar } from '@/lib/datos'
+import { borrarScores, cancha, firmadas, golpes, guardarGolpe, guardarGolpesEnLote, guardarGrupos, jugador, jugadores, renombrar } from '@/lib/datos'
 import { sql } from '@/lib/db'
-import { armarGrupos, limpiarNombre, tarjeta } from '@/lib/golf'
+import { armarGrupos, golpesDemo, limpiarNombre, tarjeta } from '@/lib/golf'
 import { pinDe, requiereUsuario } from '@/lib/sesion'
 import BotonPeligroso from './BotonPeligroso'
 
@@ -37,6 +37,18 @@ async function resetear(form: FormData) {
   await soloAdmin()
   if (form.get('confirmacion') !== 'BORRAR') return // segunda confirmación, revisada en el servidor
   await borrarScores()
+  revalidatePath('/', 'layout')
+}
+
+async function cargarDemo(form: FormData) {
+  'use server'
+  await soloAdmin()
+  if (form.get('confirmacion') !== 'DEMO') return
+  // 18 hoyos de todos, anotados por el jugador y su marcador (quedan validados)
+  const filas = (await jugadores()).flatMap(j => golpesDemo(j, cancha).flatMap((g, i) =>
+    [false, true].map(por_marcador => ({ jugador: j.id, hoyo: i + 1, por_marcador, golpes: g }))))
+  await sql('DELETE FROM firmas')
+  await guardarGolpesEnLote(filas)
   revalidatePath('/', 'layout')
 }
 
@@ -110,6 +122,12 @@ export default async function Admin() {
           <p className="nota">Grupos de 3 sorteados; cada uno marca al siguiente de su grupo. Cambia quién marca a quién: mejor hacerlo antes de jugar.</p>
           <BotonPeligroso accion={sortear} texto="Sortear grupos" palabra="SORTEAR"
             aviso="Se van a sortear grupos nuevos y cambiar los marcadores de todos." />
+        </div>
+        <div>
+          <b>Cargar demo</b>
+          <p className="nota">Rellena los 18 hoyos de todos con scores de mentira (según el hándicap de cada uno) para mostrar cómo se ve la app. Reemplaza lo que haya.</p>
+          <BotonPeligroso accion={cargarDemo} texto="Cargar demo" palabra="DEMO"
+            aviso="Se van a reemplazar los golpes de TODOS por scores de demo." />
         </div>
         <div>
           <b>Borrar todos los scores</b>

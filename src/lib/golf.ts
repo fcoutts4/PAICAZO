@@ -180,3 +180,11 @@ export function armarGrupos(ids: string[], azar: () => number = Math.random): { 
   const grupos = Array.from({ length: n }, (_, g) => mezcla.filter((_, i) => i % n === g)) // reparte en ronda: tamaños parejos
   return grupos.flatMap((g, gi) => g.map((id, i) => ({ id, grupo: gi + 1, marca: g.length > 1 ? g[(i + 1) % g.length] : '' })))
 }
+
+/** Scores de mentira para mostrar la app llena: par neto (par + golpes recibidos) ± algo de azar. */
+export function golpesDemo(j: Jugador, c: Cancha, azar: () => number = Math.random): number[] {
+  const hj = hcpJuego(j.indice, c)
+  // ponytail: distribución fija (eagle neto 2%, birdie 18%, par 55%, bogey 20%, doble 5%), basta para una demo
+  const desvio = () => { const x = azar(); return x < .02 ? -2 : x < .2 ? -1 : x < .75 ? 0 : x < .95 ? 1 : 2 }
+  return c.par.map((par, i) => Math.min(10, Math.max(1, par + golpesRecibidos(hj, c.hcp[i]) + desvio())))
+}

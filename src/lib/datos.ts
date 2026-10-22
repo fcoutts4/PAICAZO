@@ -23,6 +23,15 @@ export async function guardarGrupos(asignacion: { id: string; grupo: number; mar
   for (const a of asignacion) await sql('INSERT INTO grupos (jugador, grupo, marca) VALUES ($1, $2, $3)', [a.id, a.grupo, a.marca])
 }
 
+/** Muchos golpes en una sola consulta (la demo carga ~400 filas; de a una sería lento en Vercel). */
+export async function guardarGolpesEnLote(filas: Golpe[]) {
+  return sql(
+    `INSERT INTO golpes (jugador, hoyo, por_marcador, golpes)
+     SELECT * FROM unnest($1::text[], $2::int[], $3::boolean[], $4::int[])
+     ON CONFLICT (jugador, hoyo, por_marcador) DO UPDATE SET golpes = EXCLUDED.golpes, actualizado = now()`,
+    [filas.map(f => f.jugador), filas.map(f => f.hoyo), filas.map(f => f.por_marcador), filas.map(f => f.golpes)])
+}
+
 /** Deja el campeonato en blanco: borra todos los golpes y las firmas. */
 export async function borrarScores() {
   await sql('DELETE FROM golpes')
