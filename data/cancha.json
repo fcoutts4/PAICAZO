@@ -2,10 +2,10 @@
   "club": "Paico Alto Club de Golf",
   "salida": "azul",
   "nota": "Cancha de 9 hoyos; los 18 se juegan repitiendo la ida",
-  "provisorio": "hcp, slope y rating son PROVISORIOS hasta tener la tarjeta oficial",
+  "provisorio": "slope y rating son PROVISORIOS hasta tener la tarjeta oficial",
   "par": [4, 4, 3, 4, 5, 4, 4, 3, 4, 4, 4, 3, 4, 5, 4, 4, 3, 4],
   "yardas": [401, 397, 185, 407, 506, 381, 327, 211, 466, 401, 397, 185, 407, 506, 381, 327, 211, 466],
-  "hcp": [5, 7, 15, 3, 13, 11, 17, 9, 1, 6, 8, 16, 4, 14, 12, 18, 10, 2],
+  "hcp": [7, 9, 15, 5, 1, 11, 13, 17, 3, 8, 10, 16, 6, 2, 12, 14, 18, 4],
   "slope": 113,
   "rating": 70
 }

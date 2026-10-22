@@ -126,7 +126,7 @@ h2 { font-size: 16px; margin: 20px 0 8px; color: var(--verde); text-transform: u
 .golpe-recibido { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--verde); vertical-align: middle; }
 .pga td .golpe-recibido { position: absolute; left: 3px; top: 3px; }
 .leyenda { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 11px; color: var(--gris); margin: 4px 0 0; }
-.leyenda .m { width: 18px; height: 18px; font-size: 10px; }
+.leyenda .m { width: 14px; height: 14px; }
 
 .resumen { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
 .resumen div { background: #fff; border: 1px solid var(--linea); border-radius: 12px; padding: 8px; text-align: center; }
@@ -160,3 +160,30 @@ tr.lider td { background: var(--lima-suave); font-weight: 700; }
 .cancha-mapa img { width: 100%; height: auto; background: #86B45A; border-radius: var(--radio); border: 1px solid var(--linea); display: block; }
 .admin-form { display: flex; flex-wrap: wrap; gap: 8px; align-items: end; }
 .admin-form select, .admin-form input { padding: 8px; border-radius: 8px; border: 1px solid var(--linea); font-size: 15px; }
+
+/* tarjeta compacta: todo cabe en la pantalla del teléfono sin scroll */
+main.compacta { padding: 8px 10px; }
+.compacta .resumen { gap: 6px; margin-bottom: 8px; }
+.compacta .resumen div { padding: 4px; display: flex; align-items: baseline; justify-content: center; gap: 4px; }
+.compacta .resumen b { display: inline; font-size: 18px; }
+.compacta .resumen small { font-size: 10px; }
+.compacta .anotar { margin-bottom: 8px; }
+.compacta .nav-hoyo b { font-size: 18px; }
+.compacta .nav-hoyo small { font-size: 11px; padding-bottom: 4px; }
+.compacta .nav-hoyo button { height: 48px; }
+.compacta .fila { padding: 6px 12px; }
+.compacta .quien { font-size: 15px; }
+.compacta .quien small { font-size: 11px; }
+.compacta .estado { margin-top: 2px; font-size: 11px; padding: 1px 6px; }
+.compacta .paso button { width: 44px; height: 44px; font-size: 24px; }
+.compacta .paso output { width: 40px; font-size: 28px; }
+.compacta .tabs { margin-bottom: 6px; }
+.compacta .tabs a { padding: 5px 12px; font-size: 13px; }
+.compacta .pga table { margin-bottom: 6px; font-size: 12px; }
+.compacta .pga th, .compacta .pga td { padding: 3px 0; }
+.compacta .pga th:first-child, .compacta .pga td:first-child { width: 44px; padding-left: 6px; font-size: 10px; }
+.compacta .pga tr.golpes td { height: 28px; }
+.compacta .m { width: 22px; height: 22px; }
+.compacta .leyenda { margin: 0; font-size: 10px; }
+.compacta .leyenda .m { width: 11px; height: 11px; border-width: 1.5px; }
+.compacta .leyenda .m.eagle, .compacta .leyenda .m.doble { box-shadow: 0 0 0 1.5px #fff, 0 0 0 3px currentColor; margin: 0 2px; }

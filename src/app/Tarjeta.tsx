@@ -106,9 +106,7 @@ export default function Tarjeta({ cancha, yo, marcado }: Props) {
 
       {yo.firmada
         ? <div className="aviso ok"><Icono n="ok" size={16} /> Tarjeta firmada. Para corregir algo, pídeselo al admin.</div>
-        : <button className="btn" style={{ width: '100%', marginTop: 12 }} disabled={!listoFirmar} onClick={firmar}>
-            {listoFirmar ? 'Firmar mi tarjeta' : 'Firmar (con los 18 hoyos validados)'}
-          </button>}
+        : listoFirmar && <button className="btn" style={{ width: '100%', marginTop: 8 }} onClick={firmar}>Firmar mi tarjeta</button>}
     </>
   )
 }
@@ -168,8 +166,8 @@ function TarjetaPGA({ par, golpe, estado, recibidos, sel, onSel }: {
         )
       })}
       <p className="leyenda">
-        <span className="m eagle">3</span> eagle <span className="m birdie">3</span> birdie <span className="m bogey">5</span> bogey
-        <span className="m doble">6</span> doble+ <i className="golpe-recibido" /> recibe golpe
+        <span className="m eagle" /> eagle <span className="m birdie" /> birdie <span className="m bogey" /> bogey
+        <span className="m doble" /> doble+ <i className="golpe-recibido" /> recibe golpe
       </p>
     </div>
   )

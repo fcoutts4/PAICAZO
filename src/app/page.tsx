@@ -12,8 +12,7 @@ export default async function Inicio() {
   const miMarcador = js.find(j => j.marca === u.id)
   const [filas, firmas] = await Promise.all([golpes([u.id, ...(marcado ? [marcado.id] : [])]), firmadas()])
   return (
-    <main>
-      {cancha.provisorio && <div className="aviso">HCP de hoyos, slope y rating son provisorios: los puntos pueden cambiar.</div>}
+    <main className="compacta">
       <Tarjeta
         cancha={{ par: cancha.par, hcp: cancha.hcp, yardas: cancha.yardas }}
         yo={{ nombre: u.nombre, t: tarjeta(u, filas, cancha), firmada: firmas.has(u.id), marcador: miMarcador?.nombre ?? '—' }}
