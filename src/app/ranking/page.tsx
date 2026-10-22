@@ -6,7 +6,7 @@ import Refresco from '../Refresco'
 import Icono from '../Icono'
 
 export const dynamic = 'force-dynamic'
-const VISTAS = { general: 'General', stableford: 'Copa', skins: 'Pellejos', grupo: 'Gallos', hoyos: 'Hoyos' } as const
+const VISTAS = { general: 'General', stableford: 'Copa', skins: 'Pellejos', grupo: 'Gallos', hoyos: 'Gross' } as const
 const vsParTxt = (n: number) => (n > 0 ? `+${n}` : n === 0 ? 'E' : String(n))
 const decimal = (n: number) => n.toLocaleString('es-CL', { maximumFractionDigits: 2 })
 
@@ -110,29 +110,29 @@ export default async function Ranking({ searchParams }: { searchParams: Promise<
         const celda = (g: number | null, par: number) => <span className={`m ${marcaPGA(g, par) ?? ''}`}>{g ?? ''}</span>
         return (
           <>
-            <p className="aviso">Golpes reales (gross) de todos, hoyo a hoyo. Desliza hacia el lado; el nombre queda fijo.</p>
+            <p className="aviso">Golpes reales (gross) de todos, hoyo a hoyo. Desliza para ver los hoyos; nombre, ±Par, hoyo y total quedan fijos.</p>
             <div className="tabla-hoyos">
               <table>
                 <thead>
                   <tr>
-                    <th className="fijo">Jugador</th><th>±Par</th><th>Hoyos</th>
+                    <th className="fijo f1">Jugador</th><th className="fijo f2">±Par</th><th className="fijo f3">Hoyo</th><th className="fijo f4">Total</th>
                     {cancha.par.slice(0, 9).map((_, i) => <th key={i}>{i + 1}</th>)}<th className="sub">Ida</th>
-                    {cancha.par.slice(9).map((_, i) => <th key={i}>{i + 10}</th>)}<th className="sub">Vta</th><th className="sub">Tot</th>
+                    {cancha.par.slice(9).map((_, i) => <th key={i}>{i + 10}</th>)}<th className="sub">Vta</th>
                   </tr>
                   <tr className="par">
-                    <td className="fijo">Par</td><td /><td />
+                    <td className="fijo f1">Par</td><td className="fijo f2" /><td className="fijo f3" /><td className="fijo f4">{suma(cancha.par)}</td>
                     {cancha.par.slice(0, 9).map((p, i) => <td key={i}>{p}</td>)}<td className="sub">{suma(cancha.par.slice(0, 9))}</td>
-                    {cancha.par.slice(9).map((p, i) => <td key={i}>{p}</td>)}<td className="sub">{suma(cancha.par.slice(9))}</td><td className="sub">{suma(cancha.par)}</td>
+                    {cancha.par.slice(9).map((p, i) => <td key={i}>{p}</td>)}<td className="sub">{suma(cancha.par.slice(9))}</td>
                   </tr>
                 </thead>
                 <tbody>
                   {ts.map(({ j, t }) => (
                     <tr key={j.id} className={j.id === u.id ? 'yo' : ''}>
-                      <td className="fijo"><Link className="ver-tarjeta" href={`/jugador/${j.id}`}>{j.nombre}</Link></td>
-                      <td><b>{t.jugados ? vsParTxt(t.vsPar) : '–'}</b></td><td>{t.jugados}</td>
+                      <td className="fijo f1"><Link className="ver-tarjeta" href={`/jugador/${j.id}`}>{j.nombre}</Link></td>
+                      <td className="fijo f2"><b>{t.jugados ? vsParTxt(t.vsPar) : '–'}</b></td><td className="fijo f3">{t.jugados}</td>
+                      <td className="fijo f4"><b>{t.gross || ''}</b></td>
                       {mitad(t, 0).map((g, i) => <td key={i}>{celda(g, cancha.par[i])}</td>)}<td className="sub">{suma(mitad(t, 0)) || ''}</td>
                       {mitad(t, 9).map((g, i) => <td key={i}>{celda(g, cancha.par[i + 9])}</td>)}<td className="sub">{suma(mitad(t, 9)) || ''}</td>
-                      <td className="sub"><b>{t.gross || ''}</b></td>
                     </tr>
                   ))}
                 </tbody>

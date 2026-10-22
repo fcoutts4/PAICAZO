@@ -269,11 +269,18 @@ a.ver-tarjeta::after { content: ' ›'; color: var(--gris); }
 .tabla-hoyos { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--linea); border-radius: var(--radio); background: #fff; }
 .tabla-hoyos table { overflow: visible; border: 0; border-radius: 0; font-size: 13px; width: max-content; border-collapse: separate; border-spacing: 0; }
 .tabla-hoyos th, .tabla-hoyos td { text-align: center; padding: 6px 4px; min-width: 30px; white-space: nowrap; }
-.tabla-hoyos .fijo { position: sticky; left: 0; z-index: 1; text-align: left; min-width: 112px; max-width: 112px; overflow: hidden; text-overflow: ellipsis;
-  background: #fff; box-shadow: 2px 0 4px #0000001a; }
+/* columnas fijas: anchos exactos para que cada una se pegue justo después de la anterior */
+.tabla-hoyos .fijo { position: sticky; z-index: 1; background: #fff; box-sizing: border-box; overflow: hidden; text-overflow: ellipsis; }
+.tabla-hoyos .f1 { left: 0; width: 96px; min-width: 96px; max-width: 96px; text-align: left; }
+.tabla-hoyos .f2 { left: 96px; width: 40px; min-width: 40px; max-width: 40px; }
+.tabla-hoyos .f3 { left: 136px; width: 44px; min-width: 44px; max-width: 44px; }
+.tabla-hoyos .f4 { left: 180px; width: 46px; min-width: 46px; max-width: 46px; box-shadow: 3px 0 5px #0000001f; }
+.tabla-hoyos th.f2, .tabla-hoyos th.f3, .tabla-hoyos th.f4 { font-size: 10px; padding-left: 1px; padding-right: 1px; }
 .tabla-hoyos th.fijo { background: var(--verde); z-index: 2; }
 .tabla-hoyos tr.par td { color: var(--gris); font-size: 12px; background: #FAFBF8; }
 .tabla-hoyos tr.par td.fijo { background: #FAFBF8; font-weight: 700; }
+.tabla-hoyos td.f4 { background: var(--lima-suave); color: var(--verde); }
+.tabla-hoyos tr.par td.f4 { background: var(--lima-suave); }
 .tabla-hoyos .sub { background: var(--lima-suave); font-weight: 800; color: var(--verde); }
 .tabla-hoyos th.sub { background: var(--verde-2); color: #fff; }
 .tabla-hoyos tr.yo td, .tabla-hoyos tr.yo td.fijo { background: #EEF6E2; }
