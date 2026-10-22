@@ -12,10 +12,10 @@ export default async function Reglas() {
       <h1>Reglas</h1>
 
       <section className="gana">
-        <p>Lo que importa es el <b>Stableford neto</b>: es la copa.</p>
+        <p>Lo que importa es la <b>Copa Paicazo</b> (Stableford neto).</p>
         <div className="suma">
-          <span className="principal"><b>Stableford</b><small>la copa · neto</small></span>+
-          <span><b>Bonus</b><small>Skins + Grupo</small></span>
+          <span className="principal"><b>Copa Paicazo</b><small>Stableford neto</small></span>+
+          <span><b>Bonus</b><small>Pellejos + Gallos</small></span>
         </div>
         <p className="chico">Los bonus suman unos puntos extra en el ranking General.</p>
       </section>
@@ -26,7 +26,7 @@ export default async function Reglas() {
       </details>
 
       <details>
-        <summary>Stableford (la copa)</summary>
+        <summary>Copa Paicazo · Stableford neto</summary>
         <p>Cada hoyo da puntos según tu score <b>neto</b> (tus golpes menos los que recibes):</p>
         <table className="tabla-puntos">
           <tbody>
@@ -41,13 +41,13 @@ export default async function Reglas() {
       </details>
 
       <details>
-        <summary>Bonus · Skins (gross)</summary>
+        <summary>Bonus · Los Pellejos (skins gross)</summary>
         <p>Cada hoyo vale <b>1 punto</b> para quien haga <b>menos golpes reales</b>, sin hándicap, contra todos.</p>
-        <p>Si empatan, se reparte: 2 empatados → 0,5 cada uno; 3 → 0,33.</p>
+        <p>Si empatan, el punto se reparte <b>entre todos los que empataron</b>: 2 → 0,5 cada uno; 3 → 0,33; 4 → 0,25.</p>
       </details>
 
       <details>
-        <summary>Bonus · Grupo (neto)</summary>
+        <summary>Bonus · Pelea de Gallos (grupo neto)</summary>
         <p>Juegas solo contra tu grupo{grupo.length ? <>: <b>{grupo.join(' y ')}</b></> : ''}.</p>
         <p>Cada hoyo vale <b>1 punto</b> para el mejor <b>neto</b> del grupo. Si empatan, se reparte.</p>
       </details>
@@ -77,7 +77,7 @@ export default async function Reglas() {
 
       <details>
         <summary>Empates</summary>
-        <p>En el General y en el Stableford desempata el Stableford de los últimos 9, 6, 3 y el último hoyo.</p>
+        <p>En el General y en la Copa desempata el Stableford de los últimos 9, 6, 3 y el último hoyo.</p>
       </details>
     </main>
   )
