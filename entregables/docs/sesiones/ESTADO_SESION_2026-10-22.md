@@ -4,7 +4,7 @@ Rama: `sesion/2026-10-22-app` (sale de `sesion/2026-10-22-plan`). Sin remoto.
 
 ## Hecho
 - Plan y modalidad: `entregables/docs/PLAN.md`.
-- Cancha: par 70 (hoyos 1-9 × 2), yardas azules del plano. HCP por hoyo, slope 113 y rating 70 **provisorios**.
+- Cancha: par 70 (hoyos 1-9 × 2), yardas azules del plano. Par confirmado por el usuario con la tarjeta física (hoyo 3 par 3, hoyo 6 par 4; la app de golf del usuario los muestra al revés y se descartó). HCP oficial por hoyo (app del usuario): ida impares, vuelta pares. Slope 113 y rating 70 **provisorios**.
 - Mapa propio generado desde el plano (`scripts/mapa.py`): cancha completa + 9 vistas giradas (tee abajo), etiquetas "1-10"… sin superposición.
 - App Next.js 16: login nombre + PIN (derivado de `PAICAZO_SECRET`), tarjeta con validación cruzada jugador/marcador, firma, ranking (Stableford 95%, gross, skins netos con arrastre, copa por grupos), cancha, admin.
 - Grupos (snake por índice): G1 PM/JPO/A. Ochagavía · G2 M. Covarrubias/JP Undu/A. Guzman/VC · G3 F. Coutts/M. Undu/MG/IU. Cada uno marca al siguiente de su grupo.
@@ -20,7 +20,7 @@ Verificado en navegador local (375 px): login, anotar, conflicto marcador ≠ ju
 - Descartado: `<view>` del SVG para zoom por hoyo (no rota; hoyos diagonales quedaban chicos).
 
 ## Pendiente
-- HCP oficial por hoyo, slope y rating de la salida azul.
+- Slope y rating de la salida azul.
 - Jugador 12.
 - Approach / long drive: no implementados (se anotan a mano).
 - Preview deploys sin `PAICAZO_SECRET` (solo está en Production): fallan al abrir, no importa.
