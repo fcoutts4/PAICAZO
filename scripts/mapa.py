@@ -2,28 +2,29 @@
 
 Geometría trazada sobre assets/plano-paico-alto.jpg (recorte x680 y280, escala 2;
 ~1,7 px por yarda, verificado contra las yardas azules en tests/test_mapa.py).
-Incluye <view id="h1".."h9"> para mostrar un hoyo: mapa-9-hoyos.svg#h3
+Además genera public/hoyo-1..9.svg: cada hoyo girado (tee abajo, green arriba), vertical para el teléfono.
 Uso: python scripts/mapa.py
 """
+import functools
 import math
 import random
 from pathlib import Path
 
 PX_YD = 1.7
+SALTO = chr(10)
 
-# n, par, yardas azules, yardas blancas, lado de la ficha (+1/-1), línea de juego tee → green
+# n, par, yardas azules, yardas blancas, lado del número (+1/-1), línea de juego tee → green
 HOYOS = [
     (1, 4, 401, 371, -1, [(382, 1000), (560, 760), (664, 590), (750, 398)]),
     (2, 4, 397, 375, +1, [(838, 408), (720, 640), (612, 848), (448, 1024)]),
     (3, 3, 185, 162, -1, [(510, 1124), (834, 1068)]),
     (4, 4, 407, 383, -1, [(884, 1112), (1052, 644), (1144, 454)]),
-    (5, 5, 506, 479, -1, [(1078, 430), (848, 870), (560, 1055)]),
+    (5, 5, 506, 479, +1, [(1078, 430), (848, 870), (560, 1055)]),
     (6, 4, 381, 353, -1, [(628, 948), (920, 560), (900, 442)]),
     (7, 4, 327, 301, -1, [(1094, 380), (790, 300), (532, 222)]),
     (8, 3, 211, 185, -1, [(652, 108), (310, 92)]),
     (9, 4, 466, 436, +1, [(220, 98), (155, 580), (272, 862)]),
 ]
-FICHA_T = {1: 0.74, 2: 0.62}  # dónde va la ficha a lo largo del hoyo (evita choques)
 LAGOS = [  # cx, cy, rx, ry
     (205, 58, 62, 66), (565, 62, 58, 64), (540, 272, 34, 18),
     (985, 476, 28, 84), (425, 1092, 50, 26), (700, 1130, 100, 14),
@@ -31,6 +32,7 @@ LAGOS = [  # cx, cy, rx, ry
 LIMITE = [(100, 0), (690, 0), (705, 175), (1232, 382), (1000, 1210), (100, 1210)]
 CAMINO = [(360, 300), (352, 560), (398, 622), (332, 900), (308, 1210)]
 RANGE = [(505, 325), (640, 330), (652, 600), (565, 780), (452, 780), (448, 560)]
+ETIQ_FIJA = {5: (1028, 428)}  # los tees del 5 y el 7 están pegados
 CLUB = (95, 1010, 175, 85)  # x, y, w, h
 TENIS = (226, 596, 166, 142)
 
@@ -107,14 +109,15 @@ def dentro(p, poli):
     return c
 
 
-def generar():
+@functools.cache
+def dibujo():
+    """Cuerpo del mapa (sin <svg> raíz) y posición del número de cada hoyo."""
     random.seed(7)  # mismo mapa en cada corrida
     lineas = {n: catmull(pts) for n, *_, pts in HOYOS}
     camino = catmull(CAMINO)
     svg = []
     add = svg.append
 
-    add('<svg xmlns="http://www.w3.org/2000/svg" viewBox="100 0 1140 1210" font-family="Inter, Arial, sans-serif">')
     add(f"""<defs>
 <radialGradient id="gGreen" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#A9DE6E"/><stop offset="1" stop-color="#6DB43F"/></radialGradient>
 <linearGradient id="gAgua" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FBEE0"/><stop offset="1" stop-color="#3B82B5"/></linearGradient>
@@ -140,8 +143,6 @@ def generar():
     for i in range(4):
         add(f'<circle cx="{540 + (i % 2) * 40}" cy="{420 + i * 70}" r="{8 + i * 1.5}" fill="#BDE28C" stroke="#fff" stroke-width="2"/>')
     add('<rect x="458" y="758" width="104" height="16" rx="4" fill="#78A84E"/>')
-    add('<text text-anchor="middle" font-size="14" font-weight="700" fill="#4E7A34" letter-spacing="2" '
-        'transform="translate(522 540) rotate(-84)">CANCHA DE PRÁCTICA</text>')
     x, y, w, h = TENIS
     add(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="6" fill="#9CC575"/>')
     for i in range(3):
@@ -186,6 +187,7 @@ def generar():
             f'<circle cx="{x - r * .3:.1f}" cy="{y - r * .3:.1f}" r="{r * .45:.1f}" fill="#8CC063" opacity=".4"/>')
 
     # calles, bunkers, tees y greens
+    banderas = {}
     for n, par, yaz, ybl, lado, pts in HOYOS:
         linea = lineas[n]
         s = acumulado(linea)
@@ -230,65 +232,89 @@ def generar():
         # green con antegreen y bandera
         add(f'<g transform="translate({gx:.1f} {gy:.1f}) rotate({math.degrees(math.atan2(uy, ux)):.1f})" filter="url(#sombra)">'
             f'<ellipse rx="31" ry="26" fill="#68BD4B"/><ellipse rx="25" ry="20.5" fill="url(#gGreen)"/></g>')
-        fx, fy = gx + random.uniform(-7, 7), gy + random.uniform(-6, 6)
-        add(f'<g transform="translate({fx:.1f} {fy:.1f})"><ellipse cx="7" cy="1" rx="9" ry="2" fill="#000" opacity=".2"/>'
-            f'<circle r="2.2" fill="#1B4332"/><line y2="-30" stroke="#F4F4F4" stroke-width="2"/>'
-            f'<path d="M0,-30 L17,-25 L0,-19 Z" fill="#C30B26"/></g>')
+        banderas[n] = (gx + random.uniform(-7, 7), gy + random.uniform(-6, 6))  # se dibujan aparte, siempre derechas
 
         add(f'<path d="{d(linea, False)}" fill="none" stroke="#fff" stroke-width="1.6" stroke-dasharray="2 7" stroke-linecap="round" opacity=".85"/>')
 
     add('</g>')  # fin del recorte a la cancha
     add(f'<path d="{d(LIMITE)}" fill="none" stroke="#5E7F45" stroke-width="2" stroke-dasharray="10 6"/>')
-    add(f'<text x="{CLUB[0] + CLUB[2] / 2}" y="{CLUB[1] + CLUB[3] + 22}" text-anchor="middle" font-size="16" font-weight="800" '
-        'fill="#1B4332" stroke="#fff" stroke-width="4" paint-order="stroke">Casa Club</text>')
 
-    # etiquetas: número junto al tee y ficha a media calle
+    # número del hoyo junto al tee (par, yardas y HCP van en la tabla de la app)
+    numeros = {}
     for n, par, yaz, ybl, lado, pts in HOYOS:
         linea, s = lineas[n], acumulado(lineas[n])
         (tx, ty), (ux, uy) = en(linea, s, 0)
-        bx, by = tx - ux * 30 - uy * 34 * lado, ty - uy * 30 + ux * 34 * lado
-        add(f'<g filter="url(#sombra)"><circle cx="{bx:.1f}" cy="{by:.1f}" r="19" fill="#1B4332" stroke="#fff" stroke-width="2.5"/>'
-            f'<text x="{bx:.1f}" y="{by + 7:.1f}" text-anchor="middle" font-size="20" font-weight="800" fill="#fff">{n}</text></g>')
-        (mx, my), (vx, vy) = en(linea, s, s[-1] * FICHA_T.get(n, 0.5))
-        cx, cy = mx - vy * 68 * lado, my + vx * 68 * lado
-        add(f'<g transform="translate({cx:.1f} {cy:.1f})" filter="url(#sombra)">'
-            f'<rect x="-58" y="-22" width="116" height="44" rx="9" fill="#fff" opacity=".94"/>'
-            f'<text y="-4" text-anchor="middle" font-size="14" font-weight="800" fill="#1B4332">Hoyo {n} · {n + 9}</text>'
-            f'<text y="14" text-anchor="middle" font-size="13" font-weight="600" fill="#5B6B5E">Par {par} · {yaz} yds</text></g>')
+        numeros[n] = ETIQ_FIJA.get(n) or (tx - ux * 30 - uy * 26 * lado, ty - uy * 30 + ux * 26 * lado)
+    return SALTO.join(svg), numeros, banderas, lineas
 
-    # título, leyenda y escala gráfica (zona fuera de la cancha)
-    e = 50 * PX_YD
-    add(f'''<g transform="translate(905 40)">
-<text font-size="38" font-weight="900" fill="#1B4332" letter-spacing="2">PAICAZO</text>
-<rect y="10" width="190" height="4" fill="#8CC63F"/>
-<text y="38" font-size="15" font-weight="700" fill="#33413A">Paico Alto Club de Golf</text>
-<text y="58" font-size="14" fill="#5B6B5E">Hoyos 1–9, se juegan 2 veces</text>
-<text y="78" font-size="14" fill="#5B6B5E">Par 70 · 6.562 yds (azules)</text>
-<g transform="translate(0 102)" font-size="12.5" fill="#33413A">
-<circle cx="6" r="4" fill="#1F5FBF" stroke="#fff"/><text x="16" y="4">Salida azul</text>
-<circle cx="106" r="4" fill="#fff" stroke="#555"/><text x="116" y="4">Salida blanca</text>
-<ellipse cx="6" cy="22" rx="7" ry="5" fill="url(#gArena)" stroke="#CBB277"/><text x="16" y="26">Bunker</text>
-<ellipse cx="106" cy="22" rx="7" ry="5" fill="url(#gAgua)"/><text x="116" y="26">Agua</text>
-</g>
-<g transform="translate(0 150)"><rect width="{e:.0f}" height="6" fill="#1B4332"/>
-<rect x="{e:.0f}" width="{e:.0f}" height="6" fill="#fff" stroke="#1B4332"/>
-<text y="22" font-size="12" fill="#33413A">0</text>
-<text x="{e:.0f}" y="22" text-anchor="middle" font-size="12" fill="#33413A">50</text>
-<text x="{2 * e:.0f}" y="22" text-anchor="end" font-size="12" fill="#33413A">100 yds</text></g>
-</g>''')
 
-    # vistas por hoyo: mapa-9-hoyos.svg#h1 … #h9
-    for n, linea in lineas.items():
-        xs, ys = zip(*linea)
-        pad = 100
-        x0, y0 = min(xs) - pad, min(ys) - pad
-        add(f'<view id="h{n}" viewBox="{x0:.0f} {y0:.0f} {max(xs) - x0 + pad:.0f} {max(ys) - y0 + pad:.0f}"/>')
-    add("</svg>")
-    return "\n".join(svg)
+def bandera(x, y):
+    return (f'<g transform="translate({x:.1f} {y:.1f})"><ellipse cx="7" cy="1" rx="9" ry="2" fill="#000" opacity=".2"/>'
+            f'<circle r="2.2" fill="#1B4332"/><line y2="-30" stroke="#F4F4F4" stroke-width="2"/>'
+            f'<path d="M0,-30 L17,-25 L0,-19 Z" fill="#C30B26"/></g>')
 
+
+ETIQ_W, ETIQ_H = 46, 22  # píldora "1-10": hoyo de la ida y de la vuelta
+
+
+def numero(n, x, y):
+    return (f'<g filter="url(#sombra)"><rect x="{x - ETIQ_W / 2:.1f}" y="{y - ETIQ_H / 2:.1f}" width="{ETIQ_W}" height="{ETIQ_H}" '
+            f'rx="{ETIQ_H / 2}" fill="#1B4332" stroke="#fff" stroke-width="2"/>'
+            f'<text x="{x:.1f}" y="{y + 5.5:.1f}" text-anchor="middle" font-size="15" font-weight="800" fill="#fff">{n}-{n + 9}</text></g>')
+
+
+RAIZ = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="{}" font-family="Inter, Arial, sans-serif">'
+
+
+def generar():
+    """Cancha completa: public/mapa-9-hoyos.svg"""
+    cuerpo, numeros, banderas, _ = dibujo()
+    return SALTO.join([RAIZ.format("100 0 1140 1210"), cuerpo, *(bandera(*p) for p in banderas.values()),
+                       *(numero(n, *p) for n, p in numeros.items()), "</svg>"])
+
+
+def giro(pts):
+    """Ángulo (grados) y centro para dejar el tee abajo y el green arriba."""
+    (x0, y0), (x1, y1) = pts[0], pts[-1]
+    return -90 - math.degrees(math.atan2(y1 - y0, x1 - x0)), ((x0 + x1) / 2, (y0 + y1) / 2)
+
+
+def rotar(p, c, ang):
+    a = math.radians(ang)
+    dx, dy = p[0] - c[0], p[1] - c[1]
+    return c[0] + dx * math.cos(a) - dy * math.sin(a), c[1] + dx * math.sin(a) + dy * math.cos(a)
+
+
+def generar_hoyo(n, pad=70, alto_ancho=1.6):
+    """Un hoyo girado como en un GPS de golf, vertical: public/hoyo-N.svg"""
+    cuerpo, numeros, banderas, lineas = dibujo()
+    pts = next(h[-1] for h in HOYOS if h[0] == n)
+    ang, c = giro(pts)
+    xs, ys = zip(*(rotar(p, c, ang) for p in catmull(pts)))
+    x0, x1, y0, y1 = min(xs) - pad, max(xs) + pad, min(ys) - pad, max(ys) + pad
+    w, h = x1 - x0, y1 - y0
+    if h < w * alto_ancho:
+        y0, h = y0 - (w * alto_ancho - h) / 2, w * alto_ancho
+    else:
+        x0, w = x0 - (h / alto_ancho - w) / 2, h / alto_ancho
+    caja = f"{x0:.0f} {y0:.0f} {w:.0f} {h:.0f}"
+    return SALTO.join([
+        RAIZ.format(caja),
+        f'<rect x="{x0:.0f}" y="{y0:.0f}" width="{w:.0f}" height="{h:.0f}" fill="#EFE8D8"/>',
+        f'<g transform="rotate({ang:.2f} {c[0]:.1f} {c[1]:.1f})">', cuerpo,
+        # foco: el resto de la cancha queda atenuado
+        f'<mask id="foco"><rect x="-500" y="-500" width="2300" height="2300" fill="#fff"/>'
+        f'<path d="{d(lineas[n], False)}" fill="none" stroke="#000" stroke-width="150" stroke-linecap="round" stroke-linejoin="round"/></mask>'
+        '<rect x="-500" y="-500" width="2300" height="2300" fill="#F6F8F3" opacity=".42" mask="url(#foco)"/>',
+        "</g>",
+        bandera(*rotar(banderas[n], c, ang)),
+        numero(n, *rotar(numeros[n], c, ang)),
+        "</svg>",
+    ])
 
 if __name__ == "__main__":
-    salida = Path(__file__).resolve().parent.parent / "public" / "mapa-9-hoyos.svg"
-    salida.parent.mkdir(exist_ok=True)
-    salida.write_text(generar(), encoding="utf-8")
-    print(salida, round(salida.stat().st_size / 1024), "KB")
+    public = Path(__file__).resolve().parent.parent / "public"
+    (public / "mapa-9-hoyos.svg").write_text(generar(), encoding="utf-8")
+    for n, *_ in HOYOS:
+        (public / f"hoyo-{n}.svg").write_text(generar_hoyo(n), encoding="utf-8")
+    print(public, "mapa + 9 hoyos")

@@ -1,0 +1,36 @@
+import { redirect } from 'next/navigation'
+import { jugadores } from '@/lib/datos'
+import { iniciarSesion, pinValido, usuario } from '@/lib/sesion'
+
+async function entrar(form: FormData) {
+  'use server'
+  const id = String(form.get('id') ?? ''), pin = String(form.get('pin') ?? '')
+  if (!pinValido(id, pin)) {
+    await new Promise(r => setTimeout(r, 1000)) // ponytail: freno simple a fuerza bruta; rate-limit real si se abre al público
+    redirect('/login?e=1')
+  }
+  await iniciarSesion(id)
+  redirect('/')
+}
+
+export default async function Login({ searchParams }: { searchParams: Promise<{ e?: string }> }) {
+  if (await usuario()) redirect('/')
+  const { e } = await searchParams
+  const orden = [...jugadores].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'))
+  return (
+    <main className="login">
+      <img src="/logo.png" alt="PAICAZO" />
+      {e && <div className="aviso error">Nombre o PIN incorrecto.</div>}
+      <form action={entrar}>
+        <label htmlFor="id">Jugador</label>
+        <select id="id" name="id" required defaultValue="">
+          <option value="" disabled>Elige tu nombre…</option>
+          {orden.map(j => <option key={j.id} value={j.id}>{j.nombre}</option>)}
+        </select>
+        <label htmlFor="pin">PIN</label>
+        <input id="pin" name="pin" inputMode="numeric" pattern="[0-9]{4}" maxLength={4} autoComplete="off" required placeholder="••••" />
+        <button className="btn">Entrar</button>
+      </form>
+    </main>
+  )
+}

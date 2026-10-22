@@ -29,11 +29,42 @@ def test_dentro_poligono():
     assert not mapa.dentro((15, 5), cuadro)
 
 
-def test_svg_trae_vista_por_hoyo():
+def test_svg_completo_bien_formado():
     svg = mapa.generar()
-    for n in range(1, 10):
-        assert f'<view id="h{n}"' in svg
     assert svg.startswith("<svg") and svg.endswith("</svg>")
+
+
+def test_vista_de_hoyo_girada_tee_abajo_green_arriba():
+    for n, *_, pts in mapa.HOYOS:
+        ang, c = mapa.giro(pts)
+        tee, green = mapa.rotar(pts[0], c, ang), mapa.rotar(pts[-1], c, ang)
+        assert abs(tee[0] - green[0]) < 1e-6, n  # misma vertical
+        assert tee[1] > green[1], n               # tee abajo
+
+
+def test_vista_de_hoyo_es_vertical_y_trae_su_numero():
+    for n in range(1, 10):
+        svg = mapa.generar_hoyo(n)
+        w, h = map(float, svg.split('viewBox="')[1].split('"')[0].split()[2:])
+        assert h > w * 1.4, (n, w, h)
+        assert f">{n}-{n + 9}</text>" in svg
+
+
+def test_mapa_solo_muestra_numeros_de_hoyo():
+    # yardas, par y HCP van en la tabla de la app, no sobre el mapa
+    svg = mapa.generar()
+    assert "yds" not in svg and "Par " not in svg and "PAICAZO" not in svg
+    for n in range(1, 10):
+        assert f">{n}-{n + 9}</text>" in svg
+
+
+def test_numeros_no_se_tocan():
+    _, numeros, *_ = mapa.dibujo()
+    pos = list(numeros.items())
+    for i, (a, (xa, ya)) in enumerate(pos):
+        for b, (xb, yb) in pos[i + 1:]:
+            separados = abs(xa - xb) > mapa.ETIQ_W + 4 or abs(ya - yb) > mapa.ETIQ_H + 4
+            assert separados, (a, b)
 
 
 if __name__ == "__main__":

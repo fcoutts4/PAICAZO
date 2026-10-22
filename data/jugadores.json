@@ -1,0 +1,15 @@
+[
+  { "id": "pm", "nombre": "PM", "indice": 2.7, "grupo": 1, "marca": "jpo" },
+  { "id": "jpo", "nombre": "JPO", "indice": 17.8, "grupo": 1, "marca": "aochagavia" },
+  { "id": "aochagavia", "nombre": "A. Ochagavía", "indice": 18.0, "grupo": 1, "marca": "pm" },
+
+  { "id": "mcovarrubias", "nombre": "M. Covarrubias", "indice": 12.6, "grupo": 2, "marca": "jpundu" },
+  { "id": "jpundu", "nombre": "JP Undu", "indice": 16.5, "grupo": 2, "marca": "aguzman" },
+  { "id": "aguzman", "nombre": "A. Guzman", "indice": 18.1, "grupo": 2, "marca": "vc" },
+  { "id": "vc", "nombre": "VC", "indice": 22.1, "grupo": 2, "marca": "mcovarrubias" },
+
+  { "id": "fcoutts", "nombre": "F. Coutts", "indice": 13.4, "grupo": 3, "marca": "mundu", "admin": true },
+  { "id": "mundu", "nombre": "M. Undu", "indice": 15.8, "grupo": 3, "marca": "mg" },
+  { "id": "mg", "nombre": "MG", "indice": 18.8, "grupo": 3, "marca": "iu" },
+  { "id": "iu", "nombre": "IU", "indice": 22.1, "grupo": 3, "marca": "fcoutts" }
+]
