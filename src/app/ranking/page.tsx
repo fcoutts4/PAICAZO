@@ -29,15 +29,15 @@ export default async function Ranking({ searchParams }: { searchParams: Promise<
 
       {vista === 'general' && (
         <>
-          <p className="aviso">Suma de los 3 campeonatos: Stableford neto + Skins gross + Grupo neto.</p>
+          <p className="aviso"><b>Stableford</b> (lo principal) + <b>bonus</b> de Skins y Grupo.</p>
           <table className="general">
-            <thead><tr><th className="pos">#</th><th>Jugador</th><th className="num">Stb</th><th className="num">Skn</th><th className="num">Grp</th><th className="num">Total</th></tr></thead>
+            <thead><tr><th className="pos">#</th><th>Jugador</th><th className="num">Stableford</th><th className="num">Bonus</th><th className="num">Total</th></tr></thead>
             <tbody>
               {r.general.map(f => (
                 <tr key={f.id} className={f.pos === 1 && f.total ? 'lider' : ''}>
                   <td className="pos">{f.pos}</td>
                   <td>{f.nombre}{f.id === u.id && ' (tú)'}</td>
-                  <td className="num">{f.stableford}</td><td className="num">{decimal(f.skins)}</td><td className="num">{decimal(f.grupo)}</td>
+                  <td className="num"><b>{f.stableford}</b></td><td className="num bonus">+{decimal(f.skins + f.grupo)}</td>
                   <td className="num"><b>{decimal(f.total)}</b></td>
                 </tr>
               ))}
@@ -63,7 +63,7 @@ export default async function Ranking({ searchParams }: { searchParams: Promise<
 
       {vista === 'skins' && (
         <>
-          <p className="aviso"><b>Skins gross:</b> cada hoyo vale 1 punto para quien haga menos golpes (sin hándicap). Si empatan, el punto se reparte (½, ⅓…).
+          <p className="aviso"><b>Bonus · Skins gross:</b> cada hoyo vale 1 punto para quien haga menos golpes (sin hándicap). Si empatan, el punto se reparte (½, ⅓…).
             Cuentan los hoyos que ya jugaron todos: van {r.skins.jugados} de 18.</p>
           <table>
             <thead><tr><th>Jugador</th><th className="num">Skins</th><th>Hoyos</th></tr></thead>
@@ -82,7 +82,7 @@ export default async function Ranking({ searchParams }: { searchParams: Promise<
 
       {vista === 'grupo' && (
         <>
-          <p className="aviso"><b>Grupo neto:</b> juegas solo contra tu grupo. Cada hoyo vale 1 punto para el mejor neto del grupo (con tus golpes de hándicap). Si empatan, se reparte.</p>
+          <p className="aviso"><b>Bonus · Grupo neto:</b> juegas solo contra tu grupo. Cada hoyo vale 1 punto para el mejor neto del grupo (con tus golpes de hándicap). Si empatan, se reparte.</p>
           {r.grupos.map(g => (
             <section key={g.grupo} style={{ marginBottom: 12 }}>
               <h2 style={{ margin: '8px 0 6px' }}>Grupo {g.grupo} <small style={{ color: 'var(--gris)', textTransform: 'none', letterSpacing: 0 }}>· {g.hoyos.length} de 18 hoyos</small></h2>

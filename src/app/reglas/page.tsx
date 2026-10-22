@@ -12,12 +12,12 @@ export default async function Reglas() {
       <h1>Reglas</h1>
 
       <section className="gana">
-        <p>Gana el que sume más en el <b>ranking General</b>:</p>
+        <p>Lo que importa es el <b>Stableford neto</b>: es la copa.</p>
         <div className="suma">
-          <span><b>Stableford</b><small>neto · todos</small></span>+
-          <span><b>Skins</b><small>gross · todos</small></span>+
-          <span><b>Grupo</b><small>neto · tu grupo</small></span>
+          <span className="principal"><b>Stableford</b><small>la copa · neto</small></span>+
+          <span><b>Bonus</b><small>Skins + Grupo</small></span>
         </div>
+        <p className="chico">Los bonus suman unos puntos extra en el ranking General.</p>
       </section>
 
       <details open>
@@ -26,7 +26,7 @@ export default async function Reglas() {
       </details>
 
       <details>
-        <summary>1 · Stableford (la copa)</summary>
+        <summary>Stableford (la copa)</summary>
         <p>Cada hoyo da puntos según tu score <b>neto</b> (tus golpes menos los que recibes):</p>
         <table className="tabla-puntos">
           <tbody>
@@ -41,13 +41,13 @@ export default async function Reglas() {
       </details>
 
       <details>
-        <summary>2 · Skins (gross)</summary>
+        <summary>Bonus · Skins (gross)</summary>
         <p>Cada hoyo vale <b>1 punto</b> para quien haga <b>menos golpes reales</b>, sin hándicap, contra todos.</p>
         <p>Si empatan, se reparte: 2 empatados → 0,5 cada uno; 3 → 0,33.</p>
       </details>
 
       <details>
-        <summary>3 · Grupo (neto)</summary>
+        <summary>Bonus · Grupo (neto)</summary>
         <p>Juegas solo contra tu grupo{grupo.length ? <>: <b>{grupo.join(' y ')}</b></> : ''}.</p>
         <p>Cada hoyo vale <b>1 punto</b> para el mejor <b>neto</b> del grupo. Si empatan, se reparte.</p>
       </details>

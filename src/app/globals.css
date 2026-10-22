@@ -242,3 +242,10 @@ main.compacta { padding: 8px 10px; }
   background: var(--lima-suave); border: 1px solid var(--lima); color: var(--verde); text-decoration: none; font-size: 13px; min-height: 40px; align-items: center; }
 .posicion span:first-child { color: var(--gris); font-size: 12px; }
 .posicion b { font-size: 16px; }
+/* tablas dentro de una sección de Reglas: descuentan el margen lateral (si no, se salen del recuadro) */
+.reglas details > table { width: calc(100% - 28px); }
+.suma span.principal { background: var(--lima); color: var(--verde); padding: 8px 14px; }
+.suma span.principal b { font-size: 18px; }
+.suma span.principal small { color: var(--verde); }
+.gana .chico { margin: 8px 0 0; font-size: 12px; color: #CFE3C2; }
+td.bonus { color: var(--gris); }
