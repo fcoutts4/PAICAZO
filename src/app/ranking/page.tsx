@@ -7,6 +7,7 @@ import Icono from '../Icono'
 
 export const dynamic = 'force-dynamic'
 const VISTAS = { stableford: 'Stableford neto', gross: 'Gross', skins: 'Skins', grupos: 'Copa grupos' } as const
+const decimal = (n: number) => n.toLocaleString('es-CL', { maximumFractionDigits: 2 })
 const vsPar = (n: number) => (n > 0 ? `+${n}` : n === 0 ? 'E' : String(n))
 
 export default async function Ranking({ searchParams }: { searchParams: Promise<{ v?: string }> }) {
@@ -59,15 +60,15 @@ export default async function Ranking({ searchParams }: { searchParams: Promise<
 
       {vista === 'skins' && (
         <>
-          <p className="aviso">Gana el hoyo quien tenga el mejor neto <b>solo</b>. Si hay empate, el skin se acumula al siguiente.
-            Cuentan los hoyos que ya completaron todos: van {r.skins.hastaHoyo} de 18{r.skins.pozo ? `, pozo acumulado: ${r.skins.pozo}` : ''}.</p>
+          <p className="aviso">Cada hoyo vale 1 punto para el mejor neto. Si empatan, el punto se reparte (½, ⅓…).
+            Cuentan los hoyos que ya jugaron todos: van {r.skins.jugados} de 18.</p>
           <table>
             <thead><tr><th>Jugador</th><th className="num">Skins</th><th>Hoyos</th></tr></thead>
             <tbody>
               {Object.entries(r.skins.porJugador).sort((a, b) => b[1] - a[1]).map(([id, n]) => (
                 <tr key={id}>
-                  <td>{nombre(id)}</td><td className="num"><b>{n}</b></td>
-                  <td>{r.skins.ganados.filter(g => g.id === id).map(g => (g.valor > 1 ? `${g.hoyo} (×${g.valor})` : g.hoyo)).join(', ')}</td>
+                  <td>{nombre(id)}</td><td className="num"><b>{decimal(n)}</b></td>
+                  <td>{r.skins.ganados.filter(g => g.ids.includes(id)).map(g => (g.valor < 1 ? `${g.hoyo} (${decimal(g.valor)})` : g.hoyo)).join(', ')}</td>
                 </tr>
               ))}
               {!r.skins.ganados.length && <tr><td colSpan={3}>Aún no hay skins ganados.</td></tr>}

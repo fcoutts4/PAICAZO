@@ -119,20 +119,18 @@ export function ranking(jugadores: Jugador[], filas: Golpe[], c: Cancha, firmada
       .sort((a, b) => (a.jugados ? 0 : 1) - (b.jugados ? 0 : 1) || a.vsPar - b.vsPar || b.jugados - a.jugados),
     f => [f.jugados ? 0 : 1, f.vsPar, f.jugados])
 
-  // skins netos con arrastre; solo hoyos que todos completaron, en orden
-  const ganados: { hoyo: number; id: string; valor: number }[] = []
-  let pozo = 0, hastaHoyo = 0
+  // skins netos: 1 punto por hoyo al mejor neto; si empatan, se reparte en partes iguales.
+  // Solo cuentan los hoyos que ya jugaron todos.
+  const ganados: { hoyo: number; ids: string[]; valor: number }[] = []
   for (let i = 0; i < HOYOS && ts.length; i++) {
     const netos = ts.map(({ j, t }) => ({ id: j.id, neto: t.hoyos[i].golpes == null ? null : t.hoyos[i].golpes! - t.hoyos[i].recibidos }))
-    if (netos.some(n => n.neto == null)) break
-    hastaHoyo = i + 1
-    pozo++
+    if (netos.some(n => n.neto == null)) continue
     const mejor = Math.min(...netos.map(n => n.neto!))
-    const con = netos.filter(n => n.neto === mejor)
-    if (con.length === 1) { ganados.push({ hoyo: i + 1, id: con[0].id, valor: pozo }); pozo = 0 }
+    const ids = netos.filter(n => n.neto === mejor).map(n => n.id)
+    ganados.push({ hoyo: i + 1, ids, valor: 1 / ids.length })
   }
-  const porJugador = new Map<string, number>()
-  for (const g of ganados) porJugador.set(g.id, (porJugador.get(g.id) ?? 0) + g.valor)
+  const porJugador: Record<string, number> = {}
+  for (const g of ganados) for (const id of g.ids) porJugador[id] = (porJugador[id] ?? 0) + g.valor
 
   // copa por grupos: por hoyo suman los 2 mejores Stableford del grupo
   const grupos = [...new Set(jugadores.map(j => j.grupo))].map(grupo => {
@@ -145,5 +143,5 @@ export function ranking(jugadores: Jugador[], filas: Golpe[], c: Cancha, firmada
     return { grupo, puntos, jugadores: del.map(x => x.j.nombre) }
   }).sort((a, b) => b.puntos - a.puntos)
 
-  return { stableford, gross, skins: { ganados, pozo, hastaHoyo, porJugador: Object.fromEntries(porJugador) }, grupos }
+  return { stableford, gross, skins: { ganados, jugados: ganados.length, porJugador }, grupos }
 }

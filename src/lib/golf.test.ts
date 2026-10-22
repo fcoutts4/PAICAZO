@@ -178,26 +178,47 @@ test('ranking gross: menor sobre el par primero, sin hoyos al final', () => {
   const r = ranking([J('a', 0), J('b', 0), J('c', 0)], [...filas('b', gb), ...filas('a', pares())], cancha)
   assert.deepEqual(r.gross.map(x => x.id), ['a', 'b', 'c'])
 })
-test('skins: gana el mejor neto único; empate acumula', () => {
-  const ga = pares(); ga[1] = 3           // hoyo 1 empate, hoyo 2 gana "a" (vale 2)
-  const gb = pares(); gb[2] = 2           // hoyo 3 gana "b"
-  const r = ranking([J('a', 0), J('b', 0)], [...filas('a', ga), ...filas('b', gb)], cancha)
-  assert.deepEqual(r.skins.ganados.find(s => s.hoyo === 2), { hoyo: 2, id: 'a', valor: 2 })
-  assert.deepEqual(r.skins.ganados.find(s => s.hoyo === 3), { hoyo: 3, id: 'b', valor: 1 })
+test('skins: 1 punto al mejor neto del hoyo', () => {
+  const ga = pares(); ga[1] = 3
+  const r = ranking([J('a', 0), J('b', 0)], [...filas('a', ga), ...filas('b', pares())], cancha)
+  assert.deepEqual(r.skins.ganados.find(s => s.hoyo === 2), { hoyo: 2, ids: ['a'], valor: 1 })
+})
+test('skins: empate de 2 reparte 0,5 a cada uno', () => {
+  const r = ranking([J('a', 0), J('b', 0)], [...filas('a', pares()), ...filas('b', pares())], cancha)
+  assert.deepEqual(r.skins.ganados[0], { hoyo: 1, ids: ['a', 'b'], valor: 0.5 })
+  assert.equal(r.skins.porJugador.a, 9)
+  assert.equal(r.skins.porJugador.b, 9)
+})
+test('skins: empate de 3 reparte un tercio', () => {
+  const r = ranking([J('a', 0), J('b', 0), J('c', 0)], ['a', 'b', 'c'].flatMap(id => filas(id, pares())), cancha)
+  assert.equal(r.skins.ganados[0].valor, 1 / 3)
+  assert.ok(Math.abs(r.skins.porJugador.a - 6) < 1e-9)
+})
+test('skins: el empate no se acumula al hoyo siguiente', () => {
+  const ga = pares(); ga[1] = 3 // hoyo 1 empatan, hoyo 2 gana "a" y vale solo 1
+  const r = ranking([J('a', 0), J('b', 0)], [...filas('a', ga), ...filas('b', pares())], cancha)
+  assert.equal(r.skins.ganados.find(s => s.hoyo === 2)?.valor, 1)
+  assert.equal(r.skins.porJugador.a, 0.5 + 1 + 16 * 0.5)
+})
+test('skins: los puntos repartidos suman 1 por hoyo completo', () => {
+  const ga = pares(); ga[0] = 3; ga[5] = 6
+  const gb = pares(); gb[5] = 3
+  const r = ranking([J('a', 0), J('b', 0), J('c', 0)], [...filas('a', ga), ...filas('b', gb), ...filas('c', pares())], cancha)
+  const total = Object.values(r.skins.porJugador).reduce((x, y) => x + y, 0)
+  assert.ok(Math.abs(total - 18) < 1e-9)
 })
 test('skins: usa neto, no gross', () => {
   // ambos hacen par en el hoyo 9 (HCP 1); "b" recibe golpe ahí → neto 3 contra 4, gana "b"
-  const ga = pares(); ga[8] = 4
-  const gb = pares(); gb[8] = 4
-  const r = ranking([J('a', 0), J('b', 1)], [...filas('a', ga), ...filas('b', gb)], cancha)
-  assert.equal(r.skins.ganados.find(s => s.hoyo === 9)?.id, 'b')
+  const r = ranking([J('a', 0), J('b', 1)], [...filas('a', pares()), ...filas('b', pares())], cancha)
+  assert.deepEqual(r.skins.ganados.find(s => s.hoyo === 9)?.ids, ['b'])
 })
-test('skins: se detiene en el primer hoyo que no completaron todos', () => {
+test('skins: hoyo que alguien no ha jugado no cuenta, los demás sí', () => {
   const gb: (number | null)[] = pares(); gb[1] = null
   const ga = pares(); ga[2] = 2
   const r = ranking([J('a', 0), J('b', 0)], [...filas('a', ga), ...filas('b', gb)], cancha)
-  assert.ok(r.skins.ganados.every(s => s.hoyo < 2))
-  assert.equal(r.skins.hastaHoyo, 1)
+  assert.equal(r.skins.ganados.find(s => s.hoyo === 2), undefined)
+  assert.deepEqual(r.skins.ganados.find(s => s.hoyo === 3)?.ids, ['a'])
+  assert.equal(r.skins.jugados, 17)
 })
 test('copa por grupos: suma los 2 mejores Stableford de cada hoyo', () => {
   const js = [J('a', 0, 1), J('b', 0, 1), J('c', 0, 1), J('d', 0, 2)]
