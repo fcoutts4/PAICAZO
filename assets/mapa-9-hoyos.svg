@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="120 0 1120 1210" font-family="Inter, Arial, sans-serif">
+  <!-- Versión propia de los hoyos 1-9 de Paico Alto (salida azul). Se juegan 2 veces = 18.
+       Coordenadas trazadas sobre assets/plano-paico-alto.jpg (recorte x680 y280, escala 2). -->
+  <style>.t{paint-order:stroke;stroke:#fff;stroke-width:6px;stroke-linejoin:round;font-weight:600}</style>
+  <defs>
+    <g id="tee"><rect x="-11" y="-7" width="22" height="14" rx="3" fill="#fff" stroke="#1B4332" stroke-width="3"/></g>
+    <g id="green">
+      <circle r="30" fill="#8CC63F" stroke="#1B4332" stroke-width="3"/>
+      <line x1="0" y1="0" x2="0" y2="-34" stroke="#1B4332" stroke-width="3"/>
+      <path d="M0 -34 L18 -28 L0 -22 Z" fill="#C30B26"/>
+    </g>
+  </defs>
+
+  <rect x="120" y="0" width="1120" height="1210" fill="#EEF5E4"/>
+
+  <!-- lagunas -->
+  <g fill="#9FC3D9">
+    <ellipse cx="225" cy="45" rx="80" ry="55"/>
+    <ellipse cx="585" cy="65" rx="75" ry="60"/>
+    <ellipse cx="985" cy="470" rx="28" ry="80"/>
+    <ellipse cx="465" cy="1065" rx="70" ry="35"/>
+    <ellipse cx="760" cy="1120" rx="80" ry="22"/>
+  </g>
+
+  <!-- casa club -->
+  <g transform="translate(190 1050)">
+    <rect x="-55" y="-30" width="110" height="60" rx="8" fill="#6B6B6B"/>
+    <text y="7" text-anchor="middle" font-size="22" font-weight="700" fill="#fff">Club</text>
+  </g>
+
+  <!-- calles (tee → quiebre → green) -->
+  <g fill="none" stroke="#3E8E41" stroke-width="64" stroke-linecap="round" stroke-linejoin="round" opacity=".9">
+    <polyline points="385,1000 748,395"/>                 <!-- 1 -->
+    <polyline points="835,405 615,848 445,1025"/>         <!-- 2 -->
+    <polyline points="515,1125 835,1060"/>                <!-- 3 -->
+    <polyline points="885,1110 1050,645 1150,455"/>       <!-- 4 -->
+    <polyline points="1080,430 850,870 565,1050"/>        <!-- 5 -->
+    <polyline points="630,945 920,550 900,430"/>          <!-- 6 -->
+    <polyline points="1095,378 790,300 535,225"/>         <!-- 7 -->
+    <polyline points="655,105 310,90"/>                   <!-- 8 -->
+    <polyline points="215,95 155,580 270,860"/>           <!-- 9 -->
+  </g>
+  <!-- línea de juego -->
+  <g fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="6 8" opacity=".8">
+    <polyline points="385,1000 748,395"/>
+    <polyline points="835,405 615,848 445,1025"/>
+    <polyline points="515,1125 835,1060"/>
+    <polyline points="885,1110 1050,645 1150,455"/>
+    <polyline points="1080,430 850,870 565,1050"/>
+    <polyline points="630,945 920,550 900,430"/>
+    <polyline points="1095,378 790,300 535,225"/>
+    <polyline points="655,105 310,90"/>
+    <polyline points="215,95 155,580 270,860"/>
+  </g>
+
+  <!-- tees -->
+  <use href="#tee" x="385" y="1000"/><use href="#tee" x="835" y="405"/><use href="#tee" x="515" y="1125"/>
+  <use href="#tee" x="885" y="1110"/><use href="#tee" x="1080" y="430"/><use href="#tee" x="630" y="945"/>
+  <use href="#tee" x="1095" y="378"/><use href="#tee" x="655" y="105"/><use href="#tee" x="215" y="95"/>
+
+  <!-- greens -->
+  <use href="#green" x="748" y="395"/><use href="#green" x="445" y="1025"/><use href="#green" x="835" y="1060"/>
+  <use href="#green" x="1150" y="455"/><use href="#green" x="565" y="1050"/><use href="#green" x="900" y="430"/>
+  <use href="#green" x="535" y="225"/><use href="#green" x="310" y="90"/><use href="#green" x="270" y="860"/>
+
+  <!-- etiquetas: número (ida / vuelta), par y yardas azules -->
+  <g font-size="20" fill="#1B4332">
+    <g transform="translate(488 700)"><circle r="30" fill="#1B4332"/><text y="9" text-anchor="middle" font-size="26" font-weight="800" fill="#fff">1</text><text class="t" x="-38" y="-4" text-anchor="end">Par 4 · 401 y</text><text class="t" x="-38" y="20" text-anchor="end" fill="#6B6B6B">Hoyo 10</text></g>
+    <g transform="translate(700 690)"><circle r="30" fill="#1B4332"/><text y="9" text-anchor="middle" font-size="26" font-weight="800" fill="#fff">2</text><text class="t" x="38" y="-4">Par 4 · 397 y</text><text class="t" x="38" y="20" fill="#6B6B6B">Hoyo 11</text></g>
+    <g transform="translate(680 1160)"><circle r="30" fill="#1B4332"/><text y="9" text-anchor="middle" font-size="26" font-weight="800" fill="#fff">3</text><text class="t" x="38" y="-4">Par 3 · 185 y</text><text class="t" x="38" y="20" fill="#6B6B6B">Hoyo 12</text></g>
+    <g transform="translate(1110 820)"><circle r="30" fill="#1B4332"/><text y="9" text-anchor="middle" font-size="26" font-weight="800" fill="#fff">4</text><text class="t" x="-38" y="-4" text-anchor="end">Par 4 · 407 y</text><text class="t" x="-38" y="20" text-anchor="end" fill="#6B6B6B">Hoyo 13</text></g>
+    <g transform="translate(905 900)"><circle r="30" fill="#1B4332"/><text y="9" text-anchor="middle" font-size="26" font-weight="800" fill="#fff">5</text><text class="t" x="38" y="-4">Par 5 · 506 y</text><text class="t" x="38" y="20" fill="#6B6B6B">Hoyo 14</text></g>
+    <g transform="translate(820 600)"><circle r="30" fill="#1B4332"/><text y="9" text-anchor="middle" font-size="26" font-weight="800" fill="#fff">6</text><text class="t" x="38" y="-4">Par 4 · 381 y</text><text class="t" x="38" y="20" fill="#6B6B6B">Hoyo 15</text></g>
+    <g transform="translate(820 250)"><circle r="30" fill="#1B4332"/><text y="9" text-anchor="middle" font-size="26" font-weight="800" fill="#fff">7</text><text class="t" x="38" y="-4">Par 4 · 327 y</text><text class="t" x="38" y="20" fill="#6B6B6B">Hoyo 16</text></g>
+    <g transform="translate(480 155)"><circle r="30" fill="#1B4332"/><text y="9" text-anchor="middle" font-size="26" font-weight="800" fill="#fff">8</text><text class="t" x="38" y="-4">Par 3 · 211 y</text><text class="t" x="38" y="20" fill="#6B6B6B">Hoyo 17</text></g>
+    <g transform="translate(260 450)"><circle r="30" fill="#1B4332"/><text y="9" text-anchor="middle" font-size="26" font-weight="800" fill="#fff">9</text><text class="t" x="38" y="-4">Par 4 · 466 y</text><text class="t" x="38" y="20" fill="#6B6B6B">Hoyo 18</text></g>
+  </g>
+
+  <!-- título y leyenda -->
+  <g transform="translate(940 60)">
+    <text font-size="40" font-weight="800" fill="#1B4332">PAICAZO</text>
+    <text y="34" font-size="20" fill="#6B6B6B">Paico Alto · 9 hoyos × 2 = 18</text>
+    <text y="62" font-size="20" fill="#6B6B6B">Par 70 · 6.562 y (azules)</text>
+  </g>
+
+</svg>
