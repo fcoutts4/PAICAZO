@@ -70,7 +70,7 @@ export default function Tarjeta({ cancha, yo, marcado }: Props) {
     <>
       <div className="resumen">
         <div><b>{total}</b><small>Puntos</small></div>
-        <div><b>{vsPar > 0 ? `+${vsPar}` : vsPar || 'E'}</b><small>vs par</small></div>
+        <div><b>{vsPar > 0 ? `+${vsPar}` : vsPar || 'E'}</b><small>Gross</small></div>
         <div><b>{jugados}</b><small>Hoyos</small></div>
         <div><b>{yo.t.hj}</b><small>HCP</small></div>
       </div>
