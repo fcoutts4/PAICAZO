@@ -7,10 +7,18 @@ import mapa  # noqa: E402
 
 
 def test_largo_de_cada_hoyo_calza_con_sus_yardas():
-    # el dibujo es fiel al plano: largo trazado ≈ yardas azules × 1,7 px (±15%)
+    # el mapa de la tarjeta es esquemático: largo trazado ≈ yardas azules × 1,7 px (±15%)
     for n, par, yaz, *_, pts in mapa.HOYOS:
         largo = mapa.acumulado(mapa.catmull(pts))[-1]
         assert abs(largo / (yaz * mapa.PX_YD) - 1) < 0.15, (n, largo, yaz)
+
+
+def test_par_y_yardas_calzan_con_la_tarjeta():
+    # el mapa y data/cancha.json salen de la misma tarjeta oficial: no pueden separarse
+    import json
+    cancha = json.loads((Path(__file__).resolve().parent.parent / "data" / "cancha.json").read_text(encoding="utf-8"))
+    assert [h[1] for h in mapa.HOYOS] == cancha["par"][:9]
+    assert [h[2] for h in mapa.HOYOS] == cancha["yardas"][:9]
 
 
 def test_pares_suman_35():

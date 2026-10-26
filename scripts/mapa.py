@@ -1,7 +1,8 @@
 """Genera public/mapa-9-hoyos.svg: mapa propio de los hoyos 1-9 de Paico Alto.
 
-Geometría trazada sobre assets/plano-paico-alto.jpg (recorte x680 y280, escala 2;
-~1,7 px por yarda, verificado contra las yardas azules en tests/test_mapa.py).
+Geometría trazada sobre el mapa de la tarjeta oficial 2025 (assets/tarjeta-paico-alto-2025.pdf,
+pág. 1 a 400 dpi, puntos tee → green de cada hoyo) y llevada a ~1,7 px por yarda con _t().
+El mapa del club es esquemático: el largo de cada hoyo calza ±15% con sus yardas (tests/test_mapa.py).
 Además genera public/hoyo-1..9.svg: cada hoyo girado (tee abajo, green arriba), vertical para el teléfono.
 Uso: python scripts/mapa.py
 """
@@ -12,30 +13,43 @@ from pathlib import Path
 
 PX_YD = 1.7
 SALTO = chr(10)
+X0, Y0, ANCHO, ALTO = 80, -20, 1200, 1180  # viewBox del mapa completo
+
+
+def _t(*pts):
+    """Píxeles del mapa de la tarjeta (400 dpi) → coordenadas del SVG."""
+    return [(round((x - 280) * 1.2), round((y - 1050) * 1.2)) for x, y in pts]
+
+
+def _e(cx, cy, rx, ry):
+    (x, y), = _t((cx, cy))
+    return (x, y, round(rx * 1.2), round(ry * 1.2))
+
 
 # n, par, yardas azules, yardas blancas, lado del número (+1/-1), línea de juego tee → green
 HOYOS = [
-    (1, 4, 401, 371, -1, [(382, 1000), (560, 760), (664, 590), (750, 398)]),
-    (2, 4, 397, 375, +1, [(838, 408), (720, 640), (612, 848), (448, 1024)]),
-    (3, 3, 185, 162, -1, [(510, 1124), (834, 1068)]),
-    (4, 4, 407, 383, -1, [(884, 1112), (1052, 644), (1144, 454)]),
-    (5, 5, 506, 479, +1, [(1078, 430), (848, 870), (560, 1055)]),
-    (6, 4, 381, 353, -1, [(628, 948), (920, 560), (900, 442)]),
-    (7, 4, 327, 301, -1, [(1094, 380), (790, 300), (532, 222)]),
-    (8, 3, 211, 185, -1, [(652, 108), (310, 92)]),
-    (9, 4, 466, 436, +1, [(220, 98), (155, 580), (272, 862)]),
+    (1, 4, 410, 375, +1, _t((500, 1298), (805, 1540), (955, 1615))),
+    (2, 4, 392, 351, -1, _t((943, 1685), (614, 1495), (483, 1355))),
+    (3, 4, 389, 354, -1, _t((540, 1512), (835, 1760), (922, 1742))),
+    (4, 5, 485, 462, +1, _t((930, 1898), (598, 1700), (466, 1484), (456, 1450))),
+    (5, 3, 210, 182, -1, _t((406, 1407), (450, 1688))),
+    (6, 4, 407, 383, +1, _t((415, 1730), (770, 1875), (905, 1948))),
+    (7, 4, 312, 297, +1, _t((968, 1910), (1062, 1500), (1088, 1428))),
+    (8, 3, 187, 173, +1, _t((1175, 1533), (1185, 1236))),
+    (9, 4, 450, 432, -1, _t((1182, 1158), (814, 1102), (604, 1205))),
 ]
-LAGOS = [  # cx, cy, rx, ry
-    (205, 58, 62, 66), (565, 62, 58, 64), (540, 272, 34, 18),
-    (985, 476, 28, 84), (425, 1092, 50, 26), (700, 1130, 100, 14),
-]
-LIMITE = [(100, 0), (690, 0), (705, 175), (1232, 382), (1000, 1210), (100, 1210)]
-CAMINO = [(360, 300), (352, 560), (398, 622), (332, 900), (308, 1210)]
-RANGE = [(505, 325), (640, 330), (652, 600), (565, 780), (452, 780), (448, 560)]
-ETIQ_FIJA = {5: (1028, 428)}  # los tees del 5 y el 7 están pegados
-CLUB = (95, 1010, 175, 85)  # x, y, w, h
-TENIS = (226, 596, 166, 142)
 
+LAGOS = [_e(*l) for l in (  # cx, cy, rx, ry en píxeles de la tarjeta
+    (520, 1495, 35, 28), (600, 1560, 45, 32), (430, 1350, 32, 28), (412, 1530, 16, 100),
+    (885, 1810, 60, 22), (1045, 1440, 14, 42), (1235, 1465, 65, 40), (1235, 1150, 48, 42),
+)]
+LIMITE = _t((370, 1300), (470, 1215), (560, 1120), (780, 1050), (1300, 1060), (1320, 1560),
+            (1180, 1600), (1020, 1990), (900, 2000), (420, 1800), (360, 1700))
+CAMINO = _t((620, 1235), (470, 1260), (395, 1330), (385, 1600), (340, 1900))
+RANGE = _t((835, 1130), (1150, 1125), (1160, 1300), (1060, 1330), (845, 1310))
+ETIQ_FIJA = {}
+CLUB = (*_t((640, 1170))[0], 72, 54)  # x, y, w, h
+TENIS = (*_t((715, 1140))[0], 102, 90)
 
 def catmull(pts, paso=4.0, cerrada=False):
     """Curva suave (Catmull-Rom) que pasa por los puntos, muestreada cada ~paso px."""
@@ -129,7 +143,7 @@ def dibujo():
 </defs>""")
 
     # terreno
-    add('<rect x="100" y="0" width="1140" height="1210" fill="#EFE8D8"/>')
+    add(f'<rect x="{X0}" y="{Y0}" width="{ANCHO}" height="{ALTO}" fill="#EFE8D8"/>')
     add(f'<path d="{d(LIMITE)}" fill="#86B45A"/>')
     add(f'<path d="{d(LIMITE)}" fill="#86B45A" filter="url(#textura)"/>')
     add('<g clip-path="url(#cancha)">')
@@ -167,7 +181,7 @@ def dibujo():
     # árboles: grupos al azar fuera de pasillos, lagunas, camino e instalaciones
     arboles = []
     for _ in range(650):
-        cx, cy = random.uniform(100, 1232), random.uniform(0, 1210)
+        cx, cy = random.uniform(X0, X0 + ANCHO), random.uniform(Y0, Y0 + ALTO)
         for _ in range(random.randint(3, 9)):
             p = (cx + random.gauss(0, 16), cy + random.gauss(0, 16))
             if not dentro(p, LIMITE) or dentro(p, RANGE):
@@ -269,7 +283,7 @@ RAIZ = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="{}" font-family="Inter,
 def generar():
     """Cancha completa: public/mapa-9-hoyos.svg"""
     cuerpo, numeros, banderas, _ = dibujo()
-    return SALTO.join([RAIZ.format("100 0 1140 1210"), cuerpo, *(bandera(*p) for p in banderas.values()),
+    return SALTO.join([RAIZ.format(f"{X0} {Y0} {ANCHO} {ALTO}"), cuerpo, *(bandera(*p) for p in banderas.values()),
                        *(numero(n, *p) for n, p in numeros.items()), "</svg>"])
 
 
