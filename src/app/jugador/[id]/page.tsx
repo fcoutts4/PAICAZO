@@ -25,7 +25,7 @@ export default async function TarjetaDeOtro({ params }: { params: Promise<{ id: 
         <div><b>{j.nombre}{j.id === u.id && ' (tú)'}</b><small>Grupo {j.grupo} · HCP {t.hj}</small></div>
       </div>
       <div className="resumen">
-        <div><b>{t.jugados ? vsPar : '–'}</b><small>Gross</small></div>
+        <div><b>{t.jugados ? vsPar : '–'}</b><small>±Par</small></div>
         <div><b>{t.gross || '–'}</b><small>Golpes</small></div>
         <div><b>{t.jugados}</b><small>Hoyos</small></div>
         <div><b>{t.puntos}</b><small>Puntos</small></div>

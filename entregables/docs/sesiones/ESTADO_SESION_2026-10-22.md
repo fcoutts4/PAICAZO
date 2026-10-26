@@ -33,3 +33,15 @@ Verificado en navegador local (375 px): login, anotar, conflicto marcador ≠ ju
 
 ## Siguiente paso
 Entrar como F. Coutts en producción y repartir los PIN desde Admin.
+
+## Actualización 2026-10-26 (revisión + mejoras)
+- Puto escalado por tamaño de grupo / 3 (en grupos de 2 valía 9 de promedio contra 6). En la demo el bonus le daba vuelta el General a quien tenía la mejor Copa.
+- Marca "no juega" en Admin (tabla `no_juega`): el jugador sigue en la Copa y sale de Rey del Hoyo y Puto, así no bloquea hoyos. Si en un grupo queda uno solo, recibe 18 × ⅓ = 6 (el promedio).
+- La tarjeta reintenta los golpes con 401/408/429/5xx (`src/lib/envio.ts`); solo descarta con 400/403/415.
+- Login: 5 intentos por jugador cada 15 min (tabla `intentos`, un solo UPSERT atómico). El admin también puede quedar bloqueado 15 min.
+- Firmar pide confirmación. KPI de la tarjeta: Neto (puntos − 2 × hoyos) y "±Par" en vez de "Gross". El General muestra los hoyos jugados.
+- Pruebas: 122 en verde (node --test + PGlite en memoria para `intentos`), tsc limpio. En el navegador se verificaron el General, el Puto, la marca no juega y el bloqueo al 6º intento. No se probaron en vivo el reintento ante 5xx ni el confirm de la firma.
+- Las tablas nuevas se crean solas al partir el proceso. En `next dev` hay que reiniciar el servidor, porque la conexión queda en caché.
+
+### Siguiente paso
+Revisar en el preview de Vercel de esta rama y mergear a `main` para publicar.

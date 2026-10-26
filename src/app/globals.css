@@ -131,7 +131,7 @@ h2 { font-size: 16px; margin: 20px 0 8px; color: var(--verde); text-transform: u
 .leyenda { margin-bottom: 8px !important; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 11px; color: var(--gris); margin: 4px 0 0; }
 .leyenda .m { width: 14px; height: 14px; }
 
-.resumen { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+.resumen { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px; margin-bottom: 12px; }
 .resumen div { background: #fff; border: 1px solid var(--linea); border-radius: 12px; padding: 8px; text-align: center; }
 .resumen b { display: block; font-size: 22px; color: var(--verde); }
 .resumen small { color: var(--gris); font-size: 11px; font-weight: 600; text-transform: uppercase; }
@@ -170,9 +170,9 @@ tr.lider td { background: var(--lima-suave); font-weight: 700; }
 /* tarjeta compacta: todo cabe en la pantalla del teléfono sin scroll */
 main.compacta { padding: 8px 10px; }
 .compacta .resumen { gap: 6px; margin-bottom: 8px; }
-.compacta .resumen div { padding: 4px; display: flex; align-items: baseline; justify-content: center; gap: 4px; }
-.compacta .resumen b { display: inline; font-size: 18px; }
-.compacta .resumen small { font-size: 11px; }
+.compacta .resumen div { padding: 4px 2px; min-width: 0; line-height: 1.15; }
+.compacta .resumen b { font-size: 18px; }
+.compacta .resumen small { font-size: 10px; letter-spacing: 0; }
 .compacta .anotar { margin-bottom: 8px; }
 .compacta .nav-hoyo b { font-size: 18px; }
 .compacta .nav-hoyo small { font-size: 11px; padding-bottom: 4px; }

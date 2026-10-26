@@ -2,7 +2,8 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { estadoHoyo, puntosStableford, type Estado, type Tarjeta as T } from '@/lib/golf'
+import { estadoHoyo, puntosStableford, vsNeto, type Estado, type Tarjeta as T } from '@/lib/golf'
+import { reintentar } from '@/lib/envio'
 import Icono from './Icono'
 import TarjetaPGA from './TarjetaPGA'
 
@@ -13,6 +14,7 @@ type Props = {
   posicion: { hoyo: number; general: Puesto; grupo: Puesto } | null
 }
 type Puesto = { pos: number; de: number; empatado: boolean }
+const signo = (n: number) => (n > 0 ? `+${n}` : n || 'E')
 const puesto = (p: Puesto) => `${p.empatado ? 'T' : ''}${p.pos}º`
 type Envio = { jugador: string; hoyo: number; por_marcador: boolean; golpes: number | null }
 const CLAVE = 'paicazo-pendientes' // golpes anotados que aún no llegan al servidor (sin señal)
@@ -38,7 +40,7 @@ export default function Tarjeta({ cancha, yo, marcado, posicion }: Props) {
 
   async function enviar(e: Envio) {
     const r = await fetch('/api/golpes', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(e) }).catch(() => null)
-    if (!r) { setSinSenal(true); return } // sin señal: queda pendiente y se reintenta
+    if (!r || (!r.ok && reintentar(r.status))) { setSinSenal(true); return } // queda pendiente y se reintenta
     setSinSenal(false)
     if (!r.ok) setError('No se pudo guardar ese golpe (tarjeta firmada o sin permiso).')
     setPend(p => { const k = clave(e); if (!(k in p) || p[k].golpes !== e.golpes) return p; const { [k]: _, ...resto } = p; return enTelefono(resto) })
@@ -96,6 +98,7 @@ export default function Tarjeta({ cancha, yo, marcado, posicion }: Props) {
   const nPend = Object.keys(pend).length
 
   async function firmar() {
+    if (!confirm('¿Firmar tu tarjeta? Después no puedes cambiar golpes; solo el admin puede destrabarla.')) return
     const r = await fetch('/api/firmar', { method: 'POST', headers: { 'content-type': 'application/json' }, body: '{}' })
     setError(r.ok ? '' : (await r.json()).error)
     router.refresh()
@@ -116,7 +119,8 @@ export default function Tarjeta({ cancha, yo, marcado, posicion }: Props) {
     <>
       <div className="resumen">
         <div><b>{total}</b><small>Puntos</small></div>
-        <div><b>{vsPar > 0 ? `+${vsPar}` : vsPar || 'E'}</b><small>Gross</small></div>
+        <div><b>{signo(vsNeto(total, jugados))}</b><small>Neto</small></div>
+        <div><b>{signo(vsPar)}</b><small>±Par</small></div>
         <div><b>{jugados}</b><small>Hoyos</small></div>
         <div><b>{yo.t.hj}</b><small>HCP</small></div>
       </div>
@@ -146,7 +150,7 @@ export default function Tarjeta({ cancha, yo, marcado, posicion }: Props) {
         )}
       </section>
 
-      {sinSenal && nPend > 0 && <div className="aviso">Sin señal: {nPend} {nPend === 1 ? 'golpe guardado' : 'golpes guardados'} en tu teléfono. Se envían solos cuando vuelva.</div>}
+      {sinSenal && nPend > 0 && <div className="aviso">Sin conexión: {nPend} {nPend === 1 ? 'golpe guardado' : 'golpes guardados'} en tu teléfono. Se envían solos cuando vuelva.</div>}
       {error && <div className="aviso error">{error}</div>}
 
       {marcado && (
