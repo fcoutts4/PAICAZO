@@ -9,3 +9,6 @@
 
 ## Siguiente paso
 Mergear `sesion/2026-10-22-app` a `main` para publicar.
+
+## Deploy
+- Si `main` avanza por fast-forward a un commit que ya se desplegó como preview (porque antes se subió la rama), Vercel no crea el deploy de producción. Pasó con `54ec65a`, que tuvo un solo deploy (el preview). Para publicar: subir `main` antes que la rama, o hacer un commit nuevo en `main`.
