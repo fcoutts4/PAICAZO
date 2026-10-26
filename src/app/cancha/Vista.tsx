@@ -16,12 +16,12 @@ export default function Vista({ par, yardas, hcp }: Props) {
             <tr key={i} aria-selected={sel === i} onClick={() => setSel(sel === i ? null : i)}>
               <td><b>{i + 1}</b><small>{i + 10}</small></td>
               <td className="num">{p}</td>
-              <td className="num">{yardas[i]}</td>
+              <td className="num">{yardas[i]}<small>{yardas[i + 9]}</small></td>
               <td className="num">{hcp[i]}<small>{hcp[i + 9]}</small></td>
             </tr>
           ))}
           <tr className="total" onClick={() => setSel(null)}>
-            <td>Tot</td><td className="num">{suma(ida)}</td><td className="num">{suma(yardas.slice(0, 9))}</td><td />
+            <td>Tot</td><td className="num">{suma(ida)}</td><td className="num">{suma(yardas.slice(0, 9))}<small>{suma(yardas.slice(9))}</small></td><td />
           </tr>
         </tbody>
       </table>

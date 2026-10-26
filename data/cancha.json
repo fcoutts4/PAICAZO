@@ -1,11 +1,12 @@
 {
   "club": "Paico Alto Club de Golf",
   "salida": "azul",
-  "nota": "Cancha de 9 hoyos; los 18 se juegan repitiendo la ida",
-  "provisorio": "slope y rating son PROVISORIOS hasta tener la tarjeta oficial",
-  "par": [4, 4, 3, 4, 5, 4, 4, 3, 4, 4, 4, 3, 4, 5, 4, 4, 3, 4],
-  "yardas": [401, 397, 185, 407, 506, 381, 327, 211, 466, 401, 397, 185, 407, 506, 381, 327, 211, 466],
-  "hcp": [7, 9, 15, 5, 1, 11, 13, 17, 3, 8, 10, 16, 6, 2, 12, 14, 18, 4],
+  "fuente": "tarjeta oficial 'tarj. paico alto 2025' (Ventaja Var)",
+  "nota": "Cancha de 9 hoyos; la vuelta (10-18) repite los hoyos desde otras marcas",
+  "provisorio": "slope y rating son PROVISORIOS: la tarjeta 2025 no los trae",
+  "par": [4, 4, 4, 5, 3, 4, 4, 3, 4, 4, 4, 4, 5, 3, 4, 4, 3, 4],
+  "yardas": [410, 392, 389, 485, 210, 407, 312, 187, 450, 393, 416, 379, 492, 191, 382, 321, 178, 460],
+  "hcp": [6, 8, 16, 18, 4, 14, 10, 12, 2, 5, 7, 15, 17, 3, 13, 9, 11, 1],
   "slope": 113,
   "rating": 70
 }
