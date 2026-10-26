@@ -2,7 +2,7 @@
 // Sin dependencias: lo usan las páginas y las pruebas (node --test).
 
 export type Cancha = { par: number[]; hcp: number[]; slope: number; rating: number }
-export type Jugador = { id: string; nombre: string; indice: number; grupo: number; marca: string; admin?: boolean }
+export type Jugador = { id: string; nombre: string; indice: number; grupo: number; marca: string; admin?: boolean; noJuega?: boolean }
 export type Golpe = { jugador: string; hoyo: number; por_marcador: boolean; golpes: number }
 export type Estado = 'ok' | 'conflicto' | 'pendiente' | 'vacio'
 export type Hoyo = {
@@ -59,6 +59,9 @@ export function tarjeta(j: Jugador, filas: Golpe[], c: Cancha): Tarjeta {
     vsPar: suma(jugados.map(h => h.golpes! - h.par)),
   }
 }
+
+/** Puntos contra jugar a tu hándicap: el par neto da 2 por hoyo. */
+export const vsNeto = (puntos: number, jugados: number) => puntos - 2 * jugados
 
 export const puedeFirmar = (t: Tarjeta) => t.hoyos.every(h => h.estado === 'ok')
 
@@ -128,14 +131,19 @@ export function ranking(jugadores: Jugador[], filas: Golpe[], c: Cancha, firmada
   const claves = new Map(stbConClave.map(x => [x.f, x.k]))
   const stableford: FilaStableford[] = posiciones(stbConClave.map(x => x.f), f => claves.get(f)!)
 
-  // skins: todos contra todos, en gross (golpes brutos)
-  const skins = repartir(ts, h => h.golpes)
+  // los bonus son entre los que juegan: un ausente o retirado no bloquea hoyos
+  const juegan = ts.filter(x => !x.j.noJuega)
 
-  // juego de grupo: solo contra los de tu grupo, en neto (golpes − golpes recibidos)
-  const grupos = [...new Set(jugadores.map(j => j.grupo))].sort((a, b) => a - b).map(grupo => {
-    const del = ts.filter(x => x.j.grupo === grupo)
+  // skins: todos contra todos, en gross (golpes brutos)
+  const skins = repartir(juegan, h => h.golpes)
+
+  // juego de grupo: solo contra los de tu grupo, en neto (golpes − golpes recibidos).
+  // Se escala por tamaño/3: en un grupo de 2 se ganan en promedio 9 puntos y en uno de 3, 6.
+  const grupos = [...new Set(juegan.map(x => x.j.grupo))].sort((a, b) => a - b).map(grupo => {
+    const del = juegan.filter(x => x.j.grupo === grupo)
     const r = repartir(del, h => (h.golpes == null ? null : h.golpes - h.recibidos))
-    const js = del.map(({ j }) => ({ id: j.id, nombre: j.nombre, puntos: r.puntos[j.id] ?? 0 })).sort((a, b) => b.puntos - a.puntos)
+    const escala = del.length / 3
+    const js = del.map(({ j }) => ({ id: j.id, nombre: j.nombre, puntos: (r.puntos[j.id] ?? 0) * escala })).sort((a, b) => b.puntos - a.puntos)
     return { grupo, jugadores: js, hoyos: r.hoyos }
   })
 
@@ -143,7 +151,7 @@ export function ranking(jugadores: Jugador[], filas: Golpe[], c: Cancha, firmada
   const enGrupo = new Map(grupos.flatMap(g => g.jugadores.map(j => [j.id, j.puntos] as const)))
   const genConClave = ts.map(({ j, t }) => {
     const sk = skins.puntos[j.id] ?? 0, gr = enGrupo.get(j.id) ?? 0, total = t.puntos + sk + gr
-    return { k: [Math.round(total * 1000), ...claveStb(t)], f: { id: j.id, nombre: j.nombre, stableford: t.puntos, skins: sk, grupo: gr, total, pos: 0 } }
+    return { k: [Math.round(total * 1000), ...claveStb(t)], f: { id: j.id, nombre: j.nombre, jugados: t.jugados, stableford: t.puntos, skins: sk, grupo: gr, total, pos: 0 } }
   }).sort((a, b) => compara(a.k, b.k))
   const clavesGen = new Map(genConClave.map(x => [x.f, x.k]))
   const general = posiciones(genConClave.map(x => x.f), f => clavesGen.get(f)!)
@@ -157,7 +165,7 @@ type Puesto = { pos: number; de: number; empatado: boolean }
  *  Los grupos salen uno después del otro, así que comparar totales sin cortar no dice nada. */
 export function posicionEnVivo(jugadores: Jugador[], filas: Golpe[], c: Cancha, id: string): { hoyo: number; general: Puesto; grupo: Puesto } | null {
   const yo = jugadores.find(j => j.id === id)
-  if (!yo) return null
+  if (!yo || yo.noJuega) return null
   const seguidos = (j: Jugador) => { const t = tarjeta(j, filas, c); let n = 0; while (n < HOYOS && t.hoyos[n].golpes != null) n++; return n }
   const N = seguidos(yo)
   if (!N) return null

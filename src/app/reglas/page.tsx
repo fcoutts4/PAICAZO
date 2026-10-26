@@ -38,12 +38,14 @@ export default async function Reglas() {
         <summary>Bonus · Rey del Hoyo (skins gross)</summary>
         <p>Cada hoyo vale <b>1 punto</b> para quien haga <b>menos golpes reales</b>, sin hándicap, contra todos.</p>
         <p>Si empatan, el punto se reparte <b>entre todos los que empataron</b>: 2 → 0,5 cada uno; 3 → 0,33; 4 → 0,25.</p>
+        <p className="nota">Quien no juega o se retira sale de este juego y del Puto, para no dejar hoyos sin ganador.</p>
       </details>
 
       <details>
         <summary>Bonus · Puto (grupo neto)</summary>
         <p>Juegas solo contra tu grupo{grupo.length ? <>: <b>{grupo.join(' y ')}</b></> : ''}.</p>
         <p>Cada hoyo vale <b>1 punto</b> para el mejor <b>neto</b> del grupo. Si empatan, se reparte.</p>
+        <p className="nota">En un grupo de 2 los puntos se multiplican por ⅔: así un grupo chico no regala más bonus que uno de 3.</p>
       </details>
 
       <details>
@@ -51,6 +53,7 @@ export default async function Reglas() {
         <p>Con índice <b>{u.indice}</b> juegas con hándicap <b>{hj}</b> (95% del de la cancha).</p>
         <p>Recibes 1 golpe en los {Math.min(hj, 18)} hoyos más difíciles{hj > 18 ? ` y 2 en los ${hj - 18} más difíciles` : ''}.
           En tu tarjeta los ves con un circulito verde con el número.</p>
+        <p>Arriba en tu tarjeta, <b>Neto</b> compara tus puntos con 2 por hoyo: <b>E</b> = vas jugando a tu hándicap, <b>+3</b> = 3 puntos mejor.</p>
       </details>
 
       <details>

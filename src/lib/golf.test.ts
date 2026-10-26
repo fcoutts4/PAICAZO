@@ -3,15 +3,15 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import {
   hcpJuego, golpesRecibidos, puntosStableford, estadoHoyo, tarjeta, ranking,
-  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, armarGrupos, golpesDemo, type Cancha, type Jugador, type Golpe,
+  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, armarGrupos, golpesDemo, vsNeto, type Cancha, type Jugador, type Golpe,
 } from './golf.ts'
 
 const par = [4, 4, 3, 4, 5, 4, 4, 3, 4, 4, 4, 3, 4, 5, 4, 4, 3, 4]
 const hcp = [5, 7, 15, 3, 13, 11, 17, 9, 1, 6, 8, 16, 4, 14, 12, 18, 10, 2]
 const cancha: Cancha = { par, hcp, slope: 113, rating: 70 }
 
-const J = (id: string, indice: number, grupo = 1, marca = ''): Jugador =>
-  ({ id, nombre: id, indice, grupo, marca })
+const J = (id: string, indice: number, grupo = 1, marca = '', noJuega = false): Jugador =>
+  ({ id, nombre: id, indice, grupo, marca, ...(noJuega && { noJuega }) })
 
 /** Filas de golpes: el jugador y su marcador anotan lo mismo en cada hoyo. */
 function filas(jugador: string, golpes: (number | null)[], marcador = true): Golpe[] {
@@ -242,8 +242,22 @@ test('grupo: usa neto (golpe recibido cuenta)', () => {
 test('grupo: cada grupo juega aparte', () => {
   const gd = pares().map(g => g - 1) // "d" juega mejor, pero en otro grupo
   const r = ranking([J('a', 0, 1), J('b', 0, 1), J('d', 0, 2)], [...filas('a', pares()), ...filas('b', pares()), ...filas('d', gd)], cancha)
-  assert.equal(enGrupo(r, 1, 'a'), 9)
-  assert.equal(enGrupo(r, 2, 'd'), 18)
+  assert.ok(Math.abs(enGrupo(r, 1, 'a')! - 6) < 1e-9) // grupo de 2: 9 × 2/3
+  assert.ok(Math.abs(enGrupo(r, 2, 'd')! - 6) < 1e-9) // solo: 18 × 1/3
+})
+test('grupo: en grupo de 2 los puntos valen 2/3 (mismo promedio que en grupo de 3)', () => {
+  const ga = pares(); ga[0] = 3
+  const r = ranking([J('a', 0, 1), J('b', 0, 1)], [...filas('a', ga), ...filas('b', pares())], cancha)
+  assert.ok(Math.abs(enGrupo(r, 1, 'a')! - (1 + 17 / 2) * 2 / 3) < 1e-9)
+  assert.ok(Math.abs(enGrupo(r, 1, 'b')! - (17 / 2) * 2 / 3) < 1e-9)
+})
+test('grupo: en grupo de 3 los puntos no se escalan', () => {
+  const r = ranking([J('a', 0, 1), J('b', 0, 1), J('c', 0, 1)], ['a', 'b', 'c'].flatMap(id => filas(id, pares())), cancha)
+  assert.ok(r.grupos[0].jugadores.every(j => Math.abs(j.puntos - 6) < 1e-9))
+})
+test('grupo: los hoyos del grupo guardan el valor sin escalar (1 por hoyo)', () => {
+  const r = ranking([J('a', 0, 1), J('b', 0, 1)], [...filas('a', pares()), ...filas('b', pares())], cancha)
+  assert.ok(r.grupos[0].hoyos.every(h => h.valor === 0.5))
 })
 test('grupo: hoyo que alguien del grupo no ha jugado no cuenta', () => {
   const gb: (number | null)[] = pares(); gb[4] = null
@@ -299,8 +313,8 @@ test('general: total = Stableford + Skins + Grupo', () => {
   const a = r.general.find(f => f.id === 'a')!
   assert.equal(a.stableford, 37)
   assert.equal(a.skins, 1 + 17 * 0.5)
-  assert.equal(a.grupo, 1 + 17 * 0.5)
-  assert.equal(a.total, 37 + 9.5 + 9.5)
+  assert.ok(Math.abs(a.grupo - (1 + 17 * 0.5) * 2 / 3) < 1e-9) // grupo de 2
+  assert.ok(Math.abs(a.total - (37 + 9.5 + 9.5 * 2 / 3)) < 1e-9)
 })
 test('general: ordena por total y el líder va primero con pos 1', () => {
   const ga = pares(); ga[0] = 3
@@ -317,6 +331,11 @@ test('general: ordena por total sumando los 3 campeonatos', () => {
   const gb = pares(); gb[1] = 3; gb[0] = 5 // b: 36 stb, gana skin 2, pierde 1 → 9,5; grupo 18 → 63,5
   const r = ranking([J('b', 0, 2), J('a', 0, 1)], [...filas('a', ga), ...filas('b', gb)], cancha)
   assert.deepEqual(r.general.map(f => f.id), ['a', 'b'])
+})
+test('general: trae los hoyos jugados de cada uno', () => {
+  const r = ranking([J('a', 0, 1), J('b', 0, 1)], [...filas('a', hasta(pares(), 5)), ...filas('b', pares())], cancha)
+  assert.equal(r.general.find(f => f.id === 'a')!.jugados, 5)
+  assert.equal(r.general.find(f => f.id === 'b')!.jugados, 18)
 })
 test('general: sin hoyos jugados todos en 0', () => {
   const r = ranking([J('a', 0, 1), J('b', 0, 1)], [], cancha)
@@ -430,3 +449,43 @@ test('demo: el de menor hándicap hace en promedio menos golpes', () => {
   assert.ok(Math.abs(bueno - 73) < 4, `bueno ${bueno}`)   // ~par 70 + hándicap 3
   assert.ok(Math.abs(malo - 91) < 5, `malo ${malo}`)      // ~par 70 + hándicap 21
 })
+
+// --- no juega / retirado: sale de los bonus para no bloquearlos ---
+test('no juega: sus hoyos vacíos no bloquean los skins de los demás', () => {
+  const ga = pares(); ga[0] = 3
+  const r = ranking([J('a', 0, 1), J('b', 0, 1), J('x', 0, 2, '', true)], [...filas('a', ga), ...filas('b', pares())], cancha)
+  assert.equal(r.skins.jugados, 18)
+  assert.equal(r.skins.porJugador.x, undefined)
+})
+test('no juega: retirado a mitad tampoco bloquea ni gana skins', () => {
+  const gx = hasta(pares().map(g => g - 1), 4) // jugó 4 hoyos con birdies y se fue
+  const r = ranking([J('a', 0, 1), J('b', 0, 1), J('x', 0, 1, '', true)], [...filas('a', pares()), ...filas('b', pares()), ...filas('x', gx)], cancha)
+  assert.equal(r.skins.jugados, 18)
+  assert.equal(r.skins.porJugador.x, undefined)
+})
+test('no juega: su grupo cuenta sin él y se escala por los que juegan', () => {
+  const r = ranking([J('a', 0, 1), J('b', 0, 1), J('x', 0, 1, '', true)], [...filas('a', pares()), ...filas('b', pares())], cancha)
+  assert.equal(r.grupos[0].hoyos.length, 18)
+  assert.deepEqual(r.grupos[0].jugadores.map(j => j.id).sort(), ['a', 'b'])
+  assert.ok(Math.abs(enGrupo(r, 1, 'a')! - 6) < 1e-9)
+})
+test('no juega: sigue en la Copa con sus puntos y 0 de bonus en el General', () => {
+  const r = ranking([J('a', 0, 1), J('x', 0, 1, '', true)], [...filas('a', pares()), ...filas('x', hasta(pares(), 9))], cancha)
+  assert.equal(r.stableford.find(f => f.id === 'x')!.puntos, 18)
+  const x = r.general.find(f => f.id === 'x')!
+  assert.equal(x.skins + x.grupo, 0)
+  assert.equal(x.total, 18)
+})
+test('no juega: grupo entero fuera no aparece en el Puto', () => {
+  const r = ranking([J('a', 0, 1), J('x', 0, 2, '', true)], [...filas('a', pares())], cancha)
+  assert.deepEqual(r.grupos.map(g => g.grupo), [1])
+})
+test('no juega: no tiene posición en vivo', () => {
+  assert.equal(posicionEnVivo([J('a', 0, 1), J('x', 0, 1, '', true)], [...filas('a', pares()), ...filas('x', pares())], cancha, 'x'), null)
+})
+
+// --- vs neto: puntos contra jugar a tu hándicap (2 por hoyo) ---
+test('vs neto: 2 por hoyo es jugar a tu hándicap (E)', () => assert.equal(vsNeto(18, 9), 0))
+test('vs neto: más puntos que 2 por hoyo es positivo', () => assert.equal(vsNeto(21, 9), 3))
+test('vs neto: menos es negativo', () => assert.equal(vsNeto(10, 9), -8))
+test('vs neto: sin hoyos es 0', () => assert.equal(vsNeto(0, 0), 0))

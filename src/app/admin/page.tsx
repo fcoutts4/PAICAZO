@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
-import { borrarScores, cancha, firmadas, golpes, guardarGolpe, guardarGolpesEnLote, guardarGrupos, jugador, jugadores, renombrar } from '@/lib/datos'
+import { borrarScores, cancha, firmadas, golpes, guardarGolpe, guardarGolpesEnLote, guardarGrupos, jugador, jugadores, marcarNoJuega, renombrar } from '@/lib/datos'
 import { sql } from '@/lib/db'
 import { armarGrupos, golpesDemo, limpiarNombre, tarjeta } from '@/lib/golf'
 import { pinDe, requiereUsuario } from '@/lib/sesion'
@@ -60,6 +60,15 @@ async function sortear(form: FormData) {
   revalidatePath('/', 'layout')
 }
 
+async function cambiarNoJuega(form: FormData) {
+  'use server'
+  await soloAdmin()
+  const id = String(form.get('jugador'))
+  if (!jugador(id)) return
+  await marcarNoJuega(id, form.get('noJuega') === '1')
+  revalidatePath('/', 'layout')
+}
+
 async function destrabar(form: FormData) {
   'use server'
   await soloAdmin()
@@ -78,7 +87,7 @@ export default async function Admin() {
       <p className="nota">Manda a cada uno su PIN por interno. Cambiar PAICAZO_SECRET cambia todos los PIN.</p>
       <div>
         <table className="admin-tabla">
-          <thead><tr><th>Jugador</th><th className="num">Índ</th><th className="num">HCP</th><th>PIN</th><th>G</th><th>Marca</th><th>Ok/mal/falta</th><th /></tr></thead>
+          <thead><tr><th>Jugador</th><th className="num">Índ</th><th className="num">HCP</th><th>PIN</th><th>G</th><th>Marca</th><th>Ok/mal/falta</th><th>Juega</th><th /></tr></thead>
           <tbody>
             {js.map(j => {
               const t = tarjeta(j, filas, cancha)
@@ -88,6 +97,12 @@ export default async function Admin() {
                   <td>{j.nombre}</td><td className="num">{j.indice}</td><td className="num">{t.hj}</td>
                   <td><code>{pinDe(j.id)}</code></td><td>{j.grupo}</td><td>{nombre(j.marca)}</td>
                   <td>{n('ok')} / <span style={{ color: n('conflicto') ? 'var(--rojo)' : undefined }}>{n('conflicto')}</span> / {n('pendiente')}</td>
+                  <td>
+                    <form action={cambiarNoJuega}>
+                      <input type="hidden" name="jugador" value={j.id} /><input type="hidden" name="noJuega" value={j.noJuega ? '0' : '1'} />
+                      <button className={`btn chico${j.noJuega ? ' peligro' : ''}`}>{j.noJuega ? 'No' : 'Sí'}</button>
+                    </form>
+                  </td>
                   <td>{firmas.has(j.id) && (
                     <form action={destrabar}><input type="hidden" name="jugador" value={j.id} /><button className="btn chico">Destrabar</button></form>
                   )}</td>
@@ -97,6 +112,8 @@ export default async function Admin() {
           </tbody>
         </table>
       </div>
+
+      <p className="nota"><b>Juega:</b> toca para marcar a un ausente o retirado. Sigue en la Copa con sus puntos, pero sale de Rey del Hoyo y Puto para no bloquear esos hoyos a los demás.</p>
 
       <h2>Cambiar nombre</h2>
       <p className="nota">Es el nombre que se ve en el ingreso, la tarjeta y el ranking. El PIN no cambia.</p>

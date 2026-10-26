@@ -1,7 +1,7 @@
 // Postgres: Neon en Vercel (DATABASE_URL); PGlite en archivo local para desarrollo.
-type Consulta = (texto: string, params?: unknown[]) => Promise<Record<string, unknown>[]>
+export type Consulta = (texto: string, params?: unknown[]) => Promise<Record<string, unknown>[]>
 
-const ESQUEMA = [
+export const ESQUEMA = [
   `CREATE TABLE IF NOT EXISTS golpes (
      jugador text NOT NULL, hoyo int NOT NULL CHECK (hoyo BETWEEN 1 AND 18),
      por_marcador boolean NOT NULL, golpes int NOT NULL CHECK (golpes BETWEEN 1 AND 15),
@@ -10,6 +10,8 @@ const ESQUEMA = [
   `CREATE TABLE IF NOT EXISTS firmas (jugador text PRIMARY KEY, firmada timestamptz NOT NULL DEFAULT now())`,
   `CREATE TABLE IF NOT EXISTS nombres (jugador text PRIMARY KEY, nombre text NOT NULL)`, // los cambia el admin
   `CREATE TABLE IF NOT EXISTS grupos (jugador text PRIMARY KEY, grupo int NOT NULL, marca text NOT NULL)`, // sorteo del admin
+  `CREATE TABLE IF NOT EXISTS no_juega (jugador text PRIMARY KEY)`, // ausentes o retirados: fuera de los bonus
+  `CREATE TABLE IF NOT EXISTS intentos (jugador text PRIMARY KEY, n int NOT NULL, desde timestamptz NOT NULL)`, // login fallido
 ]
 
 // una sola conexión por proceso: Next carga este módulo por separado para páginas y API,

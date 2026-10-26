@@ -11,11 +11,20 @@ export const jugador = (id: string) => base.find(j => j.id === id)
 
 /** Jugadores con el nombre vigente; una consulta por request. */
 export const jugadores = cache(async (): Promise<Jugador[]> => {
-  const [nombres, grupos] = await Promise.all([sql('SELECT jugador, nombre FROM nombres'), sql('SELECT jugador, grupo, marca FROM grupos')])
+  const [nombres, grupos, fuera] = await Promise.all([
+    sql('SELECT jugador, nombre FROM nombres'), sql('SELECT jugador, grupo, marca FROM grupos'), sql('SELECT jugador FROM no_juega')])
   const cambios = new Map(nombres.map(f => [f.jugador as string, f.nombre as string]))
   const sorteo = new Map(grupos.map(f => [f.jugador as string, { grupo: f.grupo as number, marca: f.marca as string }]))
-  return base.map(j => ({ ...j, nombre: cambios.get(j.id) ?? j.nombre, ...sorteo.get(j.id) }))
+  const noJuegan = new Set(fuera.map(f => f.jugador as string))
+  return base.map(j => ({ ...j, nombre: cambios.get(j.id) ?? j.nombre, ...sorteo.get(j.id), ...(noJuegan.has(j.id) && { noJuega: true }) }))
 })
+
+/** Marca o desmarca a un jugador como ausente/retirado (sale de Rey del Hoyo y Puto). */
+export async function marcarNoJuega(id: string, noJuega: boolean) {
+  return noJuega
+    ? sql('INSERT INTO no_juega (jugador) VALUES ($1) ON CONFLICT DO NOTHING', [id])
+    : sql('DELETE FROM no_juega WHERE jugador = $1', [id])
+}
 
 /** Reemplaza los grupos y marcadores por un sorteo nuevo. */
 export async function guardarGrupos(asignacion: { id: string; grupo: number; marca: string }[]) {
