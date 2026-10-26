@@ -14,7 +14,7 @@ const igual = (a: string, b: string) =>
   a.length === b.length && timingSafeEqual(Buffer.from(a), Buffer.from(b))
 
 export const pinDe = (id: string) => String(parseInt(hmac(`pin:${id}`).slice(0, 8), 16) % 10000).padStart(4, '0')
-export const pinValido = (id: string, pin: string) => !!jugador(id) && igual(pinDe(id), pin)
+export const pinValido = async (id: string, pin: string) => !!(await jugador(id)) && igual(pinDe(id), pin)
 
 export async function usuario() {
   const [id, firma] = (await cookies()).get('s')?.value.split('.') ?? []

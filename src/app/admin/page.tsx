@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
-import { borrarScores, cancha, firmadas, golpes, guardarGolpe, guardarGolpesEnLote, guardarGrupos, jugador, jugadores, marcarNoJuega, renombrar } from '@/lib/datos'
+import { agregarJugador, borrarScores, cambiarIndice, cancha, firmadas, golpes, guardarGolpe, guardarGolpesEnLote, guardarGrupos, jugador, jugadores, marcarNoJuega, quitarJugador, renombrar } from '@/lib/datos'
 import { sql } from '@/lib/db'
-import { armarGrupos, golpesDemo, limpiarNombre, tarjeta } from '@/lib/golf'
+import { armarGrupos, golpesDemo, limpiarIndice, limpiarNombre, nuevoId, sacarDeGrupo, sumarAGrupo, tarjeta } from '@/lib/golf'
 import { pinDe, requiereUsuario } from '@/lib/sesion'
 import BotonPeligroso from './BotonPeligroso'
 
@@ -18,7 +18,7 @@ async function corregir(form: FormData) {
   await soloAdmin()
   const id = String(form.get('jugador')), hoyo = Number(form.get('hoyo')), txt = String(form.get('golpes') ?? '')
   const g = txt === '' ? null : Number(txt)
-  if (!jugador(id) || !Number.isInteger(hoyo) || hoyo < 1 || hoyo > 18 || (g != null && (!Number.isInteger(g) || g < 1 || g > 15))) return
+  if (!await jugador(id) || !Number.isInteger(hoyo) || hoyo < 1 || hoyo > 18 || (g != null && (!Number.isInteger(g) || g < 1 || g > 15))) return
   for (const por_marcador of [false, true]) await guardarGolpe({ jugador: id, hoyo, por_marcador, golpes: g })
   revalidatePath('/admin')
 }
@@ -27,7 +27,7 @@ async function cambiarNombre(form: FormData) {
   'use server'
   await soloAdmin()
   const id = String(form.get('jugador')), nombre = limpiarNombre(String(form.get('nombre') ?? ''))
-  if (!jugador(id) || !nombre) return
+  if (!await jugador(id) || !nombre) return
   await renombrar(id, nombre)
   revalidatePath('/', 'layout')
 }
@@ -64,8 +64,39 @@ async function cambiarNoJuega(form: FormData) {
   'use server'
   await soloAdmin()
   const id = String(form.get('jugador'))
-  if (!jugador(id)) return
+  if (!await jugador(id)) return
   await marcarNoJuega(id, form.get('noJuega') === '1')
+  revalidatePath('/', 'layout')
+}
+
+async function agregar(form: FormData) {
+  'use server'
+  await soloAdmin()
+  const nombre = limpiarNombre(String(form.get('nombre') ?? '')), indice = limpiarIndice(String(form.get('indice') ?? ''))
+  if (!nombre || indice == null) return
+  const js = await jugadores()
+  const id = nuevoId(nombre, js.map(j => j.id))
+  await agregarJugador(id, nombre, indice)
+  await guardarGrupos(sumarAGrupo(js.map(({ id, grupo, marca }) => ({ id, grupo, marca })), id)) // entra al grupo más chico
+  revalidatePath('/', 'layout')
+}
+
+async function editarIndice(form: FormData) {
+  'use server'
+  await soloAdmin()
+  const id = String(form.get('jugador')), indice = limpiarIndice(String(form.get('indice') ?? ''))
+  if (!await jugador(id) || indice == null) return
+  await cambiarIndice(id, indice)
+  revalidatePath('/', 'layout')
+}
+
+async function quitar(form: FormData) {
+  'use server'
+  await soloAdmin()
+  const js = await jugadores(), id = String(form.get('jugador'))
+  if (form.get('confirmacion') !== 'QUITAR' || !js.find(j => j.id === id)?.agregado) return // solo los agregados desde aquí
+  await guardarGrupos(sacarDeGrupo(js.map(({ id, grupo, marca }) => ({ id, grupo, marca })), id))
+  await quitarJugador(id)
   revalidatePath('/', 'layout')
 }
 
@@ -100,7 +131,7 @@ export default async function Admin() {
                   <td>
                     <form action={cambiarNoJuega}>
                       <input type="hidden" name="jugador" value={j.id} /><input type="hidden" name="noJuega" value={j.noJuega ? '0' : '1'} />
-                      <button className={`btn chico${j.noJuega ? ' peligro' : ''}`}>{j.noJuega ? 'No' : 'Sí'}</button>
+                      <button className={`btn chico${j.noJuega ? ' no' : ''}`}>{j.noJuega ? 'No' : 'Sí'}</button>
                     </form>
                   </td>
                   <td>{firmas.has(j.id) && (
@@ -114,6 +145,21 @@ export default async function Admin() {
       </div>
 
       <p className="nota"><b>Juega:</b> toca para marcar a un ausente o retirado. Sigue en la Copa con sus puntos, pero sale de Rey del Hoyo y Puto para no bloquear esos hoyos a los demás.</p>
+
+      <h2>Agregar jugador</h2>
+      <p className="nota">Entra al grupo más chico y a su cadena de marcadores (o sortea grupos de nuevo). Su PIN aparece arriba en la tabla.</p>
+      <form action={agregar} className="admin-form tarjeta-ui">
+        <input name="nombre" required maxLength={24} placeholder="Nombre" style={{ flex: 1, minWidth: 140 }} />
+        <input name="indice" required inputMode="decimal" pattern="[0-9]{1,2}([.,][0-9])?" placeholder="Índice" style={{ width: 80 }} />
+        <button className="btn chico">Agregar</button>
+      </form>
+
+      <h2>Cambiar índice</h2>
+      <form action={editarIndice} className="admin-form tarjeta-ui">
+        <select name="jugador" required>{js.map(j => <option key={j.id} value={j.id}>{j.nombre} ({j.indice})</option>)}</select>
+        <input name="indice" required inputMode="decimal" pattern="[0-9]{1,2}([.,][0-9])?" placeholder="Índice" style={{ width: 80 }} />
+        <button className="btn chico">Guardar</button>
+      </form>
 
       <h2>Cambiar nombre</h2>
       <p className="nota">Es el nombre que se ve en el ingreso, la tarjeta y el ranking. El PIN no cambia.</p>
@@ -146,6 +192,15 @@ export default async function Admin() {
           <BotonPeligroso accion={cargarDemo} texto="Cargar demo" palabra="DEMO"
             aviso="Se van a reemplazar los golpes de TODOS por scores de demo." />
         </div>
+        {js.some(j => j.agregado) && (
+          <div>
+            <b>Quitar un jugador agregado</b>
+            <p className="nota">Lo borra con sus golpes. Los del listado original no se quitan: márcalos &quot;No juega&quot;.</p>
+            <BotonPeligroso accion={quitar} texto="Quitar jugador" palabra="QUITAR" aviso="Se va a borrar ese jugador con todos sus golpes.">
+              <select name="jugador" required style={{ width: '100%', marginBottom: 8 }}>{js.filter(j => j.agregado).map(j => <option key={j.id} value={j.id}>{j.nombre}</option>)}</select>
+            </BotonPeligroso>
+          </div>
+        )}
         <div>
           <b>Borrar todos los scores</b>
           <p className="nota">Borra los golpes y las firmas de todos los jugadores. No se puede deshacer.</p>

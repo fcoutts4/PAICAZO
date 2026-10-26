@@ -2,7 +2,7 @@
 // Sin dependencias: lo usan las páginas y las pruebas (node --test).
 
 export type Cancha = { par: number[]; hcp: number[]; slope: number; rating: number }
-export type Jugador = { id: string; nombre: string; indice: number; grupo: number; marca: string; admin?: boolean; noJuega?: boolean }
+export type Jugador = { id: string; nombre: string; indice: number; grupo: number; marca: string; admin?: boolean; noJuega?: boolean; agregado?: boolean }
 export type Golpe = { jugador: string; hoyo: number; por_marcador: boolean; golpes: number }
 export type Estado = 'ok' | 'conflicto' | 'pendiente' | 'vacio'
 export type Hoyo = {
@@ -77,6 +77,41 @@ export function limpiarNombre(s: string): string | null {
   if (typeof s !== 'string') return null
   const n = s.trim().replace(/\s+/g, ' ')
   return n && n.length <= 24 && !/[<>]/.test(n) ? n : null
+}
+
+/** Id de un jugador agregado por el admin: del nombre, sin tildes, único. No cambia nunca (el PIN sale de él). */
+export function nuevoId(nombre: string, existentes: string[]): string {
+  const base = nombre.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 16) || 'jugador'
+  let id = base
+  for (let i = 2; existentes.includes(id); i++) id = `${base}${i}`
+  return id
+}
+
+/** Índice WHS escrito por el admin: 0 a 54, con un decimal y punto o coma. */
+export function limpiarIndice(s: string): number | null {
+  const t = String(s ?? '').trim().replace(',', '.')
+  if (!/^\d{1,2}(\.\d)?$/.test(t)) return null
+  const n = Number(t)
+  return n <= 54 ? n : null
+}
+
+type Asignacion = { id: string; grupo: number; marca: string }
+
+/** Suma un jugador al grupo más chico (de menos de 3) metiéndolo en la cadena de marcadores: X marcaba a Y → X marca al nuevo y el nuevo a Y. */
+export function sumarAGrupo(js: Asignacion[], nuevo: string): Asignacion[] {
+  const tam = new Map<number, number>()
+  for (const j of js) tam.set(j.grupo, (tam.get(j.grupo) ?? 0) + 1)
+  const chico = [...tam].filter(([, n]) => n < 3).sort((a, b) => a[1] - b[1] || a[0] - b[0])[0]?.[0]
+  if (chico == null) return [...js, { id: nuevo, grupo: Math.max(0, ...tam.keys()) + 1, marca: '' }]
+  const x = js.filter(j => j.grupo === chico).at(-1)!
+  return [...js.map(j => (j.id === x.id ? { ...j, marca: nuevo } : j)), { id: nuevo, grupo: chico, marca: x.marca || x.id }]
+}
+
+/** Saca a un jugador de su grupo: quien lo marcaba pasa a marcar a quien él marcaba. */
+export function sacarDeGrupo(js: Asignacion[], id: string): Asignacion[] {
+  const yo = js.find(j => j.id === id)
+  if (!yo) return js
+  return js.filter(j => j.id !== id).map(j => (j.marca !== id ? j : { ...j, marca: yo.marca === j.id ? '' : yo.marca }))
 }
 
 /** Quién puede anotar qué: el jugador su tarjeta, el marcador la de su marcado, el admin todo. */

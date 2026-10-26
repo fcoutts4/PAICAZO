@@ -199,6 +199,7 @@ main.compacta { padding: 8px 10px; }
 .admin-tabla th { font-size: 10px; padding: 6px 3px; letter-spacing: 0; }
 .admin-tabla td { padding: 7px 3px; }
 .admin-tabla .btn.chico { padding: 4px 6px; font-size: 11px; }
+.admin-tabla .btn.no { background: var(--rojo); }
 
 /* reglas: corto, con secciones que se abren */
 .reglas details { background: #fff; border: 1px solid var(--linea); border-radius: var(--radio); margin-bottom: 8px; }

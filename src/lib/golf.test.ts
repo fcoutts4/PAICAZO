@@ -3,7 +3,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import {
   hcpJuego, golpesRecibidos, puntosStableford, estadoHoyo, tarjeta, ranking,
-  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, armarGrupos, golpesDemo, vsNeto, type Cancha, type Jugador, type Golpe,
+  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, armarGrupos, golpesDemo, vsNeto, nuevoId, limpiarIndice, sumarAGrupo, sacarDeGrupo, type Cancha, type Jugador, type Golpe,
 } from './golf.ts'
 
 const par = [4, 4, 3, 4, 5, 4, 4, 3, 4, 4, 4, 3, 4, 5, 4, 4, 3, 4]
@@ -489,3 +489,67 @@ test('vs neto: 2 por hoyo es jugar a tu hándicap (E)', () => assert.equal(vsNet
 test('vs neto: más puntos que 2 por hoyo es positivo', () => assert.equal(vsNeto(21, 9), 3))
 test('vs neto: menos es negativo', () => assert.equal(vsNeto(10, 9), -8))
 test('vs neto: sin hoyos es 0', () => assert.equal(vsNeto(0, 0), 0))
+
+// --- agregar / quitar jugadores desde el admin ---
+test('id nuevo: del nombre, sin tildes ni espacios, en minúsculas', () => assert.equal(nuevoId('José Ñúñez', []), 'josenunez'))
+test('id nuevo: si ya existe le suma un número', () => {
+  assert.equal(nuevoId('VC', ['vc']), 'vc2')
+  assert.equal(nuevoId('VC', ['vc', 'vc2']), 'vc3')
+})
+test('id nuevo: nombre sin letras ni números → "jugador"', () => assert.equal(nuevoId('...', []), 'jugador'))
+test('id nuevo: máximo 16 caracteres', () => assert.equal(nuevoId('Maximiliano Covarrubias', []).length, 16))
+
+test('índice: acepta punto o coma y un decimal', () => {
+  assert.equal(limpiarIndice('13.4'), 13.4)
+  assert.equal(limpiarIndice(' 13,4 '), 13.4)
+  assert.equal(limpiarIndice('8'), 8)
+})
+test('índice: límites 0 y 54', () => {
+  assert.equal(limpiarIndice('0'), 0)
+  assert.equal(limpiarIndice('54'), 54)
+  assert.equal(limpiarIndice('54.1'), null)
+})
+test('índice: vacío, texto, negativo o dos decimales → null', () => {
+  for (const x of ['', 'abc', '-2', '13.45', '1e1']) assert.equal(limpiarIndice(x), null, x)
+})
+
+type A = { id: string; grupo: number; marca: string }
+const cadena: A[] = [
+  { id: 'a', grupo: 1, marca: 'b' }, { id: 'b', grupo: 1, marca: 'c' }, { id: 'c', grupo: 1, marca: 'a' },
+  { id: 'd', grupo: 2, marca: 'e' }, { id: 'e', grupo: 2, marca: 'd' },
+]
+const marcados = (xs: A[]) => xs.map(x => x.marca).filter(Boolean).sort()
+test('sumar: entra al grupo más chico', () => {
+  assert.equal(sumarAGrupo(cadena, 'n').find(x => x.id === 'n')!.grupo, 2)
+})
+test('sumar: queda en la cadena de marcadores (todos marcan y son marcados una vez)', () => {
+  const r = sumarAGrupo(cadena, 'n')
+  assert.deepEqual(marcados(r), r.map(x => x.id).sort())
+  assert.ok(r.every(x => x.marca !== x.id))
+  assert.ok(r.every(x => r.find(y => y.id === x.marca)!.grupo === x.grupo))
+})
+test('sumar: los otros grupos no cambian', () => {
+  const r = sumarAGrupo(cadena, 'n')
+  assert.deepEqual(r.filter(x => x.grupo === 1), cadena.filter(x => x.grupo === 1))
+})
+test('sumar: con un solo jugador en el grupo se marcan entre ellos', () => {
+  const r = sumarAGrupo([{ id: 'a', grupo: 1, marca: '' }], 'n')
+  assert.deepEqual(r, [{ id: 'a', grupo: 1, marca: 'n' }, { id: 'n', grupo: 1, marca: 'a' }])
+})
+test('sumar: sin jugadores parte el grupo 1, sin marcador', () => {
+  assert.deepEqual(sumarAGrupo([], 'n'), [{ id: 'n', grupo: 1, marca: '' }])
+})
+test('sumar: grupos llenos (3) → grupo nuevo', () => {
+  const r = sumarAGrupo(cadena.filter(x => x.grupo === 1), 'n')
+  assert.deepEqual(r.find(x => x.id === 'n'), { id: 'n', grupo: 2, marca: '' })
+})
+test('sacar: quien lo marcaba pasa a marcar a quien él marcaba', () => {
+  const r = sacarDeGrupo(cadena, 'b')
+  assert.equal(r.find(x => x.id === 'b'), undefined)
+  assert.equal(r.find(x => x.id === 'a')!.marca, 'c')
+})
+test('sacar: grupo que queda de 1 no se marca a sí mismo', () => {
+  const r = sacarDeGrupo(cadena, 'e')
+  assert.deepEqual(r.find(x => x.id === 'd'), { id: 'd', grupo: 2, marca: '' })
+})
+test('sacar: id que no está → sin cambios', () => assert.deepEqual(sacarDeGrupo(cadena, 'zz'), cadena))

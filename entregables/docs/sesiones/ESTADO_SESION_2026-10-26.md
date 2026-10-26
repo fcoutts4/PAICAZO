@@ -12,3 +12,12 @@ Mergear `sesion/2026-10-22-app` a `main` para publicar.
 
 ## Deploy
 - Si `main` avanza por fast-forward a un commit que ya se desplegó como preview (porque antes se subió la rama), Vercel no crea el deploy de producción. Pasó con `54ec65a`, que tuvo un solo deploy (el preview). Para publicar: subir `main` antes que la rama, o hacer un commit nuevo en `main`.
+
+## Jugadores desde el Admin
+- Agregar (nombre e índice): se guarda en la tabla `agregados` con un id sacado del nombre, que no cambia porque el PIN sale de él. Entra al grupo más chico, insertado en la cadena de marcadores (`sumarAGrupo`).
+- Cambiar índice de cualquiera (tabla `indices`). Quitar solo a los agregados, con todo lo suyo en una sola sentencia; la cadena de marcadores se cierra sola (`sacarDeGrupo`).
+- `guardarGrupos` ahora es una sola sentencia (upsert + delete): si falla, no queda a medias.
+- El login valida contra JSON + agregados (`jugador()` pasó a ser async).
+- El botón "No" de la columna Juega ya no hereda el ancho completo de `.btn.peligro`.
+- Verificado en local: agregar, entrar con el PIN del nuevo, cambiar índice (20,5 → HCP 19) y quitar. Suite: 146 en verde.
+- Nota de prueba: con el panel del navegador oculto, React no reemplaza el "Cargando…" del streaming (no corre requestAnimationFrame) y la página no se hidrata. No es un bug de la app.

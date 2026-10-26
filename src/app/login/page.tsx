@@ -7,8 +7,8 @@ import { iniciarSesion, pinValido, usuario } from '@/lib/sesion'
 async function entrar(form: FormData) {
   'use server'
   const id = String(form.get('id') ?? ''), pin = String(form.get('pin') ?? '')
-  if (jugador(id) && !await puedeIntentar(sql, id)) redirect('/login?e=2') // 5 intentos cada 15 min por jugador
-  if (!pinValido(id, pin)) {
+  if (await jugador(id) && !await puedeIntentar(sql, id)) redirect('/login?e=2') // 5 intentos cada 15 min por jugador
+  if (!await pinValido(id, pin)) {
     await new Promise(r => setTimeout(r, 1000))
     redirect('/login?e=1')
   }
