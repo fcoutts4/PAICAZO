@@ -13,6 +13,7 @@ export const ESQUEMA = [
   `CREATE TABLE IF NOT EXISTS no_juega (jugador text PRIMARY KEY)`, // ausentes o retirados: fuera de los bonus
   `CREATE TABLE IF NOT EXISTS agregados (jugador text PRIMARY KEY, nombre text NOT NULL, indice double precision NOT NULL)`, // jugadores nuevos del admin
   `CREATE TABLE IF NOT EXISTS indices (jugador text PRIMARY KEY, indice double precision NOT NULL)`, // índice corregido por el admin
+  `CREATE TABLE IF NOT EXISTS quitados (jugador text PRIMARY KEY)`, // quitados por el admin: su id (y su PIN) no se reutiliza
   `CREATE TABLE IF NOT EXISTS intentos (jugador text PRIMARY KEY, n int NOT NULL, desde timestamptz NOT NULL)`, // login fallido
 ]
 

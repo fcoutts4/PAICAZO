@@ -107,6 +107,9 @@ export function sumarAGrupo(js: Asignacion[], nuevo: string): Asignacion[] {
   return [...js.map(j => (j.id === x.id ? { ...j, marca: nuevo } : j)), { id: nuevo, grupo: chico, marca: x.marca || x.id }]
 }
 
+/** Cualquiera se puede quitar menos el admin: sin él nadie podría administrar. */
+export const sePuedeQuitar = (j: Jugador) => !j.admin
+
 /** Saca a un jugador de su grupo: quien lo marcaba pasa a marcar a quien él marcaba. */
 export function sacarDeGrupo(js: Asignacion[], id: string): Asignacion[] {
   const yo = js.find(j => j.id === id)

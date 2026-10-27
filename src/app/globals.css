@@ -164,7 +164,7 @@ tr.lider td { background: var(--lima-suave); font-weight: 700; }
 .cancha-mapa .btn.chico { min-height: 40px; }
 .cancha-mapa img { width: 100%; height: auto; background: #86B45A; border-radius: var(--radio); border: 1px solid var(--linea); display: block; }
 .admin-form { display: flex; flex-wrap: wrap; gap: 8px; align-items: end; }
-.admin-form select, .admin-form input { padding: 8px; min-height: 44px; border-radius: 8px; border: 1px solid var(--linea); font-size: 16px; } /* 16px: el iPhone no hace zoom al escribir */
+.admin-form select, .admin-form input, .peligro-zona select { padding: 8px; min-height: 44px; border-radius: 8px; border: 1px solid var(--linea); font-size: 16px; } /* 16px: el iPhone no hace zoom al escribir */
 .admin-form .btn.chico { min-height: 44px; }
 
 /* tarjeta compacta: todo cabe en la pantalla del teléfono sin scroll */
@@ -257,6 +257,7 @@ a.ver-tarjeta::after { content: ' ›'; color: var(--gris); }
 .peligro-zona { display: grid; gap: 12px; background: #FDECEE; border: 1px solid #F2B8C0; border-radius: var(--radio); padding: 14px; }
 .peligro-zona b { color: var(--rojo); }
 .peligro-zona .nota { margin: 4px 0 8px; }
+.peligro-zona select { width: 100%; margin-bottom: 8px; background: #fff; }
 .btn.peligro { background: var(--rojo); width: 100%; min-height: 44px; }
 
 /* ranking por hoyos: aquí sí se desliza hacia el lado, con el nombre fijo a la izquierda */

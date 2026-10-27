@@ -21,3 +21,8 @@ Mergear `sesion/2026-10-22-app` a `main` para publicar.
 - El botón "No" de la columna Juega ya no hereda el ancho completo de `.btn.peligro`.
 - Verificado en local: agregar, entrar con el PIN del nuevo, cambiar índice (20,5 → HCP 19) y quitar. Suite: 146 en verde.
 - Nota de prueba: con el panel del navegador oculto, React no reemplaza el "Cargando…" del streaming (no corre requestAnimationFrame) y la página no se hidrata. No es un bug de la app.
+
+## 2026-10-27 · Quitar a cualquier jugador
+- Se puede quitar a cualquiera menos al admin (`sePuedeQuitar`). Los del JSON quedan en la tabla `quitados`, que los oculta; su id queda reservado (`idsUsados`) para que un jugador nuevo no herede el mismo PIN.
+- El desplegable de la zona de peligro usa el mismo estilo que los del Admin y parte en "Elige a quién quitar" (antes partía en el primero de la lista).
+- Verificado en local con VC: sale del ingreso y del Admin, y el G3 queda cerrado. La base local se respaldó antes y se restauró después. Suite: 149 en verde.

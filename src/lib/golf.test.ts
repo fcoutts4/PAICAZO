@@ -3,7 +3,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import {
   hcpJuego, golpesRecibidos, puntosStableford, estadoHoyo, tarjeta, ranking,
-  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, armarGrupos, golpesDemo, vsNeto, nuevoId, limpiarIndice, sumarAGrupo, sacarDeGrupo, type Cancha, type Jugador, type Golpe,
+  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, armarGrupos, golpesDemo, vsNeto, nuevoId, limpiarIndice, sumarAGrupo, sacarDeGrupo, sePuedeQuitar, type Cancha, type Jugador, type Golpe,
 } from './golf.ts'
 
 const par = [4, 4, 3, 4, 5, 4, 4, 3, 4, 4, 4, 3, 4, 5, 4, 4, 3, 4]
@@ -553,3 +553,7 @@ test('sacar: grupo que queda de 1 no se marca a sí mismo', () => {
   assert.deepEqual(r.find(x => x.id === 'd'), { id: 'd', grupo: 2, marca: '' })
 })
 test('sacar: id que no está → sin cambios', () => assert.deepEqual(sacarDeGrupo(cadena, 'zz'), cadena))
+test('quitar: cualquier jugador se puede quitar', () => assert.equal(sePuedeQuitar(J('vc', 22.1)), true))
+test('quitar: el admin no (se quedaría sin admin)', () => assert.equal(sePuedeQuitar({ ...J('fc', 13.4), admin: true }), false))
+test('id nuevo: no reutiliza el id de un jugador quitado (su PIN sería el mismo)', () =>
+  assert.equal(nuevoId('VC', ['pm', 'vc']), 'vc2'))

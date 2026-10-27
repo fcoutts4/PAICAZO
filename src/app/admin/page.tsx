@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
-import { agregarJugador, borrarScores, cambiarIndice, cancha, firmadas, golpes, guardarGolpe, guardarGolpesEnLote, guardarGrupos, jugador, jugadores, marcarNoJuega, quitarJugador, renombrar } from '@/lib/datos'
+import { agregarJugador, borrarScores, idsUsados, cambiarIndice, cancha, firmadas, golpes, guardarGolpe, guardarGolpesEnLote, guardarGrupos, jugador, jugadores, marcarNoJuega, quitarJugador, renombrar } from '@/lib/datos'
 import { sql } from '@/lib/db'
-import { armarGrupos, golpesDemo, limpiarIndice, limpiarNombre, nuevoId, sacarDeGrupo, sumarAGrupo, tarjeta } from '@/lib/golf'
+import { armarGrupos, golpesDemo, limpiarIndice, limpiarNombre, nuevoId, sacarDeGrupo, sePuedeQuitar, sumarAGrupo, tarjeta } from '@/lib/golf'
 import { pinDe, requiereUsuario } from '@/lib/sesion'
 import BotonPeligroso from './BotonPeligroso'
 
@@ -75,7 +75,7 @@ async function agregar(form: FormData) {
   const nombre = limpiarNombre(String(form.get('nombre') ?? '')), indice = limpiarIndice(String(form.get('indice') ?? ''))
   if (!nombre || indice == null) return
   const js = await jugadores()
-  const id = nuevoId(nombre, js.map(j => j.id))
+  const id = nuevoId(nombre, await idsUsados())
   await agregarJugador(id, nombre, indice)
   await guardarGrupos(sumarAGrupo(js.map(({ id, grupo, marca }) => ({ id, grupo, marca })), id)) // entra al grupo más chico
   revalidatePath('/', 'layout')
@@ -93,8 +93,8 @@ async function editarIndice(form: FormData) {
 async function quitar(form: FormData) {
   'use server'
   await soloAdmin()
-  const js = await jugadores(), id = String(form.get('jugador'))
-  if (form.get('confirmacion') !== 'QUITAR' || !js.find(j => j.id === id)?.agregado) return // solo los agregados desde aquí
+  const js = await jugadores(), id = String(form.get('jugador')), j = js.find(x => x.id === id)
+  if (form.get('confirmacion') !== 'QUITAR' || !j || !sePuedeQuitar(j)) return
   await guardarGrupos(sacarDeGrupo(js.map(({ id, grupo, marca }) => ({ id, grupo, marca })), id))
   await quitarJugador(id)
   revalidatePath('/', 'layout')
@@ -192,15 +192,16 @@ export default async function Admin() {
           <BotonPeligroso accion={cargarDemo} texto="Cargar demo" palabra="DEMO"
             aviso="Se van a reemplazar los golpes de TODOS por scores de demo." />
         </div>
-        {js.some(j => j.agregado) && (
-          <div>
-            <b>Quitar un jugador agregado</b>
-            <p className="nota">Lo borra con sus golpes. Los del listado original no se quitan: márcalos &quot;No juega&quot;.</p>
-            <BotonPeligroso accion={quitar} texto="Quitar jugador" palabra="QUITAR" aviso="Se va a borrar ese jugador con todos sus golpes.">
-              <select name="jugador" required style={{ width: '100%', marginBottom: 8 }}>{js.filter(j => j.agregado).map(j => <option key={j.id} value={j.id}>{j.nombre}</option>)}</select>
-            </BotonPeligroso>
-          </div>
-        )}
+        <div>
+          <b>Quitar un jugador</b>
+          <p className="nota">Lo borra con sus golpes y lo saca del ingreso; quien lo marcaba pasa a marcar al siguiente. Si solo faltó o se retiró, mejor márcalo &quot;No juega&quot;: sigue en la Copa con lo que alcanzó a jugar.</p>
+          <BotonPeligroso accion={quitar} texto="Quitar jugador" palabra="QUITAR" aviso="Se va a borrar ese jugador con todos sus golpes.">
+            <select name="jugador" required defaultValue="">
+              <option value="" disabled>Elige a quién quitar</option>
+              {js.filter(sePuedeQuitar).map(j => <option key={j.id} value={j.id}>{j.nombre}</option>)}
+            </select>
+          </BotonPeligroso>
+        </div>
         <div>
           <b>Borrar todos los scores</b>
           <p className="nota">Borra los golpes y las firmas de todos los jugadores. No se puede deshacer.</p>
