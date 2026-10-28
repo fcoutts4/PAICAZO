@@ -45,7 +45,7 @@ export default async function Reglas() {
         <summary>Bonus · Puto (grupo neto)</summary>
         <p>Juegas solo contra tu grupo{grupo.length ? <>: <b>{grupo.join(' y ')}</b></> : ''}.</p>
         <p>Cada hoyo vale <b>1 punto</b> para el mejor <b>neto</b> del grupo. Si empatan, se reparte.</p>
-        <p className="nota">En un grupo de 2 los puntos se multiplican por ⅔: así un grupo chico no regala más bonus que uno de 3.</p>
+        <p className="nota">En grupos de 2 cada hoyo vale ⅔ y en grupos de 4 vale 1⅓, para que el Puto valga lo mismo en cualquier grupo: en promedio, 6 puntos por jugador.</p>
       </details>
 
       <details>

@@ -557,3 +557,9 @@ test('quitar: cualquier jugador se puede quitar', () => assert.equal(sePuedeQuit
 test('quitar: el admin no (se quedaría sin admin)', () => assert.equal(sePuedeQuitar({ ...J('fc', 13.4), admin: true }), false))
 test('id nuevo: no reutiliza el id de un jugador quitado (su PIN sería el mismo)', () =>
   assert.equal(nuevoId('VC', ['pm', 'vc']), 'vc2'))
+test('grupo: en grupo de 4 cada hoyo vale 4/3 (mismo promedio que en grupo de 3)', () => {
+  const ga = pares(); ga[0] = 3
+  const r = ranking(['a', 'b', 'c', 'd'].map(id => J(id, 0, 1)), [...filas('a', ga), ...['b', 'c', 'd'].flatMap(id => filas(id, pares()))], cancha)
+  assert.ok(Math.abs(enGrupo(r, 1, 'a')! - (1 + 17 / 4) * 4 / 3) < 1e-9)
+  assert.ok(Math.abs(r.grupos[0].jugadores.reduce((x, j) => x + j.puntos, 0) - 24) < 1e-9) // 18 hoyos × 4/3
+})

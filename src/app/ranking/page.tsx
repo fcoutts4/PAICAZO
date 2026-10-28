@@ -85,7 +85,7 @@ export default async function Ranking({ searchParams }: { searchParams: Promise<
       {vista === 'grupo' && (
         <>
           <p className="aviso"><b>Puto (grupo neto, bonus):</b> juegas solo contra tu grupo. Cada hoyo vale 1 punto para el mejor neto del grupo (con tus golpes de hándicap). Si empatan, se reparte.
-            En grupos de 2 los puntos se multiplican por ⅔ para que valgan lo mismo que en uno de 3.</p>
+            En grupos de 2 cada hoyo vale ⅔ y en grupos de 4 vale 1⅓, para que el Puto valga lo mismo en cualquier grupo.</p>
           {r.grupos.map(g => (
             <section key={g.grupo} style={{ marginBottom: 12 }}>
               <h2 style={{ margin: '8px 0 6px' }}>Grupo {g.grupo} <small style={{ color: 'var(--gris)', textTransform: 'none', letterSpacing: 0 }}>· {g.hoyos.length} de 18 hoyos</small></h2>

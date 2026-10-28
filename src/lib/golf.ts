@@ -176,7 +176,7 @@ export function ranking(jugadores: Jugador[], filas: Golpe[], c: Cancha, firmada
   const skins = repartir(juegan, h => h.golpes)
 
   // juego de grupo: solo contra los de tu grupo, en neto (golpes − golpes recibidos).
-  // Se escala por tamaño/3: en un grupo de 2 se ganan en promedio 9 puntos y en uno de 3, 6.
+  // Se escala por tamaño/3 para que el promedio sea 6 en cualquier grupo (sin escalar: 9 en uno de 2, 6 en uno de 3, 4,5 en uno de 4).
   const grupos = [...new Set(juegan.map(x => x.j.grupo))].sort((a, b) => a - b).map(grupo => {
     const del = juegan.filter(x => x.j.grupo === grupo)
     const r = repartir(del, h => (h.golpes == null ? null : h.golpes - h.recibidos))
