@@ -122,14 +122,14 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
           <>
             <p className="nota">Hoyos de cada tarjeta: <b>ok</b> = jugador y marcador anotaron lo mismo, <b>mal</b> = anotaron distinto, <b>falta</b> = anotó solo uno.</p>
             <table className="admin-tabla">
-              <thead><tr><th className="num">#</th><th>Jugador</th><th className="num">Ok</th><th className="num">Mal</th><th className="num">Falta</th><th>Tarjeta</th></tr></thead>
+              <thead><tr><th className="num">#</th><th>Jugador</th><th className="num centro">Ok</th><th className="num centro">Mal</th><th className="num centro">Falta</th><th>Tarjeta</th></tr></thead>
               <tbody>
                 {ts.map(({ j, t }, i) => (
                   <tr key={j.id}>
                     <td className="num">{i + 1}</td><td>{j.nombre}</td>
-                    <td className="num">{cuenta(t, 'ok')}</td>
-                    <td className="num" style={{ color: cuenta(t, 'conflicto') ? 'var(--rojo)' : undefined, fontWeight: cuenta(t, 'conflicto') ? 700 : undefined }}>{cuenta(t, 'conflicto')}</td>
-                    <td className="num">{cuenta(t, 'pendiente')}</td>
+                    <td className="num centro">{cuenta(t, 'ok')}</td>
+                    <td className="num centro" style={{ color: cuenta(t, 'conflicto') ? 'var(--rojo)' : undefined, fontWeight: cuenta(t, 'conflicto') ? 700 : undefined }}>{cuenta(t, 'conflicto')}</td>
+                    <td className="num centro">{cuenta(t, 'pendiente')}</td>
                     <td>{firmas.has(j.id)
                       ? <form action={destrabar}><input type="hidden" name="jugador" value={j.id} /><button className="btn chico">Destrabar</button></form>
                       : <span className="nota">sin firmar</span>}</td>
@@ -162,12 +162,12 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
       <p className="nota">Manda a cada uno su PIN por interno. Cambiar PAICAZO_SECRET cambia todos los PIN.</p>
       <div className="tabla-scroll">
         <table className="admin-tabla">
-          <thead><tr><th className="num">#</th><th>Jugador</th><th className="num">Índ</th><th className="num">HCP</th><th>PIN</th><th className="num">Grupo</th><th>Marca</th></tr></thead>
+          <thead><tr><th className="num">#</th><th>Jugador</th><th className="num">Índ</th><th className="num">HCP</th><th className="num centro">PIN</th><th className="num centro">Grupo</th><th>Marca</th></tr></thead>
           <tbody>
             {orden.map((j, i) => (
               <tr key={j.id}>
                 <td className="num">{i + 1}</td><td>{j.nombre}</td><td className="num">{j.indice}</td><td className="num">{hcpJuego(j.indice, cancha)}</td>
-                <td><code>{pinDe(j.id)}</code></td><td className="num">{j.grupo}</td><td>{nombre(j.marca)}</td>
+                <td className="num centro"><code>{pinDe(j.id)}</code></td><td className="num centro">{j.grupo}</td><td>{nombre(j.marca)}</td>
               </tr>
             ))}
           </tbody>

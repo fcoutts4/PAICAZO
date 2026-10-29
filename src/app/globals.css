@@ -152,11 +152,21 @@ input:focus-visible, select:focus-visible { outline: 3px solid rgb(140 198 63 / 
 
 /* tablas */
 table { width: 100%; border-collapse: collapse; background: #fff; border-radius: var(--radio); overflow: hidden; border: 0; box-shadow: var(--sombra); font-size: 14px; }
-th { background: #F7F9F5; color: var(--gris); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; padding: 10px 6px; text-align: left; }
-td { padding: 10px 6px; border-top: 1px solid var(--linea); }
-td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+th { background: #F7F9F5; color: var(--gris); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; padding: 10px; text-align: left; white-space: nowrap; }
+td { padding: 10px; border-top: 1px solid var(--linea); }
+th:first-child, td:first-child { padding-left: 14px; }
+th:last-child, td:last-child { padding-right: 14px; }
+/* columnas de números: se ajustan a su contenido y se alinean a la derecha; el texto se queda con el resto del ancho */
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; width: 1%; white-space: nowrap; }
+td.centro, th.centro { text-align: center; }
+.pga th:last-child, .pga td:last-child { padding-right: 0; } /* la tarjeta PGA tiene sus propios anchos */
+@media (max-width: 480px) {
+  th, td { padding-left: 6px; padding-right: 6px; }
+  th:first-child, td:first-child { padding-left: 10px; }
+  th:last-child, td:last-child { padding-right: 10px; }
+}
 tr.lider td { background: var(--lima-suave); font-weight: 700; }
-.pos { width: 30px; text-align: center; font-weight: 700; color: var(--gris); }
+.pos { width: 1%; white-space: nowrap; text-align: center; font-weight: 700; color: var(--gris); }
 tr.lider .pos { color: var(--verde); }
 .firmada { color: var(--verde-2); font-size: 12px; }
 .tabla-scroll { overflow-x: auto; border-radius: var(--radio); box-shadow: var(--sombra); }
@@ -211,11 +221,18 @@ main.compacta { padding: 8px 10px; }
 .compacta .leyenda .m.eagle, .compacta .leyenda .m.doble { box-shadow: 0 0 0 1.5px #fff, 0 0 0 3px currentColor; margin: 0 2px; }
 
 /* admin: tabla compacta, cabe en el teléfono sin scroll horizontal */
-.admin-tabla { font-size: 12px; }
-.admin-tabla th { font-size: 10px; padding: 6px 2px; letter-spacing: 0; white-space: normal; line-height: 1.2; }
-.admin-tabla td { padding: 7px 2px; }
-.admin-tabla td:first-child, .admin-tabla th:first-child { padding-left: 5px; }
-.admin-tabla .btn.chico { padding: 4px 5px; font-size: 11px; }
+.admin-tabla { font-size: 13px; }
+.admin-tabla th { font-size: 10px; letter-spacing: .04em; }
+.admin-tabla code { font-size: 12px; background: #F2F5EF; padding: 2px 6px; border-radius: 6px; }
+.admin-tabla .btn.chico { padding: 4px 8px; font-size: 11px; }
+.admin-tabla .nota { margin: 0; }
+@media (max-width: 480px) {
+  .admin-tabla { font-size: 12px; }
+  .admin-tabla th, .admin-tabla td { padding-left: 4px; padding-right: 4px; }
+  .admin-tabla th:first-child, .admin-tabla td:first-child { padding-left: 8px; }
+  .admin-tabla th:last-child, .admin-tabla td:last-child { padding-right: 8px; }
+  .admin-tabla code { padding: 2px 4px; }
+}
 
 /* reglas: corto, con secciones que se abren */
 .reglas details { background: #fff; border: 0; border-radius: var(--radio); margin-bottom: 10px; box-shadow: var(--sombra); }
