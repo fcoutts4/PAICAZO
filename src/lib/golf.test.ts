@@ -3,7 +3,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import {
   hcpJuego, golpesRecibidos, puntosStableford, estadoHoyo, tarjeta, ranking,
-  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, armarGrupos, golpesDemo, vsNeto, nuevoId, limpiarIndice, sumarAGrupo, sacarDeGrupo, sePuedeQuitar, porHandicap, type Cancha, type Jugador, type Golpe,
+  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, armarGrupos, golpesDemo, vsNeto, nuevoId, limpiarIndice, sumarAGrupo, sacarDeGrupo, sePuedeQuitar, porHandicap, gruposParaMostrar, type Cancha, type Jugador, type Golpe,
 } from './golf.ts'
 
 const par = [4, 4, 3, 4, 5, 4, 4, 3, 4, 4, 4, 3, 4, 5, 4, 4, 3, 4]
@@ -573,4 +573,21 @@ test('por hándicap: no cambia la lista original', () => {
   const js = [J('b', 5), J('a', 1)]
   porHandicap(js)
   assert.deepEqual(js.map(j => j.id), ['b', 'a'])
+})
+
+// --- pestaña Grupos: cada grupo en el orden de la cadena de marcadores ---
+const cadenas = (gs: ReturnType<typeof gruposParaMostrar>) => gs.map(g => `${g.grupo}:${g.jugadores.map(j => j.id).join('>')}`)
+test('grupos: ordenados por número de grupo', () =>
+  assert.deepEqual(gruposParaMostrar([J('x', 5, 2, 'y'), J('y', 6, 2, 'x'), J('a', 1, 1, '')]).map(g => g.grupo), [1, 2]))
+test('grupos: parte por el de menor índice y sigue a quién marca', () =>
+  assert.deepEqual(cadenas(gruposParaMostrar([J('c', 20, 1, 'a'), J('a', 2, 1, 'b'), J('b', 15, 1, 'c')])), ['1:a>b>c']))
+test('grupos: cadena al revés también se sigue', () =>
+  assert.deepEqual(cadenas(gruposParaMostrar([J('a', 2, 1, 'c'), J('b', 15, 1, 'a'), J('c', 20, 1, 'b')])), ['1:a>c>b']))
+test('grupos: cadena rota o marcador de otro grupo → el resto por índice', () =>
+  assert.deepEqual(cadenas(gruposParaMostrar([J('a', 2, 1, 'z'), J('c', 20, 1, ''), J('b', 15, 1, '')])), ['1:a>b>c']))
+test('grupos: jugador solo', () => assert.deepEqual(cadenas(gruposParaMostrar([J('a', 2, 3, '')])), ['3:a']))
+test('grupos: sin jugadores → vacío', () => assert.deepEqual(gruposParaMostrar([]), []))
+test('grupos: cada jugador aparece una sola vez', () => {
+  const gs = gruposParaMostrar([J('a', 2, 1, 'b'), J('b', 15, 1, 'a'), J('c', 9, 1, 'a')])
+  assert.deepEqual(gs[0].jugadores.map(j => j.id).sort(), ['a', 'b', 'c'])
 })

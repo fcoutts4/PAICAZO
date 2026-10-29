@@ -5,7 +5,7 @@ import Icono, { type NombreIcono } from './Icono'
 
 export default function Menu({ admin }: { admin: boolean }) {
   const ruta = usePathname()
-  const items: [string, NombreIcono, string][] = [['/', 'tarjeta', 'Tarjeta'], ['/ranking', 'ranking', 'Ranking'], ['/cancha', 'cancha', 'Cancha'], ['/reglas', 'reglas', 'Reglas']]
+  const items: [string, NombreIcono, string][] = [['/', 'tarjeta', 'Tarjeta'], ['/ranking', 'ranking', 'Ranking'], ['/grupos', 'grupos', 'Grupos'], ['/cancha', 'cancha', 'Cancha'], ['/reglas', 'reglas', 'Reglas']]
   if (admin) items.push(['/admin', 'admin', 'Admin'])
   return (
     <nav className="menu">

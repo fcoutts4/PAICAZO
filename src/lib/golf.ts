@@ -120,6 +120,16 @@ export function sacarDeGrupo(js: Asignacion[], id: string): Asignacion[] {
 /** Orden de la tabla del admin: de menor a mayor índice (es el mismo orden que el hándicap de juego); empate por nombre. */
 export const porHandicap = (js: Jugador[]) => [...js].sort((a, b) => a.indice - b.indice || a.nombre.localeCompare(b.nombre, 'es'))
 
+/** Pestaña Grupos: por número de grupo; dentro, la cadena de marcadores desde el de menor índice (si se corta, el resto por índice). */
+export function gruposParaMostrar(js: Jugador[]) {
+  return [...new Set(js.map(j => j.grupo))].sort((a, b) => a - b).map(grupo => {
+    const del = porHandicap(js.filter(j => j.grupo === grupo))
+    const orden: Jugador[] = []
+    for (let j = del[0]; j && !orden.includes(j); j = del.find(x => x.id === j.marca)!) orden.push(j)
+    return { grupo, jugadores: [...orden, ...del.filter(x => !orden.includes(x))] }
+  })
+}
+
 /** Quién puede anotar qué: el jugador su tarjeta, el marcador la de su marcado, el admin todo. */
 export function puedeAnotar(quien: Jugador, g: Golpe, firmadas: Set<string>, admin: boolean): boolean {
   if (!Number.isInteger(g.hoyo) || g.hoyo < 1 || g.hoyo > HOYOS) return false

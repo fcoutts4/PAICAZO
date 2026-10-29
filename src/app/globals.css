@@ -280,3 +280,16 @@ a.ver-tarjeta::after { content: ' ›'; color: var(--gris); }
 .tabla-hoyos th.sub { background: var(--verde-2); color: #fff; }
 .tabla-hoyos tr.yo td, .tabla-hoyos tr.yo td.fijo { background: #EEF6E2; }
 .tabla-hoyos .m { width: 22px; height: 22px; }
+
+/* pestaña Grupos */
+.grupo h2 { margin: 0 0 6px; }
+.grupo h2 small { text-transform: none; letter-spacing: 0; color: var(--gris); font-weight: 600; }
+.grupo.mio { border-color: var(--lima); box-shadow: inset 4px 0 var(--lima); }
+.grupo ol { list-style: none; margin: 0; padding: 0; }
+.grupo li { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 0; border-top: 1px solid var(--linea); font-size: 15px; }
+.grupo li:first-child { border-top: 0; }
+.grupo li small { display: block; color: var(--gris); font-size: 12px; }
+.grupo li em { color: var(--rojo); font-size: 12px; font-style: normal; margin-left: 6px; }
+.grupo li.yo { background: var(--lima-suave); margin: 0 -8px; padding: 8px; border-radius: 8px; }
+.grupo .marca { font-size: 13px; color: var(--gris); text-align: right; }
+.grupo .marca b { color: var(--verde); }
