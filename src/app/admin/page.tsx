@@ -116,9 +116,9 @@ export default async function Admin() {
       <h1>Admin</h1>
       <h2>Jugadores y PIN</h2>
       <p className="nota">Manda a cada uno su PIN por interno. Cambiar PAICAZO_SECRET cambia todos los PIN.</p>
-      <div>
+      <div className="tabla-scroll">
         <table className="admin-tabla">
-          <thead><tr><th className="num">#</th><th>Jugador</th><th className="num">Índ</th><th className="num">HCP</th><th>PIN</th><th>G</th><th>Marca</th><th>Ok/mal/falta</th><th>Juega</th><th /></tr></thead>
+          <thead><tr><th className="num">#</th><th>Jugador</th><th className="num">Índ</th><th className="num">HCP</th><th>PIN</th><th>G</th><th>Marca</th><th>Ok / mal / falta</th><th>Juega</th><th /></tr></thead>
           <tbody>
             {porHandicap(js).map((j, i) => {
               const t = tarjeta(j, filas, cancha)
@@ -127,7 +127,7 @@ export default async function Admin() {
                 <tr key={j.id}>
                   <td className="num">{i + 1}</td><td>{j.nombre}</td><td className="num">{j.indice}</td><td className="num">{t.hj}</td>
                   <td><code>{pinDe(j.id)}</code></td><td>{j.grupo}</td><td>{nombre(j.marca)}</td>
-                  <td>{n('ok')} / <span style={{ color: n('conflicto') ? 'var(--rojo)' : undefined }}>{n('conflicto')}</span> / {n('pendiente')}</td>
+                  <td style={{ whiteSpace: 'nowrap' }}>{n('ok')}/<span style={{ color: n('conflicto') ? 'var(--rojo)' : undefined }}>{n('conflicto')}</span>/{n('pendiente')}</td>
                   <td>
                     <form action={cambiarNoJuega}>
                       <input type="hidden" name="jugador" value={j.id} /><input type="hidden" name="noJuega" value={j.noJuega ? '0' : '1'} />
