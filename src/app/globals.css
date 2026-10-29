@@ -310,3 +310,9 @@ a.ver-tarjeta::after { content: ' ›'; color: var(--gris); }
 .grupo li.yo { background: var(--lima-suave); margin: 0 -8px; padding: 8px; border-radius: 8px; }
 .grupo .marca { font-size: 13px; color: var(--gris); text-align: right; }
 .grupo .marca b { color: var(--verde); }
+
+/* admin, pestaña Tarjetas: lista de hoyos en conflicto */
+.conflictos { list-style: none; margin: 0 0 12px; padding: 4px 16px; }
+.conflictos li { padding: 10px 0; border-top: 1px solid var(--linea); font-size: 14px; }
+.conflictos li:first-child { border-top: 0; }
+.conflictos li b:not(:first-child) { color: var(--rojo); }

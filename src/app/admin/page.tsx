@@ -1,8 +1,9 @@
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { agregarJugador, borrarScores, idsUsados, cambiarIndice, cancha, firmadas, golpes, guardarGolpe, guardarGolpesEnLote, guardarGrupos, jugador, jugadores, marcarNoJuega, quitarJugador, renombrar } from '@/lib/datos'
 import { sql } from '@/lib/db'
-import { armarGrupos, golpesDemo, limpiarIndice, limpiarNombre, nuevoId, porHandicap, sacarDeGrupo, sePuedeQuitar, sumarAGrupo, tarjeta } from '@/lib/golf'
+import { armarGrupos, golpesDemo, hcpJuego, limpiarIndice, limpiarNombre, nuevoId, porHandicap, sacarDeGrupo, sePuedeQuitar, sumarAGrupo, tarjeta } from '@/lib/golf'
 import { pinDe, requiereUsuario } from '@/lib/sesion'
 import BotonPeligroso from './BotonPeligroso'
 
@@ -107,39 +108,83 @@ async function destrabar(form: FormData) {
   revalidatePath('/admin')
 }
 
-export default async function Admin() {
+export default async function Admin({ searchParams }: { searchParams: Promise<{ v?: string }> }) {
   await soloAdmin()
+  const { v } = await searchParams
+  const vista = v === 'tarjetas' ? 'tarjetas' : 'jugadores'
   const [js, filas, firmas] = await Promise.all([jugadores(), golpes(), firmadas()])
   const nombre = (id: string) => js.find(j => j.id === id)?.nombre
+  const orden = porHandicap(js)
   return (
     <main>
       <h1>Admin</h1>
+      <nav className="tabs">
+        <Link href="/admin?v=jugadores" aria-current={vista === 'jugadores' ? 'page' : undefined}>Jugadores</Link>
+        <Link href="/admin?v=tarjetas" aria-current={vista === 'tarjetas' ? 'page' : undefined}>Tarjetas</Link>
+      </nav>
+
+      {vista === 'tarjetas' && (() => {
+        const ts = orden.map(j => ({ j, t: tarjeta(j, filas, cancha) }))
+        const cuenta = (t: (typeof ts)[number]['t'], e: string) => t.hoyos.filter(h => h.estado === e).length
+        const conflictos = ts.flatMap(({ j, t }) => t.hoyos.filter(h => h.estado === 'conflicto').map(h => ({ j, h })))
+        return (
+          <>
+            <p className="nota">Hoyos de cada tarjeta: <b>ok</b> = jugador y marcador anotaron lo mismo, <b>mal</b> = anotaron distinto, <b>falta</b> = anotó solo uno.</p>
+            <table className="admin-tabla">
+              <thead><tr><th className="num">#</th><th>Jugador</th><th className="num">Ok</th><th className="num">Mal</th><th className="num">Falta</th><th>Tarjeta</th></tr></thead>
+              <tbody>
+                {ts.map(({ j, t }, i) => (
+                  <tr key={j.id}>
+                    <td className="num">{i + 1}</td><td>{j.nombre}</td>
+                    <td className="num">{cuenta(t, 'ok')}</td>
+                    <td className="num" style={{ color: cuenta(t, 'conflicto') ? 'var(--rojo)' : undefined, fontWeight: cuenta(t, 'conflicto') ? 700 : undefined }}>{cuenta(t, 'conflicto')}</td>
+                    <td className="num">{cuenta(t, 'pendiente')}</td>
+                    <td>{firmas.has(j.id)
+                      ? <form action={destrabar}><input type="hidden" name="jugador" value={j.id} /><button className="btn chico">Destrabar</button></form>
+                      : <span className="nota">sin firmar</span>}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <h2>Hoyos en conflicto</h2>
+            {conflictos.length
+              ? <ul className="conflictos tarjeta-ui">{conflictos.map(({ j, h }) => (
+                  <li key={`${j.id}-${h.hoyo}`}><b>{j.nombre}</b> · hoyo {h.hoyo}: anotó <b>{h.propio}</b>, su marcador <b>{h.marcador}</b></li>
+                ))}</ul>
+              : <p className="nota">No hay hoyos en conflicto.</p>}
+
+            <h2>Corregir un hoyo</h2>
+            <p className="nota">Guarda el mismo valor como jugador y como marcador (queda validado). Vacío = borrar.</p>
+            <form action={corregir} className="admin-form tarjeta-ui">
+              <select name="jugador" required>{orden.map(j => <option key={j.id} value={j.id}>{j.nombre}</option>)}</select>
+              <select name="hoyo">{cancha.par.map((_, i) => <option key={i} value={i + 1}>Hoyo {i + 1}</option>)}</select>
+              <input name="golpes" type="number" min={1} max={15} placeholder="Golpes" style={{ width: 90 }} />
+              <button className="btn chico">Guardar</button>
+            </form>
+          </>
+        )
+      })()}
+
+      {vista === 'jugadores' && (<>
       <h2>Jugadores y PIN</h2>
       <p className="nota">Manda a cada uno su PIN por interno. Cambiar PAICAZO_SECRET cambia todos los PIN.</p>
       <div className="tabla-scroll">
         <table className="admin-tabla">
-          <thead><tr><th className="num">#</th><th>Jugador</th><th className="num">Índ</th><th className="num">HCP</th><th>PIN</th><th>G</th><th>Marca</th><th>Ok / mal / falta</th><th>Juega</th><th /></tr></thead>
+          <thead><tr><th className="num">#</th><th>Jugador</th><th className="num">Índ</th><th className="num">HCP</th><th>PIN</th><th>G</th><th>Marca</th><th>Juega</th></tr></thead>
           <tbody>
-            {porHandicap(js).map((j, i) => {
-              const t = tarjeta(j, filas, cancha)
-              const n = (e: string) => t.hoyos.filter(h => h.estado === e).length
-              return (
-                <tr key={j.id}>
-                  <td className="num">{i + 1}</td><td>{j.nombre}</td><td className="num">{j.indice}</td><td className="num">{t.hj}</td>
-                  <td><code>{pinDe(j.id)}</code></td><td>{j.grupo}</td><td>{nombre(j.marca)}</td>
-                  <td style={{ whiteSpace: 'nowrap' }}>{n('ok')}/<span style={{ color: n('conflicto') ? 'var(--rojo)' : undefined }}>{n('conflicto')}</span>/{n('pendiente')}</td>
-                  <td>
-                    <form action={cambiarNoJuega}>
-                      <input type="hidden" name="jugador" value={j.id} /><input type="hidden" name="noJuega" value={j.noJuega ? '0' : '1'} />
-                      <button className={`btn chico${j.noJuega ? ' no' : ''}`}>{j.noJuega ? 'No' : 'Sí'}</button>
-                    </form>
-                  </td>
-                  <td>{firmas.has(j.id) && (
-                    <form action={destrabar}><input type="hidden" name="jugador" value={j.id} /><button className="btn chico">Destrabar</button></form>
-                  )}</td>
-                </tr>
-              )
-            })}
+            {orden.map((j, i) => (
+              <tr key={j.id}>
+                <td className="num">{i + 1}</td><td>{j.nombre}</td><td className="num">{j.indice}</td><td className="num">{hcpJuego(j.indice, cancha)}</td>
+                <td><code>{pinDe(j.id)}</code></td><td>{j.grupo}</td><td>{nombre(j.marca)}</td>
+                <td>
+                  <form action={cambiarNoJuega}>
+                    <input type="hidden" name="jugador" value={j.id} /><input type="hidden" name="noJuega" value={j.noJuega ? '0' : '1'} />
+                    <button className={`btn chico${j.noJuega ? ' no' : ''}`}>{j.noJuega ? 'No' : 'Sí'}</button>
+                  </form>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -156,7 +201,7 @@ export default async function Admin() {
 
       <h2>Cambiar índice</h2>
       <form action={editarIndice} className="admin-form tarjeta-ui">
-        <select name="jugador" required>{js.map(j => <option key={j.id} value={j.id}>{j.nombre} ({j.indice})</option>)}</select>
+        <select name="jugador" required>{orden.map(j => <option key={j.id} value={j.id}>{j.nombre} ({j.indice})</option>)}</select>
         <input name="indice" required inputMode="decimal" pattern="[0-9]{1,2}([.,][0-9])?" placeholder="Índice" style={{ width: 80 }} />
         <button className="btn chico">Guardar</button>
       </form>
@@ -164,17 +209,8 @@ export default async function Admin() {
       <h2>Cambiar nombre</h2>
       <p className="nota">Es el nombre que se ve en el ingreso, la tarjeta y el ranking. El PIN no cambia.</p>
       <form action={cambiarNombre} className="admin-form tarjeta-ui">
-        <select name="jugador" required>{js.map(j => <option key={j.id} value={j.id}>{j.nombre}</option>)}</select>
+        <select name="jugador" required>{orden.map(j => <option key={j.id} value={j.id}>{j.nombre}</option>)}</select>
         <input name="nombre" required maxLength={24} placeholder="Nuevo nombre" style={{ flex: 1, minWidth: 140 }} />
-        <button className="btn chico">Guardar</button>
-      </form>
-
-      <h2>Corregir un hoyo</h2>
-      <p className="nota">Guarda el mismo valor como jugador y como marcador (queda validado). Vacío = borrar.</p>
-      <form action={corregir} className="admin-form tarjeta-ui">
-        <select name="jugador" required>{js.map(j => <option key={j.id} value={j.id}>{j.nombre}</option>)}</select>
-        <select name="hoyo">{cancha.par.map((_, i) => <option key={i} value={i + 1}>Hoyo {i + 1}</option>)}</select>
-        <input name="golpes" type="number" min={1} max={15} placeholder="Golpes" style={{ width: 90 }} />
         <button className="btn chico">Guardar</button>
       </form>
 
@@ -209,6 +245,7 @@ export default async function Admin() {
             aviso="Se van a borrar TODOS los golpes y firmas del campeonato." />
         </div>
       </div>
+      </>)}
     </main>
   )
 }
