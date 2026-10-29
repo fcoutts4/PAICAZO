@@ -250,13 +250,15 @@ function cadenaValida(as: { id: string; grupo: number; marca: string }[]) {
   }
 }
 for (let n = 0; n <= 40; n++) {
-  test(`sorteo con ${n} jugadores: grupos de 2 o 3 (nadie solo salvo n=1), cadena válida, todos una vez`, () => {
+  test(`sorteo con ${n} jugadores: grupos de 3 o 4 (menos de 6: uno solo), cadena válida, todos una vez`, () => {
     const ids = Array.from({ length: n }, (_, i) => `j${i}`)
     const r = armarGrupos(ids, azar(n + 1))
     assert.deepEqual(r.map(a => a.id).sort(), [...ids].sort())
     const tamaños = [...new Set(r.map(a => a.grupo))].map(g => r.filter(a => a.grupo === g).length)
-    if (n >= 2) assert.ok(tamaños.every(t => t === 2 || t === 3), tamaños.join())
-    assert.equal(tamaños.length, Math.ceil(n / 3))
+    if (n >= 6) assert.ok(tamaños.every(t => t === 3 || t === 4), tamaños.join())
+    else if (n) assert.deepEqual(tamaños, [n])
+    assert.equal(tamaños.length, n ? Math.max(1, Math.floor(n / 3)) : 0)
+    assert.ok(Math.max(0, ...tamaños) - Math.min(Infinity, ...tamaños) <= 1 || n < 6, 'parejos')
     cadenaValida(r)
   })
 }

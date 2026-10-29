@@ -399,9 +399,12 @@ const azar = (semilla: number) => () => ((semilla = (semilla * 16807) % 21474836
 const ids = (n: number) => Array.from({ length: n }, (_, i) => 'j' + i)
 const tamanos = (g: ReturnType<typeof armarGrupos>) =>
   [...new Set(g.map(x => x.grupo))].map(n => g.filter(x => x.grupo === n).length).sort((a, b) => b - a)
-test('grupos: 11 jugadores → 3, 3, 3, 2', () => assert.deepEqual(tamanos(armarGrupos(ids(11), azar(1))), [3, 3, 3, 2]))
+test('grupos: 14 jugadores → dos de 4 y dos de 3', () => assert.deepEqual(tamanos(armarGrupos(ids(14), azar(1))), [4, 4, 3, 3]))
+test('grupos: 11 jugadores → 4, 4, 3 (nunca de 2)', () => assert.deepEqual(tamanos(armarGrupos(ids(11), azar(1))), [4, 4, 3]))
 test('grupos: 12 jugadores → cuatro de 3', () => assert.deepEqual(tamanos(armarGrupos(ids(12), azar(1))), [3, 3, 3, 3]))
-test('grupos: 4 jugadores → 2 y 2 (nadie queda solo)', () => assert.deepEqual(tamanos(armarGrupos(ids(4), azar(1))), [2, 2]))
+test('grupos: 13 jugadores → 4, 3, 3, 3', () => assert.deepEqual(tamanos(armarGrupos(ids(13), azar(1))), [4, 3, 3, 3]))
+test('grupos: 4 jugadores → uno de 4 (no 2 y 2)', () => assert.deepEqual(tamanos(armarGrupos(ids(4), azar(1))), [4]))
+test('grupos: 2 jugadores → uno de 2 (no alcanza para más)', () => assert.deepEqual(tamanos(armarGrupos(ids(2), azar(1))), [2]))
 test('grupos: cada jugador aparece una vez', () => {
   const g = armarGrupos(ids(11), azar(7))
   assert.deepEqual(g.map(x => x.id).sort(), ids(11).sort())
@@ -414,6 +417,11 @@ test('grupos: cada uno marca a otro de su grupo y todos son marcados una vez', (
     assert.equal(m.grupo, x.grupo)
   }
   assert.equal(new Set(g.map(x => x.marca)).size, 11)
+})
+test('grupos: con 14 cada grupo de 4 también cierra su cadena', () => {
+  const g = armarGrupos(ids(14), azar(5))
+  for (const x of g) assert.equal(g.find(y => y.id === x.marca)!.grupo, x.grupo)
+  assert.equal(new Set(g.map(x => x.marca)).size, 14)
 })
 test('grupos: el sorteo cambia con el azar', () => {
   const a = armarGrupos(ids(11), azar(1)).map(x => x.id + x.grupo).join()
@@ -521,6 +529,18 @@ const marcados = (xs: A[]) => xs.map(x => x.marca).filter(Boolean).sort()
 test('sumar: entra al grupo más chico', () => {
   assert.equal(sumarAGrupo(cadena, 'n').find(x => x.id === 'n')!.grupo, 2)
 })
+test('sumar: un grupo de 3 pasa a 4 (no se abre uno nuevo)', () => {
+  const r = sumarAGrupo(cadena.filter(x => x.grupo === 1), 'n')
+  assert.equal(r.find(x => x.id === 'n')!.grupo, 1)
+  assert.equal(r.filter(x => x.grupo === 1).length, 4)
+})
+test('sumar: todos de 4 → entra al más chico igual, nunca queda solo', () => {
+  const cuatro = (g: number) => ['a', 'b', 'c', 'd'].map((x, i, xs) => ({ id: `${x}${g}`, grupo: g, marca: `${xs[(i + 1) % 4]}${g}` }))
+  const r = sumarAGrupo([...cuatro(1), ...cuatro(2)], 'n')
+  const n = r.find(x => x.id === 'n')!
+  assert.ok(n.marca)
+  assert.equal(r.filter(x => x.grupo === n.grupo).length, 5)
+})
 test('sumar: queda en la cadena de marcadores (todos marcan y son marcados una vez)', () => {
   const r = sumarAGrupo(cadena, 'n')
   assert.deepEqual(marcados(r), r.map(x => x.id).sort())
@@ -537,10 +557,6 @@ test('sumar: con un solo jugador en el grupo se marcan entre ellos', () => {
 })
 test('sumar: sin jugadores parte el grupo 1, sin marcador', () => {
   assert.deepEqual(sumarAGrupo([], 'n'), [{ id: 'n', grupo: 1, marca: '' }])
-})
-test('sumar: grupos llenos (3) → grupo nuevo', () => {
-  const r = sumarAGrupo(cadena.filter(x => x.grupo === 1), 'n')
-  assert.deepEqual(r.find(x => x.id === 'n'), { id: 'n', grupo: 2, marca: '' })
 })
 test('sacar: quien lo marcaba pasa a marcar a quien él marcaba', () => {
   const r = sacarDeGrupo(cadena, 'b')

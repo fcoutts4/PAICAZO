@@ -97,12 +97,13 @@ export function limpiarIndice(s: string): number | null {
 
 type Asignacion = { id: string; grupo: number; marca: string }
 
-/** Suma un jugador al grupo más chico (de menos de 3) metiéndolo en la cadena de marcadores: X marcaba a Y → X marca al nuevo y el nuevo a Y. */
+/** Suma un jugador al grupo más chico (un 3 pasa a 4; si todos son de 4, al más chico igual: nunca queda solo),
+ *  metiéndolo en la cadena de marcadores: X marcaba a Y → X marca al nuevo y el nuevo a Y. */
 export function sumarAGrupo(js: Asignacion[], nuevo: string): Asignacion[] {
   const tam = new Map<number, number>()
   for (const j of js) tam.set(j.grupo, (tam.get(j.grupo) ?? 0) + 1)
-  const chico = [...tam].filter(([, n]) => n < 3).sort((a, b) => a[1] - b[1] || a[0] - b[0])[0]?.[0]
-  if (chico == null) return [...js, { id: nuevo, grupo: Math.max(0, ...tam.keys()) + 1, marca: '' }]
+  const chico = [...tam].sort((a, b) => a[1] - b[1] || a[0] - b[0])[0]?.[0]
+  if (chico == null) return [{ id: nuevo, grupo: 1, marca: '' }]
   const x = js.filter(j => j.grupo === chico).at(-1)!
   return [...js.map(j => (j.id === x.id ? { ...j, marca: nuevo } : j)), { id: nuevo, grupo: chico, marca: x.marca || x.id }]
 }
@@ -233,11 +234,12 @@ export function posicionEnVivo(jugadores: Jugador[], filas: Golpe[], c: Cancha, 
   return { hoyo: N, general, grupo }
 }
 
-/** Sorteo de grupos de 3 (lo más parejo posible, nadie solo si hay 2+); cada uno marca al siguiente de su grupo. */
+/** Sorteo en grupos de 3 y 4, nunca de 2 (14 → 4, 4, 3, 3): tantos grupos como tríos caben, lo más parejos posible.
+ *  Con menos de 6 jugadores, uno solo. Cada uno marca al siguiente de su grupo. */
 export function armarGrupos(ids: string[], azar: () => number = Math.random): { id: string; grupo: number; marca: string }[] {
   const mezcla = [...ids]
   for (let i = mezcla.length - 1; i > 0; i--) { const k = Math.floor(azar() * (i + 1)); [mezcla[i], mezcla[k]] = [mezcla[k], mezcla[i]] }
-  const n = Math.ceil(mezcla.length / 3)
+  const n = Math.max(1, Math.floor(mezcla.length / 3))
   const grupos = Array.from({ length: n }, (_, g) => mezcla.filter((_, i) => i % n === g)) // reparte en ronda: tamaños parejos
   return grupos.flatMap((g, gi) => g.map((id, i) => ({ id, grupo: gi + 1, marca: g.length > 1 ? g[(i + 1) % g.length] : '' })))
 }

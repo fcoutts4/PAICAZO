@@ -175,7 +175,7 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
       </div>
 
       <h2>Agregar jugador</h2>
-      <p className="nota">Entra al grupo más chico y a su cadena de marcadores (o sortea grupos de nuevo). Su PIN aparece arriba en la tabla.</p>
+      <p className="nota">Entra al grupo más chico (un grupo de 3 pasa a 4) y a su cadena de marcadores; o sortea grupos de nuevo. Su PIN aparece arriba en la tabla.</p>
       <form action={agregar} className="admin-form tarjeta-ui">
         <input name="nombre" required maxLength={24} placeholder="Nombre" style={{ flex: 1, minWidth: 140 }} />
         <input name="indice" required inputMode="decimal" pattern="[0-9]{1,2}([.,][0-9])?" placeholder="Índice" style={{ width: 80 }} />
@@ -201,7 +201,7 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
       <div className="peligro-zona">
         <div>
           <b>Armar grupos al azar</b>
-          <p className="nota">Grupos de 3 sorteados; cada uno marca al siguiente de su grupo. Cambia quién marca a quién: mejor hacerlo antes de jugar.</p>
+          <p className="nota">Grupos de 3 y 4 sorteados, nunca de 2 (con 14: dos de 4 y dos de 3); cada uno marca al siguiente de su grupo. Cambia quién marca a quién: mejor hacerlo antes de jugar.</p>
           <BotonPeligroso accion={sortear} texto="Sortear grupos" palabra="SORTEAR"
             aviso="Se van a sortear grupos nuevos y cambiar los marcadores de todos." />
         </div>
