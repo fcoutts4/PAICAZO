@@ -172,12 +172,14 @@ function compara(a: number[], b: number[]): number {
 
 export function ranking(jugadores: Jugador[], filas: Golpe[], c: Cancha, firmadas = new Set<string>()) {
   const ts = jugadores.map(j => ({ j, t: tarjeta(j, filas, c) }))
-  const ptsDesde = (t: Tarjeta, desde: number) => t.hoyos.slice(desde - 1).reduce((a, h) => a + (h.puntos ?? 0), 0)
-  // desempate: total, últimos 9, 6, 3 y el último hoyo
-  const claveStb = (t: Tarjeta) => [t.puntos, ptsDesde(t, 10), ptsDesde(t, 13), ptsDesde(t, 16), ptsDesde(t, 18)]
+  // desempate único: menor neto total = golpes totales − índice. Se mide sobre el par de los hoyos jugados con el índice
+  // proporcional: a los 18 ordena igual que golpes − índice (el par es el mismo para todos) y a mitad de vuelta no
+  // premia a quien lleva menos hoyos. En décimas, para comparar sin errores de coma flotante.
+  const neto = (j: Jugador, t: Tarjeta) => Math.round((t.vsPar - j.indice * t.jugados / 18) * 10)
+  const claveStb = (j: Jugador, t: Tarjeta) => [t.puntos, -neto(j, t)]
 
   const stbConClave = ts
-    .map(({ j, t }) => ({ k: claveStb(t), f: { id: j.id, nombre: j.nombre, hj: t.hj, jugados: t.jugados, puntos: t.puntos, gross: t.gross, vsPar: t.vsPar, pos: 0, firmada: firmadas.has(j.id) } }))
+    .map(({ j, t }) => ({ k: claveStb(j, t), f: { id: j.id, nombre: j.nombre, hj: t.hj, jugados: t.jugados, puntos: t.puntos, gross: t.gross, vsPar: t.vsPar, pos: 0, firmada: firmadas.has(j.id) } }))
     .sort((a, b) => compara(a.k, b.k))
   const claves = new Map(stbConClave.map(x => [x.f, x.k]))
   const stableford: FilaStableford[] = posiciones(stbConClave.map(x => x.f), f => claves.get(f)!)
@@ -198,11 +200,11 @@ export function ranking(jugadores: Jugador[], filas: Golpe[], c: Cancha, firmada
     return { grupo, jugadores: js, hoyos: r.hoyos }
   })
 
-  // general: suma de los 3 campeonatos; a igual total, desempata el Stableford (con su propio desempate)
+  // general: suma de los 3 campeonatos; a igual total, desempata el menor neto total
   const enGrupo = new Map(grupos.flatMap(g => g.jugadores.map(j => [j.id, j.puntos] as const)))
   const genConClave = ts.map(({ j, t }) => {
     const sk = skins.puntos[j.id] ?? 0, gr = enGrupo.get(j.id) ?? 0, total = t.puntos + sk + gr
-    return { k: [Math.round(total * 1000), ...claveStb(t)], f: { id: j.id, nombre: j.nombre, jugados: t.jugados, stableford: t.puntos, skins: sk, grupo: gr, total, pos: 0 } }
+    return { k: [Math.round(total * 1000), -neto(j, t)], f: { id: j.id, nombre: j.nombre, jugados: t.jugados, stableford: t.puntos, skins: sk, grupo: gr, total, pos: 0 } }
   }).sort((a, b) => compara(a.k, b.k))
   const clavesGen = new Map(genConClave.map(x => [x.f, x.k]))
   const general = posiciones(genConClave.map(x => x.f), f => clavesGen.get(f)!)

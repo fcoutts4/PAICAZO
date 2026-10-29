@@ -161,13 +161,12 @@ test('ranking stableford: ordena por puntos', () => {
   assert.deepEqual(r.stableford.map(x => x.id), ['b', 'a'])
   assert.equal(r.stableford[0].pos, 1)
 })
-test('ranking stableford: desempata por últimos 9', () => {
-  // ambos 36 pts; "a" hace los 9 primeros mejor, "b" los últimos 9
-  const ga = pares(); ga[0] = 3; ga[17] = 5
-  const gb = pares(); gb[0] = 5; gb[17] = 3
-  const r = ranking([J('a', 0), J('b', 0)], [...filas('a', ga), ...filas('b', gb)], cancha)
+test('ranking stableford: a igual puntaje gana el menor neto total (golpes − índice)', () => {
+  // ambos 36 pts; "b" (índice 1,4, recibe en el 18 y hace bogey ahí): 71 − 1,4 = 69,6 contra 70 − 0 de "a"
+  const gb = pares(); gb[17] = 5
+  const r = ranking([J('a', 0), J('b', 1.4)], [...filas('a', pares()), ...filas('b', gb)], cancha)
   assert.equal(r.stableford[0].puntos, r.stableford[1].puntos)
-  assert.deepEqual(r.stableford.map(x => x.id), ['b', 'a'])
+  assert.deepEqual(r.stableford.map(x => [x.id, x.pos]), [['b', 1], ['a', 2]])
 })
 test('ranking stableford: empate total comparte posición', () => {
   const r = ranking([J('a', 0), J('b', 0)], [...filas('a', pares()), ...filas('b', pares())], cancha)

@@ -73,7 +73,7 @@ export default async function Reglas() {
 
       <details>
         <summary>Empates</summary>
-        <p>En el General y en la Copa desempata el Stableford de los últimos 9, 6, 3 y el último hoyo.</p>
+        <p>En el General y en la Copa, a igual puntaje gana el <b>menor neto total</b>: tus golpes totales menos tu índice (por ejemplo, 85 − 13,4 = 71,6). Si el neto también empata, comparten el puesto.</p>
       </details>
     </main>
   )

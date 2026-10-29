@@ -77,25 +77,37 @@ void otro; void tercero
 
 // ───────────── empates en la Copa (Stableford) ─────────────
 const conCambio = (cambios: Record<number, number>) => pares().map((g, i) => cambios[i + 1] ?? g)
-test('empate Copa: mismo total, desempata quien hizo más en los últimos 9', () => {
-  const a = conCambio({ 1: 3, 10: 5 }), b = conCambio({ 10: 3, 1: 5 }) // ambos 36, b mejor en la vuelta
-  const r = ranking([J('a', 0), J('b', 0)], [...filas('a', a), ...filas('b', b)], cancha)
+test('empate Copa: mismo puntaje, gana el menor neto total (golpes − índice)', () => {
+  const r = ranking([J('a', 0), J('b', 1.4)], [...filas('a', pares()), ...filas('b', conCambio({ 18: 5 }))], cancha) // 70 − 0 vs 71 − 1,4
   assert.deepEqual(r.stableford.map(f => [f.id, f.pos]), [['b', 1], ['a', 2]])
 })
-test('empate Copa: mismos últimos 9, desempatan los últimos 6', () => {
-  const a = conCambio({ 10: 3, 13: 6 }), b = conCambio({ 13: 4, 10: 5 }) // vuelta igual, b mejor del 13 en adelante
-  const r = ranking([J('a', 0), J('b', 0)], [...filas('a', a), ...filas('b', b)], cancha)
-  assert.equal(r.stableford[0].id, 'b')
+test('empate Copa: usa el índice con decimales, no el hándicap de juego (12,6 y 13,0 juegan con 12)', () => {
+  const r = ranking([J('a', 13.0), J('b', 12.6)], ['a', 'b'].flatMap(id => filas(id, pares())), cancha) // 70 − 13 = 57 vs 70 − 12,6 = 57,4
+  assert.equal(r.stableford[0].puntos, r.stableford[1].puntos)
+  assert.deepEqual(r.stableford.map(f => [f.id, f.pos]), [['a', 1], ['b', 2]])
 })
-test('empate Copa: mismos últimos 6, desempatan los últimos 3', () => {
-  const a = conCambio({ 13: 4, 16: 5 }), b = conCambio({ 16: 3, 13: 6 })
-  const r = ranking([J('a', 0), J('b', 0)], [...filas('a', a), ...filas('b', b)], cancha)
-  assert.equal(r.stableford[0].id, 'b')
+test('empate Copa: el neto se compara con un decimal (70 − 0,3 = 71 − 1,3 empatan)', () => {
+  const r = ranking([J('a', 0.3), J('b', 1.3)], [...filas('a', pares()), ...filas('b', conCambio({ 18: 5 }))], cancha)
+  assert.deepEqual(r.stableford.map(f => f.pos), [1, 1])
 })
-test('empate Copa: mismos últimos 3, desempata el último hoyo', () => {
-  const a = conCambio({ 16: 3, 18: 5 }), b = conCambio({ 18: 3, 16: 5 })
-  const r = ranking([J('a', 0), J('b', 0)], [...filas('a', a), ...filas('b', b)], cancha)
+test('empate Copa a mitad de vuelta: el neto es proporcional a los hoyos jugados (no gana quien va atrás)', () => {
+  const nueve = (g: number[]) => g.map((x, i) => (i < 9 ? x : null))
+  const r = ranking([J('a', 9), J('b', 9)], [...filas('a', nueve(conCambio({ 1: 5 }))), ...filas('b', nueve(pares()))], cancha)
+  // mismo índice y mismos hoyos: b hizo un golpe menos sobre el par → si empatan en puntos, gana b; si no, manda el puntaje
   assert.equal(r.stableford[0].id, 'b')
+  const s = ranking([J('a', 0), J('b', 0)], [...filas('a', pares()), ...filas('b', nueve(pares()))], cancha)
+  assert.equal(s.stableford[0].id, 'a') // 36 contra 18: manda el puntaje, no el menor total de golpes
+})
+test('empate Copa: ya no desempatan los últimos 9 (mismos golpes en otro orden → empatan)', () => {
+  const a = conCambio({ 1: 3, 10: 5 }), b = conCambio({ 10: 3, 1: 5 })
+  const r = ranking([J('a', 0), J('b', 0)], [...filas('a', a), ...filas('b', b)], cancha)
+  assert.deepEqual(r.stableford.map(f => f.pos), [1, 1])
+})
+test('empate Copa: el neto solo desempata, nunca le gana al puntaje', () => {
+  // "a" hace 1 punto más pero con peor neto que "b": manda el puntaje
+  const r = ranking([J('a', 0), J('b', 10)], [...filas('a', conCambio({ 1: 3 })), ...filas('b', pares().map(g => g + 1))], cancha)
+  assert.ok(r.stableford[0].puntos > r.stableford[1].puntos)
+  assert.equal(r.stableford[0].id, 'a')
 })
 test('empate Copa total (todas las claves iguales): comparten puesto', () => {
   const r = ranking([J('a', 0), J('b', 0), J('c', 0)], ['a', 'b', 'c'].flatMap(id => filas(id, pares())), cancha)
@@ -181,14 +193,17 @@ test('Puto: el neto decide (recibir golpe convierte el bogey en empate)', () => 
 })
 
 // ───────────── empates en el General ─────────────
-test('General: mismo total, desempata la Copa (y su desempate)', () => {
-  // a y b en grupos distintos y solos: Puto 6 c/u; Rey repartido igual; Copa igual pero b mejor en la vuelta
-  const a = conCambio({ 1: 3, 10: 5 }), b = conCambio({ 10: 3, 1: 5 })
-  const r = ranking([J('a', 0, 1), J('b', 0, 2)], [...filas('a', a), ...filas('b', b)], cancha)
+test('General: mismo total, desempata únicamente el menor neto total (golpes − índice)', () => {
+  // grupos distintos (Puto 6 c/u); cada uno pierde un hoyo con bogey (Rey igual); índices 12,6 y 13,0 juegan con 12
+  // y reciben en los dos hoyos del bogey (Copa igual). Neto: 71 − 12,6 = 58,4 vs 71 − 13 = 58 → gana b
+  const r = ranking([J('a', 12.6, 1), J('b', 13.0, 2)], [...filas('a', conCambio({ 1: 5 })), ...filas('b', conCambio({ 18: 5 }))], cancha)
   const ta = r.general.find(f => f.id === 'a')!, tb = r.general.find(f => f.id === 'b')!
   assert.ok(cerca(ta.total, tb.total))
-  assert.deepEqual(r.general.map(f => f.id), ['b', 'a'])
-  assert.deepEqual(r.general.map(f => f.pos), [1, 2])
+  assert.deepEqual(r.general.map(f => [f.id, f.pos]), [['b', 1], ['a', 2]])
+})
+test('General: mismo total y mismo neto → comparten puesto', () => {
+  const r = ranking([J('a', 13.0, 1), J('b', 13.0, 2)], [...filas('a', conCambio({ 1: 5 })), ...filas('b', conCambio({ 18: 5 }))], cancha)
+  assert.deepEqual(r.general.map(f => f.pos), [1, 1])
 })
 test('General: totales iguales con decimales distintos de origen (1/3 + 2/3) empatan', () => {
   const r = ranking([J('a', 0, 1), J('b', 0, 1), J('c', 0, 1)], ['a', 'b', 'c'].flatMap(id => filas(id, pares())), cancha)
@@ -323,7 +338,7 @@ for (let t = 1; t <= 200; t++) {
     }
 
     // Copa: ordenada por la clave de desempate; empates comparten puesto (competición: 1,1,3)
-    const clave = (id: string) => { const h = tarjeta(js.find(j => j.id === id)!, fs, cancha).hoyos; const d = (k: number) => suma(h.slice(k - 1).map(x => x.puntos ?? 0)); return [d(1), d(10), d(13), d(16), d(18)].join() }
+    const clave = (id: string) => { const j = js.find(x => x.id === id)!, t = tarjeta(j, fs, cancha); return [t.puntos, Math.round((t.vsPar - j.indice * t.jugados / 18) * 10)].join() }
     r.stableford.forEach((f, i) => {
       const prev = r.stableford[i - 1]
       if (prev && clave(prev.id) === clave(f.id)) assert.equal(f.pos, prev.pos)
