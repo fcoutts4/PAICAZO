@@ -4,7 +4,7 @@ import jugadoresJson from '../../data/jugadores.json'
 import { sql } from './db'
 import type { Cancha, Golpe, Jugador } from './golf'
 
-export const cancha: Cancha & { yardas: number[]; provisorio?: string } = canchaJson
+export const cancha: Cancha & { yardas: number[] } = canchaJson
 const base: Jugador[] = jugadoresJson // los del JSON; el admin agrega más en la tabla agregados
 
 /** Jugadores vigentes (JSON + agregados, con los nombres, índices y grupos que cambió el admin); una consulta por request. */
