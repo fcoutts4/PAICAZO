@@ -9,7 +9,6 @@ export default async function Cancha() {
     <main>
       <h1>La cancha</h1>
       <Vista par={cancha.par} yardas={cancha.yardas} hcp={cancha.hcp} etiquetas={etiquetas} />
-      {cancha.provisorio && <p className="aviso" style={{ marginTop: 12 }}>Slope ({cancha.slope}) y rating ({cancha.rating}) son provisorios.</p>}
     </main>
   )
 }
