@@ -3,7 +3,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import {
   hcpJuego, golpesRecibidos, puntosStableford, estadoHoyo, tarjeta, ranking,
-  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, armarGrupos, golpesDemo, vsNeto, nuevoId, limpiarIndice, sumarAGrupo, sacarDeGrupo, sePuedeQuitar, type Cancha, type Jugador, type Golpe,
+  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, armarGrupos, golpesDemo, vsNeto, nuevoId, limpiarIndice, sumarAGrupo, sacarDeGrupo, sePuedeQuitar, porHandicap, type Cancha, type Jugador, type Golpe,
 } from './golf.ts'
 
 const par = [4, 4, 3, 4, 5, 4, 4, 3, 4, 4, 4, 3, 4, 5, 4, 4, 3, 4]
@@ -562,4 +562,15 @@ test('grupo: en grupo de 4 cada hoyo vale 4/3 (mismo promedio que en grupo de 3)
   const r = ranking(['a', 'b', 'c', 'd'].map(id => J(id, 0, 1)), [...filas('a', ga), ...['b', 'c', 'd'].flatMap(id => filas(id, pares()))], cancha)
   assert.ok(Math.abs(enGrupo(r, 1, 'a')! - (1 + 17 / 4) * 4 / 3) < 1e-9)
   assert.ok(Math.abs(r.grupos[0].jugadores.reduce((x, j) => x + j.puntos, 0) - 24) < 1e-9) // 18 hoyos × 4/3
+})
+
+// --- orden de la tabla del admin ---
+test('por hándicap: de menor a mayor índice', () =>
+  assert.deepEqual(porHandicap([J('c', 22.1), J('a', 2.7), J('b', 13.4)]).map(j => j.id), ['a', 'b', 'c']))
+test('por hándicap: mismo índice → por nombre', () =>
+  assert.deepEqual(porHandicap([J('vc', 22.1), J('iu', 22.1)]).map(j => j.id), ['iu', 'vc']))
+test('por hándicap: no cambia la lista original', () => {
+  const js = [J('b', 5), J('a', 1)]
+  porHandicap(js)
+  assert.deepEqual(js.map(j => j.id), ['b', 'a'])
 })

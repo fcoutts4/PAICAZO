@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { agregarJugador, borrarScores, idsUsados, cambiarIndice, cancha, firmadas, golpes, guardarGolpe, guardarGolpesEnLote, guardarGrupos, jugador, jugadores, marcarNoJuega, quitarJugador, renombrar } from '@/lib/datos'
 import { sql } from '@/lib/db'
-import { armarGrupos, golpesDemo, limpiarIndice, limpiarNombre, nuevoId, sacarDeGrupo, sePuedeQuitar, sumarAGrupo, tarjeta } from '@/lib/golf'
+import { armarGrupos, golpesDemo, limpiarIndice, limpiarNombre, nuevoId, porHandicap, sacarDeGrupo, sePuedeQuitar, sumarAGrupo, tarjeta } from '@/lib/golf'
 import { pinDe, requiereUsuario } from '@/lib/sesion'
 import BotonPeligroso from './BotonPeligroso'
 
@@ -118,14 +118,14 @@ export default async function Admin() {
       <p className="nota">Manda a cada uno su PIN por interno. Cambiar PAICAZO_SECRET cambia todos los PIN.</p>
       <div>
         <table className="admin-tabla">
-          <thead><tr><th>Jugador</th><th className="num">Índ</th><th className="num">HCP</th><th>PIN</th><th>G</th><th>Marca</th><th>Ok/mal/falta</th><th>Juega</th><th /></tr></thead>
+          <thead><tr><th className="num">#</th><th>Jugador</th><th className="num">Índ</th><th className="num">HCP</th><th>PIN</th><th>G</th><th>Marca</th><th>Ok/mal/falta</th><th>Juega</th><th /></tr></thead>
           <tbody>
-            {js.map(j => {
+            {porHandicap(js).map((j, i) => {
               const t = tarjeta(j, filas, cancha)
               const n = (e: string) => t.hoyos.filter(h => h.estado === e).length
               return (
                 <tr key={j.id}>
-                  <td>{j.nombre}</td><td className="num">{j.indice}</td><td className="num">{t.hj}</td>
+                  <td className="num">{i + 1}</td><td>{j.nombre}</td><td className="num">{j.indice}</td><td className="num">{t.hj}</td>
                   <td><code>{pinDe(j.id)}</code></td><td>{j.grupo}</td><td>{nombre(j.marca)}</td>
                   <td>{n('ok')} / <span style={{ color: n('conflicto') ? 'var(--rojo)' : undefined }}>{n('conflicto')}</span> / {n('pendiente')}</td>
                   <td>

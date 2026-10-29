@@ -117,6 +117,9 @@ export function sacarDeGrupo(js: Asignacion[], id: string): Asignacion[] {
   return js.filter(j => j.id !== id).map(j => (j.marca !== id ? j : { ...j, marca: yo.marca === j.id ? '' : yo.marca }))
 }
 
+/** Orden de la tabla del admin: de menor a mayor índice (es el mismo orden que el hándicap de juego); empate por nombre. */
+export const porHandicap = (js: Jugador[]) => [...js].sort((a, b) => a.indice - b.indice || a.nombre.localeCompare(b.nombre, 'es'))
+
 /** Quién puede anotar qué: el jugador su tarjeta, el marcador la de su marcado, el admin todo. */
 export function puedeAnotar(quien: Jugador, g: Golpe, firmadas: Set<string>, admin: boolean): boolean {
   if (!Number.isInteger(g.hoyo) || g.hoyo < 1 || g.hoyo > HOYOS) return false
