@@ -216,7 +216,6 @@ main.compacta { padding: 8px 10px; }
 .admin-tabla td { padding: 7px 2px; }
 .admin-tabla td:first-child, .admin-tabla th:first-child { padding-left: 5px; }
 .admin-tabla .btn.chico { padding: 4px 5px; font-size: 11px; }
-.admin-tabla .btn.no { background: var(--rojo); }
 
 /* reglas: corto, con secciones que se abren */
 .reglas details { background: #fff; border: 0; border-radius: var(--radio); margin-bottom: 10px; box-shadow: var(--sombra); }
@@ -306,7 +305,6 @@ a.ver-tarjeta::after { content: ' ›'; color: var(--gris); }
 .grupo li { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 0; border-top: 1px solid var(--linea); font-size: 15px; }
 .grupo li:first-child { border-top: 0; }
 .grupo li small { display: block; color: var(--gris); font-size: 12px; }
-.grupo li em { color: var(--rojo); font-size: 12px; font-style: normal; margin-left: 6px; }
 .grupo li.yo { background: var(--lima-suave); margin: 0 -8px; padding: 8px; border-radius: 8px; }
 .grupo .marca { font-size: 13px; color: var(--gris); text-align: right; }
 .grupo .marca b { color: var(--verde); }

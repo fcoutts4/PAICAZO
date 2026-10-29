@@ -21,7 +21,7 @@ export default async function Grupos() {
           <ol>
             {g.jugadores.map(j => (
               <li key={j.id} className={j.id === u.id ? 'yo' : ''}>
-                <span><b>{j.nombre}</b>{j.id === u.id && ' (tú)'}{j.noJuega && <em> no juega</em>}<small>HCP {hcpJuego(j.indice, cancha)}</small></span>
+                <span><b>{j.nombre}</b>{j.id === u.id && ' (tú)'}<small>HCP {hcpJuego(j.indice, cancha)}</small></span>
                 <span className="marca">{j.marca ? <>marca a <b>{nombre(j.marca) ?? '—'}</b></> : <i>sin marcador</i>}</span>
               </li>
             ))}

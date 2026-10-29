@@ -38,7 +38,6 @@ export default async function Reglas() {
         <summary>Bonus · Rey del Hoyo (skins gross)</summary>
         <p>Cada hoyo vale <b>1 punto</b> para quien haga <b>menos golpes reales</b>, sin hándicap, contra todos.</p>
         <p>Si empatan, el punto se reparte <b>entre todos los que empataron</b>: 2 → 0,5 cada uno; 3 → 0,33; 4 → 0,25.</p>
-        <p className="nota">Quien no juega o se retira sale de este juego y del Puto, para no dejar hoyos sin ganador.</p>
       </details>
 
       <details>

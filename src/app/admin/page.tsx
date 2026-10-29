@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
-import { agregarJugador, borrarScores, idsUsados, cambiarIndice, cancha, firmadas, golpes, guardarGolpe, guardarGolpesEnLote, guardarGrupos, jugador, jugadores, marcarNoJuega, quitarJugador, renombrar } from '@/lib/datos'
+import { agregarJugador, borrarScores, idsUsados, cambiarIndice, cancha, firmadas, golpes, guardarGolpe, guardarGolpesEnLote, guardarGrupos, jugador, jugadores, quitarJugador, renombrar } from '@/lib/datos'
 import { sql } from '@/lib/db'
 import { armarGrupos, golpesDemo, hcpJuego, limpiarIndice, limpiarNombre, nuevoId, porHandicap, sacarDeGrupo, sePuedeQuitar, sumarAGrupo, tarjeta } from '@/lib/golf'
 import { pinDe, requiereUsuario } from '@/lib/sesion'
@@ -58,15 +58,6 @@ async function sortear(form: FormData) {
   await soloAdmin()
   if (form.get('confirmacion') !== 'SORTEAR') return
   await guardarGrupos(armarGrupos((await jugadores()).map(j => j.id)))
-  revalidatePath('/', 'layout')
-}
-
-async function cambiarNoJuega(form: FormData) {
-  'use server'
-  await soloAdmin()
-  const id = String(form.get('jugador'))
-  if (!await jugador(id)) return
-  await marcarNoJuega(id, form.get('noJuega') === '1')
   revalidatePath('/', 'layout')
 }
 
@@ -171,25 +162,17 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
       <p className="nota">Manda a cada uno su PIN por interno. Cambiar PAICAZO_SECRET cambia todos los PIN.</p>
       <div className="tabla-scroll">
         <table className="admin-tabla">
-          <thead><tr><th className="num">#</th><th>Jugador</th><th className="num">Índ</th><th className="num">HCP</th><th>PIN</th><th>G</th><th>Marca</th><th>Juega</th></tr></thead>
+          <thead><tr><th className="num">#</th><th>Jugador</th><th className="num">Índ</th><th className="num">HCP</th><th>PIN</th><th className="num">Grupo</th><th>Marca</th></tr></thead>
           <tbody>
             {orden.map((j, i) => (
               <tr key={j.id}>
                 <td className="num">{i + 1}</td><td>{j.nombre}</td><td className="num">{j.indice}</td><td className="num">{hcpJuego(j.indice, cancha)}</td>
-                <td><code>{pinDe(j.id)}</code></td><td>{j.grupo}</td><td>{nombre(j.marca)}</td>
-                <td>
-                  <form action={cambiarNoJuega}>
-                    <input type="hidden" name="jugador" value={j.id} /><input type="hidden" name="noJuega" value={j.noJuega ? '0' : '1'} />
-                    <button className={`btn chico${j.noJuega ? ' no' : ''}`}>{j.noJuega ? 'No' : 'Sí'}</button>
-                  </form>
-                </td>
+                <td><code>{pinDe(j.id)}</code></td><td className="num">{j.grupo}</td><td>{nombre(j.marca)}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-
-      <p className="nota"><b>Juega:</b> toca para marcar a un ausente o retirado. Sigue en la Copa con sus puntos, pero sale de Rey del Hoyo y Puto para no bloquear esos hoyos a los demás.</p>
 
       <h2>Agregar jugador</h2>
       <p className="nota">Entra al grupo más chico y a su cadena de marcadores (o sortea grupos de nuevo). Su PIN aparece arriba en la tabla.</p>
@@ -230,7 +213,7 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
         </div>
         <div>
           <b>Quitar un jugador</b>
-          <p className="nota">Lo borra con sus golpes y lo saca del ingreso; quien lo marcaba pasa a marcar al siguiente. Si solo faltó o se retiró, mejor márcalo &quot;No juega&quot;: sigue en la Copa con lo que alcanzó a jugar.</p>
+          <p className="nota">Lo borra con sus golpes y lo saca del ingreso y de la tabla; quien lo marcaba pasa a marcar al siguiente.</p>
           <BotonPeligroso accion={quitar} texto="Quitar jugador" palabra="QUITAR" aviso="Se va a borrar ese jugador con todos sus golpes.">
             <select name="jugador" required defaultValue="">
               <option value="" disabled>Elige a quién quitar</option>
