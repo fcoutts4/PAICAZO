@@ -75,6 +75,20 @@ def test_numeros_no_se_tocan():
             assert separados, (a, b)
 
 
+def test_etiquetas_en_porcentaje_dentro_del_mapa():
+    # la app pone un botón invisible sobre cada número del mapa para abrir ese hoyo
+    e = mapa.etiquetas()
+    assert sorted(e) == [str(n) for n in range(1, 10)]
+    for n, (x, y) in e.items():
+        assert 0 < x < 100 and 0 < y < 100, (n, x, y)
+
+
+def test_json_de_etiquetas_al_dia():
+    import json
+    guardado = json.loads((Path(__file__).resolve().parent.parent / "data" / "mapa-etiquetas.json").read_text(encoding="utf-8"))
+    assert guardado == mapa.etiquetas(), "corre npm run mapa"
+
+
 if __name__ == "__main__":
     for nombre, f in list(globals().items()):
         if nombre.startswith("test_"):

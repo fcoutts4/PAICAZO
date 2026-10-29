@@ -173,22 +173,32 @@ tr.lider .pos { color: var(--verde); }
 .tabla-scroll table { box-shadow: none; }
 /* pestañas: se reparten el ancho, nunca scroll horizontal */
 .tabs { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px; margin-bottom: 14px; padding: 4px; background: #E7ECE4; border-radius: 999px; }
-.tabs a { text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 9px 4px; min-height: 38px; border-radius: 999px; background: transparent; border: 0; text-decoration: none; font-weight: 600; font-size: 14px; color: var(--gris); transition: background .2s, color .2s; }
-.tabs a[aria-current] { background: #fff; color: var(--verde); box-shadow: 0 1px 3px rgb(15 31 23 / .1), 0 2px 8px rgb(15 31 23 / .06); }
+.tabs a, .tabs button { font: inherit; cursor: pointer; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 9px 4px; min-height: 38px; border-radius: 999px; background: transparent; border: 0; text-decoration: none; font-weight: 600; font-size: 14px; color: var(--gris); transition: background .2s, color .2s; }
+.tabs a[aria-current], .tabs button[aria-current] { background: #fff; color: var(--verde); box-shadow: 0 1px 3px rgb(15 31 23 / .1), 0 2px 8px rgb(15 31 23 / .06); }
 .nota { color: var(--gris); font-size: 13px; margin: 0 0 12px; }
 
-/* cancha: tabla angosta a la izquierda, mapa a la derecha (pensado para teléfono) */
-.cancha { display: grid; grid-template-columns: 132px 1fr; gap: 8px; align-items: start; }
-.cancha-tabla { font-size: 13px; }
-.cancha-tabla th { padding: 7px 4px; font-size: 11px; }
-.cancha-tabla td { padding: 6px 4px; cursor: pointer; }
-.cancha-tabla td small { display: block; font-size: 11px; color: var(--gris); font-weight: 500; line-height: 1; }
-.cancha-tabla tr[aria-selected='true'] td { background: var(--verde); color: #fff; }
-.cancha-tabla tr[aria-selected='true'] td small { color: #CFE3C2; }
-.cancha-tabla tr.total td { font-weight: 800; background: var(--lima-suave); }
-.cancha-mapa { position: sticky; top: 72px; display: grid; gap: 8px; }
-.cancha-mapa .btn.chico { min-height: 40px; }
-.cancha-mapa img { width: 100%; height: auto; background: #86B45A; border-radius: var(--radio); border: 0; box-shadow: var(--sombra); display: block; }
+/* cancha: mapa completo a todo el ancho con los números tocables, o un hoyo a la vez */
+.mapa-completo { border-radius: var(--radio); overflow: hidden; box-shadow: var(--sombra); background: #EFE8D8; cursor: pointer; }
+.mapa-completo img { width: 100%; height: auto; display: block; }
+p.centro { text-align: center; margin: 10px 0 14px; }
+.cancha-tabla { margin-bottom: 8px; }
+.cancha-tabla tbody tr:not(.total) { cursor: pointer; }
+.cancha-tabla tbody tr:not(.total):active td { background: var(--lima-suave); }
+.cancha-tabla td b { font-size: 16px; color: var(--verde); }
+.cancha-tabla td small { display: block; font-size: 11px; color: var(--gris); font-weight: 500; line-height: 1.1; }
+.cancha-tabla td.ir { width: 1%; color: var(--gris); padding-left: 0; }
+.cancha-tabla tr.total td { font-weight: 800; background: var(--lima-suave); color: var(--verde); }
+.chips { display: grid; grid-template-columns: repeat(9, 1fr); gap: 4px; margin-bottom: 12px; }
+.chips button { font: inherit; font-weight: 700; font-size: 15px; height: 40px; border: 0; border-radius: 12px; background: #fff; color: var(--verde); box-shadow: var(--sombra); cursor: pointer; }
+.chips button[aria-current] { background: var(--grad-verde); color: #fff; }
+.ficha-hoyo { background: #fff; border-radius: var(--radio); overflow: hidden; box-shadow: var(--sombra); margin-bottom: 12px; }
+.ficha-hoyo dl { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0; }
+.ficha-hoyo dl div { padding: 12px 4px; text-align: center; }
+.ficha-hoyo dl div + div { border-left: 1px solid var(--linea); }
+.ficha-hoyo dt { font-size: 11px; font-weight: 600; color: var(--gris); text-transform: uppercase; letter-spacing: .04em; }
+.ficha-hoyo dd { margin: 2px 0 0; font-size: 22px; font-weight: 800; letter-spacing: -.02em; color: var(--texto); }
+.ficha-hoyo dd small { font-size: 12px; font-weight: 600; color: var(--gris); letter-spacing: 0; }
+.mapa-hoyo { width: 100%; max-width: 420px; height: auto; display: block; margin: 0 auto; border-radius: var(--radio); box-shadow: var(--sombra); background: #86B45A; }
 .admin-form { display: flex; flex-wrap: wrap; gap: 8px; align-items: end; }
 .admin-form select, .admin-form input, .peligro-zona select { padding: 8px 12px; min-height: 44px; border-radius: 12px; border: 1px solid var(--linea); background: #F7F9F5; font-size: 16px; color: var(--texto); } /* 16px: el iPhone no hace zoom al escribir */
 .admin-form .btn.chico { min-height: 44px; }

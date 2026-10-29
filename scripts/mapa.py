@@ -287,6 +287,12 @@ def generar():
                        *(numero(n, *p) for n, p in numeros.items()), "</svg>"])
 
 
+def etiquetas():
+    """Centro de cada número del mapa completo, en % del ancho y alto: la app pone ahí un botón para abrir el hoyo."""
+    _, numeros, *_ = dibujo()
+    return {str(n): [round((x - X0) / ANCHO * 100, 2), round((y - Y0) / ALTO * 100, 2)] for n, (x, y) in numeros.items()}
+
+
 def giro(pts):
     """Ángulo (grados) y centro para dejar el tee abajo y el green arriba."""
     (x0, y0), (x1, y1) = pts[0], pts[-1]
@@ -329,6 +335,8 @@ def generar_hoyo(n, pad=70, alto_ancho=1.6):
 if __name__ == "__main__":
     public = Path(__file__).resolve().parent.parent / "public"
     (public / "mapa-9-hoyos.svg").write_text(generar(), encoding="utf-8")
+    datos = Path(__file__).resolve().parent.parent / "data" / "mapa-etiquetas.json"
+    datos.write_text(__import__("json").dumps(etiquetas()) + SALTO, encoding="utf-8")
     for n, *_ in HOYOS:
         (public / f"hoyo-{n}.svg").write_text(generar_hoyo(n), encoding="utf-8")
     print(public, "mapa + 9 hoyos")
