@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "test": "node --test \"src/**/*.test.ts\" && python tests/test_mapa.py",
-    "mapa": "python scripts/mapa.py"
+    "mapa": "python scripts/mapa.py",
+    "e2e": "node tests/e2e.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "1.2.0",

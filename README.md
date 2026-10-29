@@ -20,6 +20,12 @@ Necesita `.env.local` con `PAICAZO_SECRET` (ver `.env.example`). Sin `DATABASE_U
 npm test
 ```
 
+Prueba de punta a punta (con `npm run dev` corriendo): grupos, anotación cruzada, permisos, firma y puntos de Copa, Rey, Puto y General. **Borra los scores y sortea grupos en la base local**; solo apunta a localhost.
+
+```bash
+npm run e2e
+```
+
 Los mapas se regeneran con `npm run mapa` (escribe `public/mapa-9-hoyos.svg` y `public/hoyo-1..9.svg`).
 
 ## Publicar en Vercel
