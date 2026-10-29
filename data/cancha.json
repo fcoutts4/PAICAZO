@@ -8,5 +8,15 @@
   "yardas": [410, 392, 389, 485, 210, 407, 312, 187, 450, 393, 416, 379, 492, 191, 382, 321, 178, 460],
   "hcp": [6, 8, 16, 18, 4, 14, 10, 12, 2, 5, 7, 15, 17, 3, 13, 9, 11, 1],
   "slope": 113,
-  "rating": 70
+  "rating": 70,
+  "reglas_locales": [
+    {"titulo": "Límites de la cancha", "texto": "La cancha está delimitada por estacas blancas, cercos o deslindes naturales."},
+    {"titulo": "Terrenos en reparación", "texto": "Marcados con líneas azules; la pelota se dropea según el procedimiento establecido."},
+    {"titulo": "Obstrucciones inamovibles", "texto": "Todas las marcas de distancia se consideran obstrucciones inamovibles."},
+    {"titulo": "Árboles con tutor", "texto": "Si un árbol con tutor interfiere en tu stance o en tu swing, la pelota puede moverse sin penalidad y dropearse según el procedimiento establecido."},
+    {"titulo": "Acequias de riego", "texto": "Si la pelota está dentro de una acequia de riego, o la acequia interfiere en tu stance, la pelota se levanta sin penalidad y se dropea según el procedimiento establecido."},
+    {"titulo": "Pájaros", "texto": "Si un nido de pájaros, huevos o polluelos interfieren en el stance, en el espacio del swing o en la línea de juego, o si el jugador está expuesto a ser atacado por un pájaro, puede dropear la pelota en el punto más cercano de alivio. No es necesario recuperar la pelota."}
+  ],
+  "etiqueta": "Levante los piques, reponga las champas y rastrille los bunkers.",
+  "ritmo": "Si tu grupo pierde un hoyo completo respecto del grupo que va adelante, debe dar el paso al grupo de atrás."
 }
