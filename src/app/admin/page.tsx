@@ -77,7 +77,7 @@ async function sortear(form: FormData) {
   'use server'
   await soloAdmin()
   if (form.get('confirmacion') !== 'SORTEAR') return
-  await guardarGrupos(armarGrupos((await jugadores()).map(j => j.id)))
+  await guardarGrupos(armarGrupos((await jugadores()).map(j => j.id), Math.random, form.getAll('tarde').map(String)))
   revalidatePath('/', 'layout')
 }
 
@@ -245,9 +245,14 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
       <div className="peligro-zona">
         <div>
           <b>Armar grupos al azar</b>
-          <p className="nota">Grupos de 3 y 4 sorteados, nunca de 2 (con 14: dos de 4 y dos de 3); cada uno marca al siguiente de su grupo. Cambia quién marca a quién: mejor hacerlo antes de jugar.</p>
+          <p className="nota">Grupos de 3 y 4 sorteados, nunca de 2; primero salen los de 3 (con 14: 3, 3, 4, 4). Cada uno marca al siguiente de su grupo. Cambia quién marca a quién: mejor hacerlo antes de jugar.</p>
           <BotonPeligroso accion={sortear} texto="Sortear grupos" palabra="SORTEAR"
-            aviso="Se van a sortear grupos nuevos y cambiar los marcadores de todos." />
+            aviso="Se van a sortear grupos nuevos y cambiar los marcadores de todos.">
+            <fieldset className="tarde">
+              <legend>Llegan tarde: van juntos en el último grupo (si son 1 o 2, se completa a 3 con otro al azar)</legend>
+              {orden.map(j => <label key={j.id}><input type="checkbox" name="tarde" value={j.id} /> {j.nombre}</label>)}
+            </fieldset>
+          </BotonPeligroso>
         </div>
         <div>
           <b>Cargar demo</b>

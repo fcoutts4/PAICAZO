@@ -341,3 +341,9 @@ a.ver-tarjeta::after { content: ' ›'; color: var(--gris); }
 .conflictos li { padding: 10px 0; border-top: 1px solid var(--linea); font-size: 14px; }
 .conflictos li:first-child { border-top: 0; }
 .conflictos li b:not(:first-child) { color: var(--rojo); }
+
+/* sorteo: quiénes llegan tarde (van al último grupo) */
+.tarde { border: 0; margin: 0 0 10px; padding: 10px 12px; background: #fff; border-radius: var(--radio-chico); display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; }
+.tarde legend { grid-column: 1 / -1; font-size: 12px; color: var(--gris); padding: 0; margin-bottom: 4px; float: left; }
+.tarde label { display: flex; align-items: center; gap: 6px; font-size: 14px; min-height: 32px; }
+.tarde input { width: 18px; height: 18px; accent-color: var(--verde); }

@@ -392,3 +392,21 @@ for (let s = 1; s <= 40; s++) {
     }
   })
 }
+
+// ───────────── sorteo con los que llegan tarde: de 6 a 30 jugadores, de 1 a 8 tarde ─────────────
+for (let n = 6; n <= 30; n += 3) for (let t = 1; t <= 8; t++) {
+  if (t >= n) continue
+  test(`sorteo ${n} jugadores con ${t} tarde: todos los tarde en los últimos grupos, nadie solo ni de 2, cadena válida`, () => {
+    const ids = Array.from({ length: n }, (_, i) => `j${i}`)
+    const tarde = ids.slice(0, t)
+    const r = armarGrupos(ids, azar(n * 10 + t), tarde)
+    assert.deepEqual(r.map(a => a.id).sort(), [...ids].sort())
+    const grupos = [...new Set(r.map(a => a.grupo))].sort((a, b) => a - b)
+    const tam = (g: number) => r.filter(a => a.grupo === g).length
+    assert.ok(grupos.every(g => tam(g) >= 3), grupos.map(tam).join())
+    // los grupos que tienen a alguien que llega tarde son los últimos (ninguno sin tarde va después)
+    const conTarde = grupos.filter(g => r.some(a => a.grupo === g && tarde.includes(a.id)))
+    assert.deepEqual(conTarde, grupos.slice(grupos.length - conTarde.length))
+    cadenaValida(r)
+  })
+}

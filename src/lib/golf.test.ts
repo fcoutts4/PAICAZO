@@ -687,3 +687,51 @@ test('solos: lista los grupos que quedaron con 1 jugador (nadie lo marca)', () =
   assert.deepEqual(gruposSolos(moverAGrupo(g34, 'g', 0)), [3])
   assert.deepEqual(gruposSolos(g34), [])
 })
+
+// --- sorteo con los que llegan tarde: van juntos en el último grupo ---
+const ultimo = (g: ReturnType<typeof armarGrupos>) => Math.max(...g.map(x => x.grupo))
+const del = (g: ReturnType<typeof armarGrupos>, n: number) => g.filter(x => x.grupo === n).map(x => x.id).sort()
+test('tarde: 2 que llegan tarde quedan juntos en el último grupo, completado a 3', () => {
+  const g = armarGrupos(ids(14), azar(1), ['j3', 'j9'])
+  const u = del(g, ultimo(g))
+  assert.ok(u.includes('j3') && u.includes('j9'))
+  assert.equal(u.length, 3)
+  assert.deepEqual(tamanos(g), [4, 4, 3, 3])
+})
+test('tarde: 1 solo queda en el último grupo de 3', () => {
+  const g = armarGrupos(ids(14), azar(2), ['j5'])
+  assert.ok(del(g, ultimo(g)).includes('j5'))
+  assert.ok(tamanos(g).every(t => t === 3 || t === 4))
+})
+test('tarde: 4 que llegan tarde forman el último grupo exacto', () => {
+  const g = armarGrupos(ids(14), azar(3), ['j0', 'j1', 'j2', 'j13'])
+  assert.deepEqual(del(g, ultimo(g)), ['j0', 'j1', 'j13', 'j2'])
+  assert.deepEqual(tamanos(g), [4, 4, 3, 3])
+})
+test('tarde: 3 que llegan tarde forman el último grupo de 3', () => {
+  const g = armarGrupos(ids(14), azar(4), ['j7', 'j8', 'j10'])
+  assert.deepEqual(del(g, ultimo(g)), ['j10', 'j7', 'j8'])
+})
+test('tarde: 7 que llegan tarde llenan los dos últimos grupos (4 y 3)', () => {
+  const tarde = ['j0', 'j1', 'j2', 'j3', 'j4', 'j5', 'j6']
+  const g = armarGrupos(ids(14), azar(5), tarde)
+  const u = ultimo(g)
+  assert.deepEqual([...del(g, u), ...del(g, u - 1)].sort(), [...tarde].sort())
+})
+test('tarde: el resto se sortea igual y todos marcan dentro de su grupo', () => {
+  const g = armarGrupos(ids(14), azar(6), ['j3', 'j9'])
+  assert.deepEqual(g.map(x => x.id).sort(), ids(14).sort())
+  for (const x of g) assert.equal(g.find(y => y.id === x.marca)!.grupo, x.grupo)
+  assert.equal(new Set(g.map(x => x.marca)).size, 14)
+})
+test('tarde: ids que no existen se ignoran', () => {
+  assert.deepEqual(tamanos(armarGrupos(ids(14), azar(7), ['nadie'])), [4, 4, 3, 3])
+})
+test('tarde: sin lista sortea como siempre', () => {
+  assert.deepEqual(armarGrupos(ids(14), azar(8), []), armarGrupos(ids(14), azar(8)))
+})
+const enOrden = (g: ReturnType<typeof armarGrupos>) => [...new Set(g.map(x => x.grupo))].sort((a, b) => a - b).map(n => g.filter(x => x.grupo === n).length)
+test('orden: los grupos de 3 salen primero (14 → 3, 3, 4, 4)', () => assert.deepEqual(enOrden(armarGrupos(ids(14), azar(1))), [3, 3, 4, 4]))
+test('orden: 11 → 3, 4, 4', () => assert.deepEqual(enOrden(armarGrupos(ids(11), azar(1))), [3, 4, 4]))
+test('orden: con atrasados, primero los de 3, luego los de 4 y al final el de los atrasados', () =>
+  assert.deepEqual(enOrden(armarGrupos(ids(14), azar(1), ['j3', 'j9'])), [3, 4, 4, 3]))

@@ -267,13 +267,26 @@ export function posicionEnVivo(jugadores: Jugador[], filas: Golpe[], c: Cancha, 
   return { hoyo: N, general, grupo }
 }
 
-/** Sorteo en grupos de 3 y 4, nunca de 2 (14 → 4, 4, 3, 3): tantos grupos como tríos caben, lo más parejos posible.
- *  Con menos de 6 jugadores, uno solo. Cada uno marca al siguiente de su grupo. */
-export function armarGrupos(ids: string[], azar: () => number = Math.random): { id: string; grupo: number; marca: string }[] {
+/** Reparte en grupos de 3 y 4, nunca de 2 (14 → 4, 4, 3, 3): tantos grupos como tríos caben; con menos de 6, uno solo. */
+function enGrupos(mezcla: string[]): string[][] {
+  if (!mezcla.length) return []
+  const n = Math.max(1, Math.floor(mezcla.length / 3))
+  return Array.from({ length: n }, (_, g) => mezcla.filter((_, i) => i % n === g)) // reparte en ronda: tamaños parejos
+}
+
+/** Sorteo de grupos; salen primero los de 3 y cada uno marca al siguiente de su grupo. Los que llegan tarde (`tarde`) van juntos en el
+ *  último grupo (o los últimos, si son muchos); si son 1 o 2 se completa a 3 con otros sorteados. */
+export function armarGrupos(ids: string[], azar: () => number = Math.random, tarde: string[] = []): { id: string; grupo: number; marca: string }[] {
   const mezcla = [...ids]
   for (let i = mezcla.length - 1; i > 0; i--) { const k = Math.floor(azar() * (i + 1)); [mezcla[i], mezcla[k]] = [mezcla[k], mezcla[i]] }
-  const n = Math.max(1, Math.floor(mezcla.length / 3))
-  const grupos = Array.from({ length: n }, (_, g) => mezcla.filter((_, i) => i % n === g)) // reparte en ronda: tamaños parejos
+  const ult = mezcla.filter(id => tarde.includes(id))
+  let resto = mezcla.filter(id => !tarde.includes(id))
+  // completa los del final a un tamaño que se reparta en 3 y 4 (1-2 → 3, 5 → 6)
+  const reparteBien = (n: number) => n >= 3 && n - 3 * Math.floor(n / 3) <= Math.floor(n / 3)
+  while (ult.length && !reparteBien(ult.length) && resto.length) ult.push(resto.pop()!)
+  if (ult.length && resto.length < 3) { ult.push(...resto); resto = [] } // nadie queda suelto
+  const porTamaño = (gs: string[][]) => [...gs].sort((a, b) => a.length - b.length) // primero salen los grupos de 3
+  const grupos = [...porTamaño(enGrupos(resto)), ...porTamaño(enGrupos(ult))]
   return grupos.flatMap((g, gi) => g.map((id, i) => ({ id, grupo: gi + 1, marca: g.length > 1 ? g[(i + 1) % g.length] : '' })))
 }
 
