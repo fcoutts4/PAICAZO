@@ -62,7 +62,7 @@ export function tarjeta(j: Jugador, filas: Golpe[], c: Cancha): Tarjeta {
   }
 }
 
-/** Golpes netos sobre el par en los hoyos jugados (golpes − recibidos − par): mismo signo que ±Par, bogey neto = +1. */
+/** Golpes netos sobre el par en los hoyos jugados (golpes − recibidos − par): mismo signo que el Gross, bogey neto = +1. */
 export function netoVsPar(golpes: (number | null)[], par: number[], recibidos: number[]): number {
   return golpes.reduce<number>((a, g, i) => (g == null ? a : a + g - recibidos[i] - par[i]), 0)
 }

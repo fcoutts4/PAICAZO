@@ -492,7 +492,7 @@ test('no juega: no tiene posición en vivo', () => {
 })
 
 // --- vs neto: puntos contra jugar a tu hándicap (2 por hoyo) ---
-// neto: golpes sobre el par descontando los recibidos, mismo signo que ±Par (bogey neto = +1)
+// neto: golpes sobre el par descontando los recibidos, mismo signo que el Gross (bogey neto = +1)
 test('neto: 6 en par 4 recibiendo 1 → +1 (bogey neto)', () => assert.equal(netoVsPar([6], [4], [1]), 1))
 test('neto: par neto → 0 (E)', () => assert.equal(netoVsPar([5, 4], [4, 4], [1, 0]), 0))
 test('neto: birdie neto → −1', () => assert.equal(netoVsPar([4], [4], [1]), -1))

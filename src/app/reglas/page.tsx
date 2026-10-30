@@ -52,7 +52,7 @@ export default async function Reglas() {
         <p>Con índice <b>{u.indice}</b> juegas con hándicap <b>{hj}</b> (95% del de la cancha).</p>
         <p>Recibes 1 golpe en los {Math.min(hj, 18)} hoyos más difíciles{hj > 18 ? ` y 2 en los ${hj - 18} más difíciles` : ''}.
           En tu tarjeta los ves con un circulito verde con el número.</p>
-        <p>Arriba en tu tarjeta, <b>±Par</b> son tus golpes sobre el par y <b>Neto</b> lo mismo descontando los golpes que recibes: <b>E</b> = vas jugando a tu hándicap, <b>+1</b> = un golpe sobre tu hándicap (por ejemplo, un bogey neto).</p>
+        <p>Arriba en tu tarjeta, <b>Gross</b> son tus golpes sobre el par (+2 = dos sobre el par) y <b>Neto</b> lo mismo descontando los golpes que recibes: <b>E</b> = vas jugando a tu hándicap, <b>+1</b> = un golpe sobre tu hándicap (por ejemplo, un bogey neto).</p>
       </details>
 
       <details>

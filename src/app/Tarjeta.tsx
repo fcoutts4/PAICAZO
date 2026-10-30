@@ -120,7 +120,7 @@ export default function Tarjeta({ cancha, yo, marcado, posicion }: Props) {
       <div className="resumen">
         <div><b>{total}</b><small>Puntos</small></div>
         <div><b>{signo(netoVsPar(cancha.par.map((_, i) => miGolpe(i)), cancha.par, yo.t.hoyos.map(x => x.recibidos)))}</b><small>Neto</small></div>
-        <div><b>{signo(vsPar)}</b><small>±Par</small></div>
+        <div><b>{signo(vsPar)}</b><small>Gross</small></div>
         <div><b>{jugados}</b><small>Hoyos</small></div>
         <div><b>{yo.t.hj}</b><small>HCP</small></div>
       </div>

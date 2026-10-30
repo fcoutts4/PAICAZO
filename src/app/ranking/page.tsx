@@ -50,7 +50,7 @@ export default async function Ranking({ searchParams }: { searchParams: Promise<
 
       {vista === 'stableford' && (
         <table>
-          <thead><tr><th className="pos">#</th><th>Jugador</th><th className="num">H</th><th className="num">±Par</th><th className="num">Pts</th></tr></thead>
+          <thead><tr><th className="pos">#</th><th>Jugador</th><th className="num">H</th><th className="num">Gross</th><th className="num">Pts</th></tr></thead>
           <tbody>
             {r.stableford.map(f => (
               <tr key={f.id} className={f.pos === 1 && f.jugados ? 'lider' : ''}>
@@ -111,12 +111,12 @@ export default async function Ranking({ searchParams }: { searchParams: Promise<
         const celda = (g: number | null, par: number) => <span className={`m ${marcaPGA(g, par) ?? ''}`}>{g ?? ''}</span>
         return (
           <>
-            <p className="aviso">Golpes reales (gross) de todos, hoyo a hoyo. Desliza para ver los hoyos; nombre, ±Par, hoyo y total quedan fijos.</p>
+            <p className="aviso">Golpes reales (gross) de todos, hoyo a hoyo. Desliza para ver los hoyos; nombre, gross, hoyo y total quedan fijos.</p>
             <div className="tabla-hoyos">
               <table>
                 <thead>
                   <tr>
-                    <th className="fijo f1">Jugador</th><th className="fijo f2">±Par</th><th className="fijo f3">Hoyo</th><th className="fijo f4">Total</th>
+                    <th className="fijo f1">Jugador</th><th className="fijo f2">Gross</th><th className="fijo f3">Hoyo</th><th className="fijo f4">Total</th>
                     {cancha.par.slice(0, 9).map((_, i) => <th key={i}>{i + 1}</th>)}<th className="sub">Ida</th>
                     {cancha.par.slice(9).map((_, i) => <th key={i}>{i + 10}</th>)}<th className="sub">Vta</th>
                   </tr>
