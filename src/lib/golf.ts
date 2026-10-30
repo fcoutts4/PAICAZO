@@ -121,6 +121,39 @@ export function sacarDeGrupo(js: Asignacion[], id: string): Asignacion[] {
 /** Orden de la tabla del admin: de menor a mayor índice (es el mismo orden que el hándicap de juego); empate por nombre. */
 export const porHandicap = (js: Jugador[]) => [...js].sort((a, b) => a.indice - b.indice || a.nombre.localeCompare(b.nombre, 'es'))
 
+/** Numera los grupos 1..k sin huecos, en el mismo orden. */
+function renumerar(js: Asignacion[]): Asignacion[] {
+  const orden = [...new Set(js.map(j => j.grupo))].sort((a, b) => a - b)
+  return js.map(j => ({ ...j, grupo: orden.indexOf(j.grupo) + 1 }))
+}
+
+/** Grupos a mano: mueve a un jugador a otro grupo (0 o un número que no existe = grupo nuevo).
+ *  Sale de su cadena (quien lo marcaba pasa al siguiente) y entra a la del destino; puede quedar un grupo de 2, o de 1 sin marcador. */
+export function moverAGrupo(js: Asignacion[], id: string, destino: number): Asignacion[] {
+  const yo = js.find(j => j.id === id)
+  if (!yo || yo.grupo === destino) return js
+  const sin = sacarDeGrupo(js, id)
+  const del = sin.filter(j => j.grupo === destino)
+  if (!del.length) return renumerar([...sin, { id, grupo: Math.max(0, ...sin.map(j => j.grupo)) + 1, marca: '' }])
+  const x = del.at(-1)!
+  return renumerar([...sin.map(j => (j.id === x.id ? { ...j, marca: id } : j)), { id, grupo: destino, marca: x.marca || x.id }])
+}
+
+/** Grupos a mano: dos jugadores de grupos distintos se cambian de lugar (grupo y puesto en la cadena); los tamaños no cambian. */
+export function intercambiar(js: Asignacion[], a: string, b: string): Asignacion[] {
+  const A = js.find(j => j.id === a), B = js.find(j => j.id === b)
+  if (!A || !B || A.grupo === B.grupo) return js
+  return js.map(j =>
+    j.id === a ? { ...j, grupo: B.grupo, marca: B.marca }
+    : j.id === b ? { ...j, grupo: A.grupo, marca: A.marca }
+    : j.marca === a ? { ...j, marca: b }
+    : j.marca === b ? { ...j, marca: a } : j)
+}
+
+/** Grupos que quedaron con un solo jugador: nadie lo marca y no puede firmar. */
+export const gruposSolos = (js: { grupo: number }[]) =>
+  [...new Set(js.map(j => j.grupo))].filter(g => js.filter(j => j.grupo === g).length === 1).sort((a, b) => a - b)
+
 /** Pestaña Grupos: por número de grupo; dentro, la cadena de marcadores desde el de menor índice (si se corta, el resto por índice). */
 export function gruposParaMostrar(js: Jugador[]) {
   return [...new Set(js.map(j => j.grupo))].sort((a, b) => a - b).map(grupo => {

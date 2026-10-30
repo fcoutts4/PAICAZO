@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { agregarJugador, borrarScores, idsUsados, cambiarIndice, cancha, firmadas, golpes, guardarGolpe, guardarGolpesEnLote, guardarGrupos, jugador, jugadores, quitarJugador, renombrar } from '@/lib/datos'
 import { sql } from '@/lib/db'
-import { armarGrupos, golpesDemo, hcpJuego, limpiarIndice, limpiarNombre, nuevoId, porHandicap, sacarDeGrupo, sePuedeQuitar, sumarAGrupo, tarjeta } from '@/lib/golf'
+import { armarGrupos, golpesDemo, gruposSolos, hcpJuego, intercambiar, moverAGrupo, limpiarIndice, limpiarNombre, nuevoId, porHandicap, sacarDeGrupo, sePuedeQuitar, sumarAGrupo, tarjeta } from '@/lib/golf'
 import { pinDe, requiereUsuario } from '@/lib/sesion'
 import BotonPeligroso from './BotonPeligroso'
 
@@ -50,6 +50,26 @@ async function cargarDemo(form: FormData) {
     [false, true].map(por_marcador => ({ jugador: j.id, hoyo: i + 1, por_marcador, golpes: g }))))
   await sql('DELETE FROM firmas')
   await guardarGolpesEnLote(filas)
+  revalidatePath('/', 'layout')
+}
+
+const asignacion = (js: { id: string; grupo: number; marca: string }[]) => js.map(({ id, grupo, marca }) => ({ id, grupo, marca }))
+
+async function moverJugador(form: FormData) {
+  'use server'
+  await soloAdmin()
+  const js = await jugadores(), id = String(form.get('jugador')), destino = Number(form.get('grupo'))
+  if (!js.some(j => j.id === id) || !Number.isInteger(destino) || destino < 0) return
+  await guardarGrupos(moverAGrupo(asignacion(js), id, destino))
+  revalidatePath('/', 'layout')
+}
+
+async function intercambiarJugadores(form: FormData) {
+  'use server'
+  await soloAdmin()
+  const js = await jugadores(), a = String(form.get('a')), b = String(form.get('b'))
+  if (!js.some(j => j.id === a) || !js.some(j => j.id === b)) return
+  await guardarGrupos(intercambiar(asignacion(js), a, b))
   revalidatePath('/', 'layout')
 }
 
@@ -106,6 +126,8 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
   const [js, filas, firmas] = await Promise.all([jugadores(), golpes(), firmadas()])
   const nombre = (id: string) => js.find(j => j.id === id)?.nombre
   const orden = porHandicap(js)
+  const numeros = [...new Set(js.map(j => j.grupo))].sort((a, b) => a - b)
+  const solos = gruposSolos(js)
   return (
     <main>
       <h1>Admin</h1>
@@ -173,6 +195,28 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
           </tbody>
         </table>
       </div>
+
+      <h2>Armar grupos a mano</h2>
+      {solos.length > 0 && (
+        <p className="aviso error">
+          {solos.map(g => `Grupo ${g}`).join(', ')} {solos.length === 1 ? 'tiene' : 'tienen'} un solo jugador: nadie lo marca y no podrá firmar. Mueve a alguien ahí o muévelo a otro grupo.
+        </p>
+      )}
+      <p className="nota">Los grupos pueden ser de cualquier tamaño (de 2, 3, 4…). Al mover o intercambiar, quién marca a quién se rearma solo dentro de cada grupo. Míralo en la pestaña Grupos.</p>
+      <form action={moverJugador} className="admin-form tarjeta-ui">
+        <select name="jugador" required>{orden.map(j => <option key={j.id} value={j.id}>{j.nombre} (G{j.grupo})</option>)}</select>
+        <select name="grupo" required>
+          {numeros.map(g => <option key={g} value={g}>Grupo {g} ({js.filter(j => j.grupo === g).length})</option>)}
+          <option value={0}>Grupo nuevo</option>
+        </select>
+        <button className="btn chico">Mover</button>
+      </form>
+      <form action={intercambiarJugadores} className="admin-form tarjeta-ui">
+        <select name="a" required>{orden.map(j => <option key={j.id} value={j.id}>{j.nombre} (G{j.grupo})</option>)}</select>
+        <span className="nota" style={{ margin: 0, alignSelf: 'center' }}>⇄</span>
+        <select name="b" required defaultValue={orden[1]?.id}>{orden.map(j => <option key={j.id} value={j.id}>{j.nombre} (G{j.grupo})</option>)}</select>
+        <button className="btn chico">Intercambiar</button>
+      </form>
 
       <h2>Agregar jugador</h2>
       <p className="nota">Entra al grupo más chico (un grupo de 3 pasa a 4) y a su cadena de marcadores; o sortea grupos de nuevo. Su PIN aparece arriba en la tabla.</p>

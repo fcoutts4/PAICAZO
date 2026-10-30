@@ -3,7 +3,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import {
   hcpJuego, golpesRecibidos, puntosStableford, estadoHoyo, tarjeta, ranking,
-  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, armarGrupos, golpesDemo, vsNeto, nuevoId, limpiarIndice, sumarAGrupo, sacarDeGrupo, sePuedeQuitar, porHandicap, gruposParaMostrar, type Cancha, type Jugador, type Golpe,
+  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, armarGrupos, golpesDemo, vsNeto, nuevoId, limpiarIndice, sumarAGrupo, sacarDeGrupo, sePuedeQuitar, porHandicap, gruposParaMostrar, moverAGrupo, intercambiar, gruposSolos, type Cancha, type Jugador, type Golpe,
 } from './golf.ts'
 
 const par = [4, 4, 3, 4, 5, 4, 4, 3, 4, 4, 4, 3, 4, 5, 4, 4, 3, 4]
@@ -605,4 +605,85 @@ test('grupos: sin jugadores → vacío', () => assert.deepEqual(gruposParaMostra
 test('grupos: cada jugador aparece una sola vez', () => {
   const gs = gruposParaMostrar([J('a', 2, 1, 'b'), J('b', 15, 1, 'a'), J('c', 9, 1, 'a')])
   assert.deepEqual(gs[0].jugadores.map(j => j.id).sort(), ['a', 'b', 'c'])
+})
+
+// --- armar grupos a mano: mover e intercambiar jugadores ---
+const g34: A[] = [
+  { id: 'a', grupo: 1, marca: 'b' }, { id: 'b', grupo: 1, marca: 'c' }, { id: 'c', grupo: 1, marca: 'a' },
+  { id: 'd', grupo: 2, marca: 'e' }, { id: 'e', grupo: 2, marca: 'f' }, { id: 'f', grupo: 2, marca: 'g' }, { id: 'g', grupo: 2, marca: 'd' },
+]
+const cadenaOk = (xs: A[]) => {
+  for (const x of xs) {
+    const tam = xs.filter(y => y.grupo === x.grupo).length
+    if (tam === 1) { assert.equal(x.marca, ''); continue }
+    const m = xs.find(y => y.id === x.marca)
+    assert.ok(m && m.id !== x.id && m.grupo === x.grupo, `${x.id} marca a alguien de su grupo`)
+    assert.equal(xs.filter(y => y.marca === x.id).length, 1, `${x.id} marcado una vez`)
+  }
+}
+const tamDe = (xs: A[], g: number) => xs.filter(x => x.grupo === g).length
+test('mover: de un grupo de 4 a uno de 3 → quedan 4 y 3', () => {
+  const r = moverAGrupo(g34, 'd', 1)
+  assert.equal(r.find(x => x.id === 'd')!.grupo, 1)
+  assert.deepEqual([tamDe(r, 1), tamDe(r, 2)], [4, 3])
+  cadenaOk(r)
+})
+test('mover: deja un grupo de 2 (se marcan entre ellos)', () => {
+  const r = moverAGrupo(g34, 'a', 2)
+  assert.equal(tamDe(r, 1), 2)
+  const [x, y] = r.filter(z => z.grupo === 1)
+  assert.equal(x.marca, y.id); assert.equal(y.marca, x.id)
+  cadenaOk(r)
+})
+test('mover: a un grupo nuevo (0) crea el grupo siguiente', () => {
+  const r = moverAGrupo(g34, 'g', 0)
+  assert.equal(r.find(x => x.id === 'g')!.grupo, 3)
+  assert.equal(r.find(x => x.id === 'g')!.marca, '') // solo hasta que llegue otro
+  cadenaOk(r)
+})
+test('mover: dos al grupo nuevo quedan marcándose entre ellos', () => {
+  const r = moverAGrupo(moverAGrupo(g34, 'g', 0), 'f', 3)
+  assert.equal(tamDe(r, 3), 2)
+  cadenaOk(r)
+})
+test('mover: si un grupo queda vacío, los números se corren (sin huecos)', () => {
+  const dos: A[] = [{ id: 'a', grupo: 1, marca: '' }, { id: 'b', grupo: 2, marca: 'c' }, { id: 'c', grupo: 2, marca: 'b' }]
+  const r = moverAGrupo(dos, 'a', 2)
+  assert.deepEqual([...new Set(r.map(x => x.grupo))], [1])
+  cadenaOk(r)
+})
+test('mover: al mismo grupo no cambia nada', () => assert.deepEqual(moverAGrupo(g34, 'a', 1), g34))
+test('mover: jugador que no existe → sin cambios', () => assert.deepEqual(moverAGrupo(g34, 'zz', 1), g34))
+test('mover: a un grupo que no existe (99) → va a un grupo nuevo', () => {
+  const r = moverAGrupo(g34, 'a', 99)
+  assert.equal(r.find(x => x.id === 'a')!.grupo, 3)
+  cadenaOk(r)
+})
+test('intercambiar: cada uno pasa al grupo del otro y los tamaños no cambian', () => {
+  const r = intercambiar(g34, 'a', 'd')
+  assert.equal(r.find(x => x.id === 'a')!.grupo, 2)
+  assert.equal(r.find(x => x.id === 'd')!.grupo, 1)
+  assert.deepEqual([tamDe(r, 1), tamDe(r, 2)], [3, 4])
+  cadenaOk(r)
+})
+test('intercambiar: toma el lugar del otro en la cadena (quien marcaba a uno ahora marca al otro)', () => {
+  const r = intercambiar(g34, 'a', 'd')
+  assert.equal(r.find(x => x.id === 'c')!.marca, 'd') // c marcaba a "a"
+  assert.equal(r.find(x => x.id === 'g')!.marca, 'a') // g marcaba a "d"
+  assert.equal(r.find(x => x.id === 'a')!.marca, 'e') // "a" marca a quien marcaba "d"
+})
+test('intercambiar: del mismo grupo o consigo mismo → sin cambios', () => {
+  assert.deepEqual(intercambiar(g34, 'a', 'b'), g34)
+  assert.deepEqual(intercambiar(g34, 'a', 'a'), g34)
+})
+test('intercambiar: con alguien que no existe → sin cambios', () => assert.deepEqual(intercambiar(g34, 'a', 'zz'), g34))
+test('intercambiar: entre grupos de 2', () => {
+  const p: A[] = [{ id: 'a', grupo: 1, marca: 'b' }, { id: 'b', grupo: 1, marca: 'a' }, { id: 'c', grupo: 2, marca: 'd' }, { id: 'd', grupo: 2, marca: 'c' }]
+  const r = intercambiar(p, 'a', 'c')
+  assert.deepEqual(r.filter(x => x.grupo === 1).map(x => x.id).sort(), ['b', 'c'])
+  cadenaOk(r)
+})
+test('solos: lista los grupos que quedaron con 1 jugador (nadie lo marca)', () => {
+  assert.deepEqual(gruposSolos(moverAGrupo(g34, 'g', 0)), [3])
+  assert.deepEqual(gruposSolos(g34), [])
 })

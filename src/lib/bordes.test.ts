@@ -5,7 +5,7 @@ import assert from 'node:assert/strict'
 import {
   hcpJuego, golpesRecibidos, puntosStableford, estadoHoyo, tarjeta, ranking, puedeAnotar, puedeFirmar,
   posicionEnVivo, armarGrupos, sumarAGrupo, sacarDeGrupo, limpiarIndice, limpiarNombre, nuevoId, porHandicap,
-  gruposParaMostrar, type Cancha, type Jugador, type Golpe,
+  gruposParaMostrar, moverAGrupo, intercambiar, type Cancha, type Jugador, type Golpe,
 } from './golf.ts'
 
 const par = [4, 4, 4, 5, 3, 4, 4, 3, 4, 4, 4, 4, 5, 3, 4, 4, 3, 4]
@@ -372,5 +372,23 @@ for (let t = 1; t <= 200; t++) {
 
     // en vivo: el puesto nunca pasa del total comparado
     for (const j of js) { const p = posicionEnVivo(js, fs, cancha, j.id); if (p) { assert.ok(p.general.pos <= p.general.de); assert.ok(p.grupo.pos <= p.grupo.de) } }
+  })
+}
+
+// ───────────── armar grupos a mano: 40 secuencias al azar de mover e intercambiar ─────────────
+for (let s = 1; s <= 40; s++) {
+  test(`grupos a mano ${s}: mover e intercambiar al azar mantiene la cadena válida y los números sin huecos`, () => {
+    const rnd = azar(5000 + s)
+    let as = armarGrupos(Array.from({ length: 6 + Math.floor(rnd() * 10) }, (_, i) => `j${i}`), rnd)
+    for (let paso = 0; paso < 15; paso++) {
+      const id = as[Math.floor(rnd() * as.length)].id
+      const grupos = [...new Set(as.map(a => a.grupo))]
+      if (rnd() < 0.5) as = moverAGrupo(as, id, rnd() < 0.2 ? 0 : grupos[Math.floor(rnd() * grupos.length)])
+      else as = intercambiar(as, id, as[Math.floor(rnd() * as.length)].id)
+      cadenaValida(as)
+      const ns = [...new Set(as.map(a => a.grupo))].sort((a, b) => a - b)
+      assert.deepEqual(ns, ns.map((_, i) => i + 1), 'grupos numerados 1..k')
+      assert.equal(as.length, new Set(as.map(a => a.id)).size, 'nadie duplicado')
+    }
   })
 }
