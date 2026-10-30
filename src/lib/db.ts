@@ -4,7 +4,7 @@ export type Consulta = (texto: string, params?: unknown[]) => Promise<Record<str
 export const ESQUEMA = [
   `CREATE TABLE IF NOT EXISTS golpes (
      jugador text NOT NULL, hoyo int NOT NULL CHECK (hoyo BETWEEN 1 AND 18),
-     por_marcador boolean NOT NULL, golpes int NOT NULL CHECK (golpes BETWEEN 1 AND 15),
+     por_marcador boolean NOT NULL, golpes int NOT NULL CHECK (golpes BETWEEN 1 AND 15), -- la app limita a MAX_GOLPES (11); la base ya creada guarda este CHECK
      actualizado timestamptz NOT NULL DEFAULT now(),
      PRIMARY KEY (jugador, hoyo, por_marcador))`,
   `CREATE TABLE IF NOT EXISTS firmas (jugador text PRIMARY KEY, firmada timestamptz NOT NULL DEFAULT now())`,

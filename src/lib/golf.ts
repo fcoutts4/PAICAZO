@@ -13,6 +13,8 @@ export type Hoyo = {
 export type Tarjeta = { id: string; hj: number; hoyos: Hoyo[]; jugados: number; puntos: number; gross: number; vsPar: number }
 
 const HOYOS = 18
+/** Tope de golpes que se anotan en un hoyo (no se levanta: se juega hasta embocar o hasta el tope). */
+export const MAX_GOLPES = 11
 const PCT_STABLEFORD = 0.95 // asignación WHS para Stableford individual
 
 /** Hándicap de juego WHS: índice × slope/113 + (rating − par), por la asignación, redondeado al final. */
@@ -174,7 +176,7 @@ export function gruposParaMostrar(js: Jugador[]) {
 /** Quién puede anotar qué: el jugador su tarjeta, el marcador la de su marcado, el admin todo. */
 export function puedeAnotar(quien: Jugador, g: Golpe, firmadas: Set<string>, admin: boolean): boolean {
   if (!Number.isInteger(g.hoyo) || g.hoyo < 1 || g.hoyo > HOYOS) return false
-  if (!Number.isInteger(g.golpes) || g.golpes < 1 || g.golpes > 15) return false
+  if (!Number.isInteger(g.golpes) || g.golpes < 1 || g.golpes > MAX_GOLPES) return false
   if (admin) return true
   if (firmadas.has(g.jugador)) return false
   return g.por_marcador ? quien.marca === g.jugador && g.jugador !== quien.id : g.jugador === quien.id

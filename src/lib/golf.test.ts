@@ -141,12 +141,12 @@ test('anotar: hoyo fuera de rango (0 y 19) → no', () => {
   assert.ok(!puedeAnotar(jugadores[0], { jugador: 'a', hoyo: 0, por_marcador: false, golpes: 4 }, sin, false))
   assert.ok(!puedeAnotar(jugadores[0], { jugador: 'a', hoyo: 19, por_marcador: false, golpes: 4 }, sin, false))
 })
-test('anotar: golpes 0, 16, decimales o texto → no', () => {
-  for (const golpes of [0, 16, 4.5, '4' as unknown as number])
+test('anotar: golpes 0, 12, decimales o texto → no (tope 11)', () => {
+  for (const golpes of [0, 12, 15, 4.5, '4' as unknown as number])
     assert.ok(!puedeAnotar(jugadores[0], { jugador: 'a', hoyo: 1, por_marcador: false, golpes }, sin, false))
 })
-test('anotar: golpes 1 y 15 (límites) → sí', () => {
-  for (const golpes of [1, 15])
+test('anotar: golpes 1 y 11 (límites) → sí', () => {
+  for (const golpes of [1, 11])
     assert.ok(puedeAnotar(jugadores[0], { jugador: 'a', hoyo: 1, por_marcador: false, golpes }, sin, false))
 })
 test('anotar: tarjeta firmada queda bloqueada', () =>

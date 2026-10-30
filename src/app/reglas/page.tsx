@@ -31,7 +31,7 @@ export default async function Reglas() {
             <tr><td>Eagle</td><td>4</td></tr>
           </tbody>
         </table>
-        <p className="nota"><b>No se levanta:</b> juega cada hoyo hasta embocar y anota todos tus golpes, aunque ya no sumes puntos. El desempate se decide por tus golpes totales menos tu índice.</p>
+        <p className="nota"><b>No se levanta:</b> juega cada hoyo hasta embocar y anota todos tus golpes, aunque ya no sumes puntos. El tope es <b>11 golpes por hoyo</b>: si llegas a 11 sin embocar, anotas 11 y pasas al siguiente. El desempate se decide por tus golpes totales menos tu índice.</p>
       </details>
 
       <details>

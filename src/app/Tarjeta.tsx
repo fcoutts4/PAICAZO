@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { estadoHoyo, puntosStableford, vsNeto, type Estado, type Tarjeta as T } from '@/lib/golf'
+import { MAX_GOLPES, estadoHoyo, puntosStableford, vsNeto, type Estado, type Tarjeta as T } from '@/lib/golf'
 import { reintentar } from '@/lib/envio'
 import Icono from './Icono'
 import TarjetaPGA from './TarjetaPGA'
@@ -72,7 +72,7 @@ export default function Tarjeta({ cancha, yo, marcado, posicion }: Props) {
 
   function cambiar(quien: 'mio' | 'suyo', delta: number) {
     const actual = quien === 'mio' ? mio[h] : suyo[h]
-    const nuevo = actual == null ? cancha.par[h] : actual + delta < 1 ? null : Math.min(15, actual + delta)
+    const nuevo = actual == null ? cancha.par[h] : actual + delta < 1 ? null : Math.min(MAX_GOLPES, actual + delta)
     if (quien === 'mio') guardar({ jugador: yo.t.id, por_marcador: false, hoyo: h + 1, golpes: nuevo })
     else if (marcado) guardar({ jugador: marcado.id, por_marcador: true, hoyo: h + 1, golpes: nuevo })
 

@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { agregarJugador, borrarScores, idsUsados, cambiarIndice, cancha, firmadas, golpes, guardarGolpe, guardarGolpesEnLote, guardarGrupos, jugador, jugadores, quitarJugador, renombrar } from '@/lib/datos'
 import { sql } from '@/lib/db'
-import { armarGrupos, golpesDemo, gruposSolos, hcpJuego, horaSalida, intercambiar, moverAGrupo, limpiarIndice, limpiarNombre, nuevoId, porHandicap, sacarDeGrupo, sePuedeQuitar, sumarAGrupo, tarjeta } from '@/lib/golf'
+import { MAX_GOLPES, armarGrupos, golpesDemo, gruposSolos, hcpJuego, horaSalida, intercambiar, moverAGrupo, limpiarIndice, limpiarNombre, nuevoId, porHandicap, sacarDeGrupo, sePuedeQuitar, sumarAGrupo, tarjeta } from '@/lib/golf'
 import { pinDe, requiereUsuario } from '@/lib/sesion'
 import canchaJson from '../../../data/cancha.json'
 import BotonPeligroso from './BotonPeligroso'
@@ -20,7 +20,7 @@ async function corregir(form: FormData) {
   await soloAdmin()
   const id = String(form.get('jugador')), hoyo = Number(form.get('hoyo')), txt = String(form.get('golpes') ?? '')
   const g = txt === '' ? null : Number(txt)
-  if (!await jugador(id) || !Number.isInteger(hoyo) || hoyo < 1 || hoyo > 18 || (g != null && (!Number.isInteger(g) || g < 1 || g > 15))) return
+  if (!await jugador(id) || !Number.isInteger(hoyo) || hoyo < 1 || hoyo > 18 || (g != null && (!Number.isInteger(g) || g < 1 || g > MAX_GOLPES))) return
   for (const por_marcador of [false, true]) await guardarGolpe({ jugador: id, hoyo, por_marcador, golpes: g })
   revalidatePath('/admin')
 }
@@ -173,7 +173,7 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
             <form action={corregir} className="admin-form tarjeta-ui">
               <select name="jugador" required>{orden.map(j => <option key={j.id} value={j.id}>{j.nombre}</option>)}</select>
               <select name="hoyo">{cancha.par.map((_, i) => <option key={i} value={i + 1}>Hoyo {i + 1}</option>)}</select>
-              <input name="golpes" type="number" min={1} max={15} placeholder="Golpes" style={{ width: 90 }} />
+              <input name="golpes" type="number" min={1} max={MAX_GOLPES} placeholder="Golpes" style={{ width: 90 }} />
               <button className="btn chico">Guardar</button>
             </form>
           </>

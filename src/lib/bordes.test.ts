@@ -66,7 +66,7 @@ for (const [a, b, e] of [[null, null, 'vacio'], [4, null, 'pendiente'], [null, 4
 // ───────────── permisos: matriz completa de quién anota qué ─────────────
 const yo = J('yo', 10, 1, 'otro'), otro = J('otro', 10, 1, 'yo'), tercero = J('tercero', 10, 2, 'x')
 for (const objetivo of ['yo', 'otro', 'tercero']) for (const porMarcador of [false, true]) for (const firmada of [false, true])
-  for (const admin of [false, true]) for (const [hoyo, golpes, valido] of [[1, 4, true], [18, 1, true], [18, 15, true], [0, 4, false], [19, 4, false], [5, 0, false], [5, 16, false], [5, 4.5, false]] as const) {
+  for (const admin of [false, true]) for (const [hoyo, golpes, valido] of [[1, 4, true], [18, 1, true], [18, 11, true], [0, 4, false], [19, 4, false], [5, 0, false], [5, 12, false], [5, 4.5, false]] as const) {
     const permitido = valido && (admin || (!firmada && (porMarcador ? objetivo === yo.marca : objetivo === yo.id)))
     test(`anotar: ${objetivo}, ${porMarcador ? 'como marcador' : 'como jugador'}, ${firmada ? 'firmada' : 'abierta'}, ${admin ? 'admin' : 'jugador'}, hoyo ${hoyo}, golpes ${golpes} → ${permitido ? 'sí' : 'no'}`, () => {
       const f = new Set(firmada ? [objetivo] : [])
@@ -319,12 +319,12 @@ for (let t = 1; t <= 200; t++) {
     const jugados: Record<string, (number | null)[]> = {}
     for (const j of js) {
       const hasta = rnd() < 0.3 ? Math.floor(rnd() * 19) : 18 // algunos van a mitad de vuelta
-      jugados[j.id] = par.map((p, i) => (i < hasta ? Math.max(1, Math.min(15, p + Math.floor(rnd() * 5) - 1)) : null))
+      jugados[j.id] = par.map((p, i) => (i < hasta ? Math.max(1, Math.min(11, p + Math.floor(rnd() * 5) - 1)) : null))
       jugados[j.id].forEach((g, i) => {
         if (g == null) return
         fs.push({ jugador: j.id, hoyo: i + 1, por_marcador: false, golpes: g })
         const m = rnd()
-        if (m < 0.9) fs.push({ jugador: j.id, hoyo: i + 1, por_marcador: true, golpes: m < 0.85 ? g : Math.min(15, g + 1) }) // 5% conflicto, 10% pendiente
+        if (m < 0.9) fs.push({ jugador: j.id, hoyo: i + 1, por_marcador: true, golpes: m < 0.85 ? g : Math.min(11, g + 1) }) // 5% conflicto, 10% pendiente
       })
     }
     const r = ranking(js, fs, cancha)

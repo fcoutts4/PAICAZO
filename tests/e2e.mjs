@@ -82,7 +82,7 @@ check(await anotar(A.id, { jugador: ajeno.id, hoyo: 1, por_marcador: true, golpe
 check(await anotar(A.id, { jugador: ajeno.id, hoyo: 1, por_marcador: false, golpes: 4 }) === 403, 'anotar como si fueras otro → 403')
 check(await anotar(A.id, { jugador: A.marca, hoyo: 1, por_marcador: false, golpes: 4 }) === 403, 'el marcador no anota como jugador → 403')
 check(await anotar(A.id, { jugador: A.id, hoyo: 1, por_marcador: true, golpes: 4 }) === 403, 'no te marcas a ti mismo → 403')
-for (const g of [0, 16, 4.5, '5']) check(await anotar(A.id, { jugador: A.id, hoyo: 1, por_marcador: false, golpes: g }) === 403, `golpes ${JSON.stringify(g)} → 403`)
+for (const g of [0, 12, 4.5, '5']) check(await anotar(A.id, { jugador: A.id, hoyo: 1, por_marcador: false, golpes: g }) === 403, `golpes ${JSON.stringify(g)} → 403`)
 for (const h of [0, 19, '3']) check(await anotar(A.id, { jugador: A.id, hoyo: h, por_marcador: false, golpes: 4 }) === 403, `hoyo ${JSON.stringify(h)} → 403`)
 check(await anotar(A.id, { jugador: A.id, hoyo: 1, por_marcador: false, golpes: 4 }) === 200, 'anotar lo propio → 200')
 check(await anotar(A.id, { jugador: A.id, hoyo: 1, por_marcador: false, golpes: null }) === 200, 'borrar lo propio → 200')
