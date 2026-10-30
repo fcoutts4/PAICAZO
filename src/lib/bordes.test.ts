@@ -404,6 +404,7 @@ for (let n = 6; n <= 30; n += 3) for (let t = 1; t <= 8; t++) {
     const grupos = [...new Set(r.map(a => a.grupo))].sort((a, b) => a - b)
     const tam = (g: number) => r.filter(a => a.grupo === g).length
     assert.ok(grupos.every(g => tam(g) >= 3), grupos.map(tam).join())
+    for (let i = 1; i < grupos.length; i++) assert.ok(tam(grupos[i - 1]) <= tam(grupos[i]), `los de 3 primero: ${grupos.map(tam).join()}`)
     // los grupos que tienen a alguien que llega tarde son los últimos (ninguno sin tarde va después)
     const conTarde = grupos.filter(g => r.some(a => a.grupo === g && tarde.includes(a.id)))
     assert.deepEqual(conTarde, grupos.slice(grupos.length - conTarde.length))

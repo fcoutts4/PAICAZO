@@ -274,27 +274,23 @@ export function posicionEnVivo(jugadores: Jugador[], filas: Golpe[], c: Cancha, 
   return { hoyo: N, general, grupo }
 }
 
-/** Reparte en grupos de 3 y 4, nunca de 2 (14 → 4, 4, 3, 3): tantos grupos como tríos caben; con menos de 6, uno solo. */
-function enGrupos(mezcla: string[]): string[][] {
-  if (!mezcla.length) return []
-  const n = Math.max(1, Math.floor(mezcla.length / 3))
-  return Array.from({ length: n }, (_, g) => mezcla.filter((_, i) => i % n === g)) // reparte en ronda: tamaños parejos
+/** Tamaños de los grupos: tantos como tríos caben (con menos de 6, uno solo), de 3 y 4, nunca de 2 (14 → 3, 3, 4, 4).
+ *  De menor a mayor: los de 3 salen primero. */
+function tamaños(n: number): number[] {
+  if (!n) return []
+  const g = Math.max(1, Math.floor(n / 3)), base = Math.floor(n / g), extra = n % g
+  return [...Array(g - extra).fill(base), ...Array(extra).fill(base + 1)]
 }
 
-/** Sorteo de grupos; salen primero los de 3 y cada uno marca al siguiente de su grupo. Los que llegan tarde (`tarde`) van juntos en el
- *  último grupo (o los últimos, si son muchos); si son 1 o 2 se completa a 3 con otros sorteados. */
+/** Sorteo de grupos; salen primero los de 3 y cada uno marca al siguiente de su grupo. Los que llegan tarde (`tarde`)
+ *  ocupan los últimos lugares: van en el último grupo (de 4, completado con otros sorteados) o los últimos, si son muchos. */
 export function armarGrupos(ids: string[], azar: () => number = Math.random, tarde: string[] = []): { id: string; grupo: number; marca: string }[] {
   const mezcla = [...ids]
   for (let i = mezcla.length - 1; i > 0; i--) { const k = Math.floor(azar() * (i + 1)); [mezcla[i], mezcla[k]] = [mezcla[k], mezcla[i]] }
-  const ult = mezcla.filter(id => tarde.includes(id))
-  let resto = mezcla.filter(id => !tarde.includes(id))
-  // completa los del final a un tamaño que se reparta en 3 y 4 (1-2 → 3, 5 → 6)
-  const reparteBien = (n: number) => n >= 3 && n - 3 * Math.floor(n / 3) <= Math.floor(n / 3)
-  while (ult.length && !reparteBien(ult.length) && resto.length) ult.push(resto.pop()!)
-  if (ult.length && resto.length < 3) { ult.push(...resto); resto = [] } // nadie queda suelto
-  const porTamaño = (gs: string[][]) => [...gs].sort((a, b) => a.length - b.length) // primero salen los grupos de 3
-  const grupos = [...porTamaño(enGrupos(resto)), ...porTamaño(enGrupos(ult))]
-  return grupos.flatMap((g, gi) => g.map((id, i) => ({ id, grupo: gi + 1, marca: g.length > 1 ? g[(i + 1) % g.length] : '' })))
+  const fila = [...mezcla.filter(id => !tarde.includes(id)), ...mezcla.filter(id => tarde.includes(id))] // los atrasados al final
+  let i = 0
+  const grupos = tamaños(fila.length).map(t => fila.slice(i, (i += t)))
+  return grupos.flatMap((g, gi) => g.map((id, k) => ({ id, grupo: gi + 1, marca: g.length > 1 ? g[(k + 1) % g.length] : '' })))
 }
 
 /** Scores de mentira para mostrar la app llena: par neto (par + golpes recibidos) ± algo de azar. */

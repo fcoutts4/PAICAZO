@@ -250,7 +250,7 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
           <BotonPeligroso accion={sortear} texto="Sortear grupos" palabra="SORTEAR"
             aviso="Se van a sortear grupos nuevos y cambiar los marcadores de todos.">
             <fieldset className="tarde">
-              <legend>Llegan tarde: van juntos en el último grupo (si son 1 o 2, se completa a 3 con otro al azar)</legend>
+              <legend>Llegan tarde: van juntos en el último grupo, que es de 4 (si son menos, se completa con otros al azar). Los grupos de 3 salen primero.</legend>
               {orden.map(j => <label key={j.id}><input type="checkbox" name="tarde" value={j.id} /> {j.nombre}</label>)}
             </fieldset>
           </BotonPeligroso>
