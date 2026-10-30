@@ -3,7 +3,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import {
   hcpJuego, golpesRecibidos, puntosStableford, estadoHoyo, tarjeta, ranking,
-  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, armarGrupos, golpesDemo, vsNeto, nuevoId, limpiarIndice, sumarAGrupo, sacarDeGrupo, sePuedeQuitar, porHandicap, gruposParaMostrar, moverAGrupo, intercambiar, gruposSolos, horaSalida, type Cancha, type Jugador, type Golpe,
+  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, armarGrupos, golpesDemo, netoVsPar, nuevoId, limpiarIndice, sumarAGrupo, sacarDeGrupo, sePuedeQuitar, porHandicap, gruposParaMostrar, moverAGrupo, intercambiar, gruposSolos, horaSalida, type Cancha, type Jugador, type Golpe,
 } from './golf.ts'
 
 const par = [4, 4, 3, 4, 5, 4, 4, 3, 4, 4, 4, 3, 4, 5, 4, 4, 3, 4]
@@ -492,10 +492,14 @@ test('no juega: no tiene posición en vivo', () => {
 })
 
 // --- vs neto: puntos contra jugar a tu hándicap (2 por hoyo) ---
-test('vs neto: 2 por hoyo es jugar a tu hándicap (E)', () => assert.equal(vsNeto(18, 9), 0))
-test('vs neto: más puntos que 2 por hoyo es positivo', () => assert.equal(vsNeto(21, 9), 3))
-test('vs neto: menos es negativo', () => assert.equal(vsNeto(10, 9), -8))
-test('vs neto: sin hoyos es 0', () => assert.equal(vsNeto(0, 0), 0))
+// neto: golpes sobre el par descontando los recibidos, mismo signo que ±Par (bogey neto = +1)
+test('neto: 6 en par 4 recibiendo 1 → +1 (bogey neto)', () => assert.equal(netoVsPar([6], [4], [1]), 1))
+test('neto: par neto → 0 (E)', () => assert.equal(netoVsPar([5, 4], [4, 4], [1, 0]), 0))
+test('neto: birdie neto → −1', () => assert.equal(netoVsPar([4], [4], [1]), -1))
+test('neto: sin tope, un 11 en par 4 recibiendo 1 → +6 (los puntos se topan en 0, el neto no)', () => assert.equal(netoVsPar([11], [4], [1]), 6))
+test('neto: los hoyos sin jugar no cuentan', () => assert.equal(netoVsPar([6, null, null], [4, 4, 3], [1, 1, 0]), 1))
+test('neto: sin hoyos → 0', () => assert.equal(netoVsPar([], [], []), 0))
+test('neto: plus (recibe −1) suma un golpe', () => assert.equal(netoVsPar([4], [4], [-1]), 1))
 
 // --- agregar / quitar jugadores desde el admin ---
 test('id nuevo: del nombre, sin tildes ni espacios, en minúsculas', () => assert.equal(nuevoId('José Ñúñez', []), 'josenunez'))

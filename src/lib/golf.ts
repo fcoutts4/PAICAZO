@@ -62,8 +62,10 @@ export function tarjeta(j: Jugador, filas: Golpe[], c: Cancha): Tarjeta {
   }
 }
 
-/** Puntos contra jugar a tu hándicap: el par neto da 2 por hoyo. */
-export const vsNeto = (puntos: number, jugados: number) => puntos - 2 * jugados
+/** Golpes netos sobre el par en los hoyos jugados (golpes − recibidos − par): mismo signo que ±Par, bogey neto = +1. */
+export function netoVsPar(golpes: (number | null)[], par: number[], recibidos: number[]): number {
+  return golpes.reduce<number>((a, g, i) => (g == null ? a : a + g - recibidos[i] - par[i]), 0)
+}
 
 export const puedeFirmar = (t: Tarjeta) => t.hoyos.every(h => h.estado === 'ok')
 

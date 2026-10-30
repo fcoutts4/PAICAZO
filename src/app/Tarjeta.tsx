@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { MAX_GOLPES, estadoHoyo, puntosStableford, vsNeto, type Estado, type Tarjeta as T } from '@/lib/golf'
+import { MAX_GOLPES, estadoHoyo, netoVsPar, puntosStableford, type Estado, type Tarjeta as T } from '@/lib/golf'
 import { reintentar } from '@/lib/envio'
 import Icono from './Icono'
 import TarjetaPGA from './TarjetaPGA'
@@ -119,7 +119,7 @@ export default function Tarjeta({ cancha, yo, marcado, posicion }: Props) {
     <>
       <div className="resumen">
         <div><b>{total}</b><small>Puntos</small></div>
-        <div><b>{signo(vsNeto(total, jugados))}</b><small>Neto</small></div>
+        <div><b>{signo(netoVsPar(cancha.par.map((_, i) => miGolpe(i)), cancha.par, yo.t.hoyos.map(x => x.recibidos)))}</b><small>Neto</small></div>
         <div><b>{signo(vsPar)}</b><small>±Par</small></div>
         <div><b>{jugados}</b><small>Hoyos</small></div>
         <div><b>{yo.t.hj}</b><small>HCP</small></div>
