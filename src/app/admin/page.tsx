@@ -3,8 +3,9 @@ import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { agregarJugador, borrarScores, idsUsados, cambiarIndice, cancha, firmadas, golpes, guardarGolpe, guardarGolpesEnLote, guardarGrupos, jugador, jugadores, quitarJugador, renombrar } from '@/lib/datos'
 import { sql } from '@/lib/db'
-import { armarGrupos, golpesDemo, gruposSolos, hcpJuego, intercambiar, moverAGrupo, limpiarIndice, limpiarNombre, nuevoId, porHandicap, sacarDeGrupo, sePuedeQuitar, sumarAGrupo, tarjeta } from '@/lib/golf'
+import { armarGrupos, golpesDemo, gruposSolos, hcpJuego, horaSalida, intercambiar, moverAGrupo, limpiarIndice, limpiarNombre, nuevoId, porHandicap, sacarDeGrupo, sePuedeQuitar, sumarAGrupo, tarjeta } from '@/lib/golf'
 import { pinDe, requiereUsuario } from '@/lib/sesion'
+import canchaJson from '../../../data/cancha.json'
 import BotonPeligroso from './BotonPeligroso'
 
 export const dynamic = 'force-dynamic'
@@ -206,7 +207,7 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
       <form action={moverJugador} className="admin-form tarjeta-ui">
         <select name="jugador" required>{orden.map(j => <option key={j.id} value={j.id}>{j.nombre} (G{j.grupo})</option>)}</select>
         <select name="grupo" required>
-          {numeros.map(g => <option key={g} value={g}>Grupo {g} ({js.filter(j => j.grupo === g).length})</option>)}
+          {numeros.map(g => <option key={g} value={g}>Grupo {g} · {horaSalida(g, canchaJson.salidas.primera, canchaJson.salidas.cada_min)} ({js.filter(j => j.grupo === g).length})</option>)}
           <option value={0}>Grupo nuevo</option>
         </select>
         <button className="btn chico">Mover</button>

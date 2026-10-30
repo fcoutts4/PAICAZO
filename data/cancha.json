@@ -9,6 +9,7 @@
   "hcp": [6, 8, 16, 18, 4, 14, 10, 12, 2, 5, 7, 15, 17, 3, 13, 9, 11, 1],
   "slope": 113,
   "rating": 70,
+  "salidas": {"primera": "10:00", "cada_min": 10},
   "reglas_locales": [
     {"titulo": "Límites de la cancha", "texto": "La cancha está delimitada por estacas blancas, cercos o deslindes naturales."},
     {"titulo": "Terrenos en reparación", "texto": "Marcados con líneas azules; la pelota se dropea según el procedimiento establecido."},

@@ -3,7 +3,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import {
   hcpJuego, golpesRecibidos, puntosStableford, estadoHoyo, tarjeta, ranking,
-  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, armarGrupos, golpesDemo, vsNeto, nuevoId, limpiarIndice, sumarAGrupo, sacarDeGrupo, sePuedeQuitar, porHandicap, gruposParaMostrar, moverAGrupo, intercambiar, gruposSolos, type Cancha, type Jugador, type Golpe,
+  puedeAnotar, puedeFirmar, marcaPGA, limpiarNombre, posicionEnVivo, armarGrupos, golpesDemo, vsNeto, nuevoId, limpiarIndice, sumarAGrupo, sacarDeGrupo, sePuedeQuitar, porHandicap, gruposParaMostrar, moverAGrupo, intercambiar, gruposSolos, horaSalida, type Cancha, type Jugador, type Golpe,
 } from './golf.ts'
 
 const par = [4, 4, 3, 4, 5, 4, 4, 3, 4, 4, 4, 3, 4, 5, 4, 4, 3, 4]
@@ -735,3 +735,15 @@ test('orden: los grupos de 3 salen primero (14 → 3, 3, 4, 4)', () => assert.de
 test('orden: 11 → 3, 4, 4', () => assert.deepEqual(enOrden(armarGrupos(ids(11), azar(1))), [3, 4, 4]))
 test('orden: con atrasados, primero los de 3, luego los de 4 y al final el de los atrasados', () =>
   assert.deepEqual(enOrden(armarGrupos(ids(14), azar(1), ['j3', 'j9'])), [3, 4, 4, 3]))
+
+// --- hora de salida: el grupo 1 sale a la primera hora y cada grupo siguiente N minutos después ---
+test('salida: grupo 1 a las 10:00, grupo 2 a las 10:10, grupo 5 a las 10:40', () => {
+  assert.equal(horaSalida(1, '10:00', 10), '10:00')
+  assert.equal(horaSalida(2, '10:00', 10), '10:10')
+  assert.equal(horaSalida(5, '10:00', 10), '10:40')
+})
+test('salida: pasa de hora (grupo 7 → 11:00) y rellena con cero', () => {
+  assert.equal(horaSalida(7, '10:00', 10), '11:00')
+  assert.equal(horaSalida(2, '09:55', 10), '10:05')
+})
+test('salida: otro intervalo (cada 8 min)', () => assert.equal(horaSalida(3, '08:00', 8), '08:16'))

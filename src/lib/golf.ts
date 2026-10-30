@@ -154,6 +154,13 @@ export function intercambiar(js: Asignacion[], a: string, b: string): Asignacion
 export const gruposSolos = (js: { grupo: number }[]) =>
   [...new Set(js.map(j => j.grupo))].filter(g => js.filter(j => j.grupo === g).length === 1).sort((a, b) => a - b)
 
+/** Hora de salida del grupo: el 1 sale a la `primera` ("HH:MM") y cada grupo siguiente `cada` minutos después. */
+export function horaSalida(grupo: number, primera: string, cada: number): string {
+  const [h, m] = primera.split(':').map(Number)
+  const t = h * 60 + m + (grupo - 1) * cada
+  return `${String(Math.floor(t / 60) % 24).padStart(2, '0')}:${String(t % 60).padStart(2, '0')}`
+}
+
 /** Pestaña Grupos: por número de grupo; dentro, la cadena de marcadores desde el de menor índice (si se corta, el resto por índice). */
 export function gruposParaMostrar(js: Jugador[]) {
   return [...new Set(js.map(j => j.grupo))].sort((a, b) => a - b).map(grupo => {

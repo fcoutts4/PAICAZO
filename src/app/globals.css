@@ -326,6 +326,8 @@ a.ver-tarjeta::after { content: ' ›'; color: var(--gris); }
 
 /* pestaña Grupos */
 .grupo h2 { margin: 0 0 6px; color: var(--verde); font-size: 13px; }
+.grupo h2 { display: flex; align-items: baseline; gap: 4px; }
+.grupo h2 .hora { margin-left: auto; font-size: 18px; font-weight: 800; letter-spacing: -.01em; color: var(--texto); }
 .grupo h2 small { text-transform: none; letter-spacing: 0; color: var(--gris); font-weight: 600; }
 .grupo.mio { box-shadow: var(--sombra), inset 4px 0 var(--lima); }
 .grupo ol { list-style: none; margin: 0; padding: 0; }

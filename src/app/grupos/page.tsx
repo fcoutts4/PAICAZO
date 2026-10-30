@@ -1,5 +1,6 @@
 import { cancha, jugadores } from '@/lib/datos'
-import { gruposParaMostrar, hcpJuego } from '@/lib/golf'
+import { gruposParaMostrar, hcpJuego, horaSalida } from '@/lib/golf'
+import canchaJson from '../../../data/cancha.json'
 import { requiereUsuario } from '@/lib/sesion'
 import Refresco from '../Refresco'
 
@@ -14,10 +15,10 @@ export default async function Grupos() {
     <main>
       <Refresco segundos={10} />
       <h1>Grupos</h1>
-      <p className="nota">Cada uno anota sus golpes y los de quien marca. Se actualiza solo: si el admin sortea, aparece aquí.</p>
+      <p className="nota">Salidas desde las {canchaJson.salidas.primera}, cada {canchaJson.salidas.cada_min} minutos. Cada uno anota sus golpes y los de quien marca. Se actualiza solo: si el admin sortea, aparece aquí.</p>
       {gruposParaMostrar(js).map(g => (
         <section key={g.grupo} className={`grupo tarjeta-ui${g.jugadores.some(j => j.id === u.id) ? ' mio' : ''}`}>
-          <h2>Grupo {g.grupo}{g.jugadores.some(j => j.id === u.id) && <small> · tu grupo</small>}</h2>
+          <h2>Grupo {g.grupo}{g.jugadores.some(j => j.id === u.id) && <small> · tu grupo</small>}<span className="hora">{horaSalida(g.grupo, canchaJson.salidas.primera, canchaJson.salidas.cada_min)}</span></h2>
           <ol>
             {g.jugadores.map(j => (
               <li key={j.id} className={j.id === u.id ? 'yo' : ''}>
