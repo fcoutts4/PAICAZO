@@ -31,7 +31,7 @@ export default async function Reglas() {
             <tr><td>Eagle</td><td>4</td></tr>
           </tbody>
         </table>
-        <p className="nota">Si ya no puedes sumar puntos en un hoyo, levanta la bola: el juego es más rápido.</p>
+        <p className="nota"><b>No se levanta:</b> juega cada hoyo hasta embocar y anota todos tus golpes, aunque ya no sumes puntos. El desempate se decide por tus golpes totales menos tu índice.</p>
       </details>
 
       <details>
