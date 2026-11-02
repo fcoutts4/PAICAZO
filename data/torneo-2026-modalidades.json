@@ -1,0 +1,2055 @@
+{
+ "escenarios": [
+  {
+   "letra": "A",
+   "nombre": "Actual",
+   "descripcion": "Copa + Rey del Hoyo (gross) + Puto",
+   "sesgo": 0.48017737627830614,
+   "filas": [
+    {
+     "id": "mcovarrubias",
+     "nombre": "M Covarrubias",
+     "copa": 31,
+     "rey": 3.833333333333333,
+     "puto": 10.666666666666664,
+     "total": 45.5,
+     "pos": 1
+    },
+    {
+     "id": "pm",
+     "nombre": "P Mingo",
+     "copa": 31,
+     "rey": 4.592857142857143,
+     "puto": 7.833333333333333,
+     "total": 43.42619047619048,
+     "pos": 2
+    },
+    {
+     "id": "aguzman",
+     "nombre": "A Guzmán",
+     "copa": 31,
+     "rey": 2.0095238095238095,
+     "puto": 6.833333333333334,
+     "total": 39.84285714285715,
+     "pos": 3
+    },
+    {
+     "id": "mundu",
+     "nombre": "M Undurraga",
+     "copa": 30,
+     "rey": 1.0095238095238095,
+     "puto": 7.777777777777777,
+     "total": 38.787301587301585,
+     "pos": 4
+    },
+    {
+     "id": "smolina",
+     "nombre": "S Molina",
+     "copa": 32,
+     "rey": 0.7499999999999999,
+     "puto": 6,
+     "total": 38.75,
+     "pos": 5
+    },
+    {
+     "id": "iu",
+     "nombre": "I Undurraga",
+     "copa": 27,
+     "rey": 0.75,
+     "puto": 8.444444444444443,
+     "total": 36.19444444444444,
+     "pos": 6
+    },
+    {
+     "id": "aochagavia",
+     "nombre": "A Ochagavía",
+     "copa": 28,
+     "rey": 0.41666666666666663,
+     "puto": 6,
+     "total": 34.41666666666667,
+     "pos": 7
+    },
+    {
+     "id": "jpo",
+     "nombre": "JP Ochagavía",
+     "copa": 29,
+     "rey": 0.8666666666666667,
+     "puto": 3.3333333333333335,
+     "total": 33.2,
+     "pos": 8
+    },
+    {
+     "id": "aundurraga",
+     "nombre": "A Undurraga",
+     "copa": 25,
+     "rey": 1.3928571428571428,
+     "puto": 6,
+     "total": 32.39285714285714,
+     "pos": 9
+    },
+    {
+     "id": "gcarrasco",
+     "nombre": "G Carrasco",
+     "copa": 21,
+     "rey": 0.7595238095238095,
+     "puto": 4.888888888888888,
+     "total": 26.6484126984127,
+     "pos": 10
+    },
+    {
+     "id": "vc",
+     "nombre": "V Castillo",
+     "copa": 19,
+     "rey": 0.7261904761904762,
+     "puto": 5.5555555555555545,
+     "total": 25.281746031746028,
+     "pos": 11
+    },
+    {
+     "id": "mg",
+     "nombre": "M Guzmán",
+     "copa": 21,
+     "rey": 0.16666666666666666,
+     "puto": 4,
+     "total": 25.166666666666668,
+     "pos": 12
+    },
+    {
+     "id": "fcoutts",
+     "nombre": "F Coutts",
+     "copa": 19,
+     "rey": 0.7261904761904762,
+     "puto": 5.111111111111111,
+     "total": 24.837301587301585,
+     "pos": 13
+    },
+    {
+     "id": "leyzaguirre",
+     "nombre": "L Eyzaguirre",
+     "copa": 17,
+     "rey": 0,
+     "puto": 1.5555555555555554,
+     "total": 18.555555555555557,
+     "pos": 14
+    }
+   ]
+  },
+  {
+   "letra": "B",
+   "nombre": "Solo Copa",
+   "descripcion": "Solo la Copa Paicazo (Stableford neto)",
+   "sesgo": 0.47797472776326805,
+   "filas": [
+    {
+     "id": "smolina",
+     "nombre": "S Molina",
+     "copa": 32,
+     "rey": 0,
+     "puto": 0,
+     "total": 32,
+     "pos": 1
+    },
+    {
+     "id": "mcovarrubias",
+     "nombre": "M Covarrubias",
+     "copa": 31,
+     "rey": 0,
+     "puto": 0,
+     "total": 31,
+     "pos": 2
+    },
+    {
+     "id": "pm",
+     "nombre": "P Mingo",
+     "copa": 31,
+     "rey": 0,
+     "puto": 0,
+     "total": 31,
+     "pos": 3
+    },
+    {
+     "id": "aguzman",
+     "nombre": "A Guzmán",
+     "copa": 31,
+     "rey": 0,
+     "puto": 0,
+     "total": 31,
+     "pos": 4
+    },
+    {
+     "id": "mundu",
+     "nombre": "M Undurraga",
+     "copa": 30,
+     "rey": 0,
+     "puto": 0,
+     "total": 30,
+     "pos": 5
+    },
+    {
+     "id": "jpo",
+     "nombre": "JP Ochagavía",
+     "copa": 29,
+     "rey": 0,
+     "puto": 0,
+     "total": 29,
+     "pos": 6
+    },
+    {
+     "id": "aochagavia",
+     "nombre": "A Ochagavía",
+     "copa": 28,
+     "rey": 0,
+     "puto": 0,
+     "total": 28,
+     "pos": 7
+    },
+    {
+     "id": "iu",
+     "nombre": "I Undurraga",
+     "copa": 27,
+     "rey": 0,
+     "puto": 0,
+     "total": 27,
+     "pos": 8
+    },
+    {
+     "id": "aundurraga",
+     "nombre": "A Undurraga",
+     "copa": 25,
+     "rey": 0,
+     "puto": 0,
+     "total": 25,
+     "pos": 9
+    },
+    {
+     "id": "gcarrasco",
+     "nombre": "G Carrasco",
+     "copa": 21,
+     "rey": 0,
+     "puto": 0,
+     "total": 21,
+     "pos": 10
+    },
+    {
+     "id": "mg",
+     "nombre": "M Guzmán",
+     "copa": 21,
+     "rey": 0,
+     "puto": 0,
+     "total": 21,
+     "pos": 11
+    },
+    {
+     "id": "vc",
+     "nombre": "V Castillo",
+     "copa": 19,
+     "rey": 0,
+     "puto": 0,
+     "total": 19,
+     "pos": 12
+    },
+    {
+     "id": "fcoutts",
+     "nombre": "F Coutts",
+     "copa": 19,
+     "rey": 0,
+     "puto": 0,
+     "total": 19,
+     "pos": 13
+    },
+    {
+     "id": "leyzaguirre",
+     "nombre": "L Eyzaguirre",
+     "copa": 17,
+     "rey": 0,
+     "puto": 0,
+     "total": 17,
+     "pos": 14
+    }
+   ]
+  },
+  {
+   "letra": "C",
+   "nombre": "Rey ×2",
+   "descripcion": "Copa + Rey del Hoyo gross con doble puntaje + Puto",
+   "sesgo": 0.5110144554888396,
+   "filas": [
+    {
+     "id": "mcovarrubias",
+     "nombre": "M Covarrubias",
+     "copa": 31,
+     "rey": 7.666666666666666,
+     "puto": 10.666666666666664,
+     "total": 49.33333333333333,
+     "pos": 1
+    },
+    {
+     "id": "pm",
+     "nombre": "P Mingo",
+     "copa": 31,
+     "rey": 9.185714285714287,
+     "puto": 7.833333333333333,
+     "total": 48.01904761904762,
+     "pos": 2
+    },
+    {
+     "id": "aguzman",
+     "nombre": "A Guzmán",
+     "copa": 31,
+     "rey": 4.019047619047619,
+     "puto": 6.833333333333334,
+     "total": 41.852380952380955,
+     "pos": 3
+    },
+    {
+     "id": "mundu",
+     "nombre": "M Undurraga",
+     "copa": 30,
+     "rey": 2.019047619047619,
+     "puto": 7.777777777777777,
+     "total": 39.7968253968254,
+     "pos": 4
+    },
+    {
+     "id": "smolina",
+     "nombre": "S Molina",
+     "copa": 32,
+     "rey": 1.4999999999999998,
+     "puto": 6,
+     "total": 39.5,
+     "pos": 5
+    },
+    {
+     "id": "iu",
+     "nombre": "I Undurraga",
+     "copa": 27,
+     "rey": 1.5,
+     "puto": 8.444444444444443,
+     "total": 36.94444444444444,
+     "pos": 6
+    },
+    {
+     "id": "aochagavia",
+     "nombre": "A Ochagavía",
+     "copa": 28,
+     "rey": 0.8333333333333333,
+     "puto": 6,
+     "total": 34.83333333333333,
+     "pos": 7
+    },
+    {
+     "id": "jpo",
+     "nombre": "JP Ochagavía",
+     "copa": 29,
+     "rey": 1.7333333333333334,
+     "puto": 3.3333333333333335,
+     "total": 34.06666666666667,
+     "pos": 8
+    },
+    {
+     "id": "aundurraga",
+     "nombre": "A Undurraga",
+     "copa": 25,
+     "rey": 2.7857142857142856,
+     "puto": 6,
+     "total": 33.785714285714285,
+     "pos": 9
+    },
+    {
+     "id": "gcarrasco",
+     "nombre": "G Carrasco",
+     "copa": 21,
+     "rey": 1.519047619047619,
+     "puto": 4.888888888888888,
+     "total": 27.40793650793651,
+     "pos": 10
+    },
+    {
+     "id": "vc",
+     "nombre": "V Castillo",
+     "copa": 19,
+     "rey": 1.4523809523809523,
+     "puto": 5.5555555555555545,
+     "total": 26.007936507936506,
+     "pos": 11
+    },
+    {
+     "id": "fcoutts",
+     "nombre": "F Coutts",
+     "copa": 19,
+     "rey": 1.4523809523809523,
+     "puto": 5.111111111111111,
+     "total": 25.563492063492063,
+     "pos": 12
+    },
+    {
+     "id": "mg",
+     "nombre": "M Guzmán",
+     "copa": 21,
+     "rey": 0.3333333333333333,
+     "puto": 4,
+     "total": 25.333333333333332,
+     "pos": 13
+    },
+    {
+     "id": "leyzaguirre",
+     "nombre": "L Eyzaguirre",
+     "copa": 17,
+     "rey": 0,
+     "puto": 1.5555555555555554,
+     "total": 18.555555555555557,
+     "pos": 14
+    }
+   ]
+  },
+  {
+   "letra": "D",
+   "nombre": "Rey ×3",
+   "descripcion": "Copa + Rey del Hoyo gross con triple puntaje + Puto",
+   "sesgo": 0.48017737627830614,
+   "filas": [
+    {
+     "id": "mcovarrubias",
+     "nombre": "M Covarrubias",
+     "copa": 31,
+     "rey": 11.5,
+     "puto": 10.666666666666664,
+     "total": 53.166666666666664,
+     "pos": 1
+    },
+    {
+     "id": "pm",
+     "nombre": "P Mingo",
+     "copa": 31,
+     "rey": 13.77857142857143,
+     "puto": 7.833333333333333,
+     "total": 52.61190476190477,
+     "pos": 2
+    },
+    {
+     "id": "aguzman",
+     "nombre": "A Guzmán",
+     "copa": 31,
+     "rey": 6.0285714285714285,
+     "puto": 6.833333333333334,
+     "total": 43.86190476190476,
+     "pos": 3
+    },
+    {
+     "id": "mundu",
+     "nombre": "M Undurraga",
+     "copa": 30,
+     "rey": 3.0285714285714285,
+     "puto": 7.777777777777777,
+     "total": 40.8063492063492,
+     "pos": 4
+    },
+    {
+     "id": "smolina",
+     "nombre": "S Molina",
+     "copa": 32,
+     "rey": 2.2499999999999996,
+     "puto": 6,
+     "total": 40.25,
+     "pos": 5
+    },
+    {
+     "id": "iu",
+     "nombre": "I Undurraga",
+     "copa": 27,
+     "rey": 2.25,
+     "puto": 8.444444444444443,
+     "total": 37.69444444444444,
+     "pos": 6
+    },
+    {
+     "id": "aochagavia",
+     "nombre": "A Ochagavía",
+     "copa": 28,
+     "rey": 1.25,
+     "puto": 6,
+     "total": 35.25,
+     "pos": 7
+    },
+    {
+     "id": "aundurraga",
+     "nombre": "A Undurraga",
+     "copa": 25,
+     "rey": 4.178571428571429,
+     "puto": 6,
+     "total": 35.17857142857143,
+     "pos": 8
+    },
+    {
+     "id": "jpo",
+     "nombre": "JP Ochagavía",
+     "copa": 29,
+     "rey": 2.6,
+     "puto": 3.3333333333333335,
+     "total": 34.93333333333334,
+     "pos": 9
+    },
+    {
+     "id": "gcarrasco",
+     "nombre": "G Carrasco",
+     "copa": 21,
+     "rey": 2.2785714285714285,
+     "puto": 4.888888888888888,
+     "total": 28.167460317460318,
+     "pos": 10
+    },
+    {
+     "id": "vc",
+     "nombre": "V Castillo",
+     "copa": 19,
+     "rey": 2.1785714285714284,
+     "puto": 5.5555555555555545,
+     "total": 26.73412698412698,
+     "pos": 11
+    },
+    {
+     "id": "fcoutts",
+     "nombre": "F Coutts",
+     "copa": 19,
+     "rey": 2.1785714285714284,
+     "puto": 5.111111111111111,
+     "total": 26.289682539682538,
+     "pos": 12
+    },
+    {
+     "id": "mg",
+     "nombre": "M Guzmán",
+     "copa": 21,
+     "rey": 0.5,
+     "puto": 4,
+     "total": 25.5,
+     "pos": 13
+    },
+    {
+     "id": "leyzaguirre",
+     "nombre": "L Eyzaguirre",
+     "copa": 17,
+     "rey": 0,
+     "puto": 1.5555555555555554,
+     "total": 18.555555555555557,
+     "pos": 14
+    }
+   ]
+  },
+  {
+   "letra": "E",
+   "nombre": "Rey neto",
+   "descripcion": "Copa + Rey del Hoyo en neto (descuenta golpes recibidos) + Puto",
+   "sesgo": 0.46916413370311566,
+   "filas": [
+    {
+     "id": "mcovarrubias",
+     "nombre": "M Covarrubias",
+     "copa": 31,
+     "rey": 2.658333333333333,
+     "puto": 10.666666666666664,
+     "total": 44.324999999999996,
+     "pos": 1
+    },
+    {
+     "id": "pm",
+     "nombre": "P Mingo",
+     "copa": 31,
+     "rey": 1.625,
+     "puto": 7.833333333333333,
+     "total": 40.458333333333336,
+     "pos": 2
+    },
+    {
+     "id": "aguzman",
+     "nombre": "A Guzmán",
+     "copa": 31,
+     "rey": 2.4916666666666667,
+     "puto": 6.833333333333334,
+     "total": 40.325,
+     "pos": 3
+    },
+    {
+     "id": "smolina",
+     "nombre": "S Molina",
+     "copa": 32,
+     "rey": 0.9916666666666667,
+     "puto": 6,
+     "total": 38.99166666666667,
+     "pos": 4
+    },
+    {
+     "id": "mundu",
+     "nombre": "M Undurraga",
+     "copa": 30,
+     "rey": 0.6583333333333333,
+     "puto": 7.777777777777777,
+     "total": 38.43611111111111,
+     "pos": 5
+    },
+    {
+     "id": "iu",
+     "nombre": "I Undurraga",
+     "copa": 27,
+     "rey": 1.125,
+     "puto": 8.444444444444443,
+     "total": 36.56944444444444,
+     "pos": 6
+    },
+    {
+     "id": "aochagavia",
+     "nombre": "A Ochagavía",
+     "copa": 28,
+     "rey": 0.7916666666666666,
+     "puto": 6,
+     "total": 34.79166666666667,
+     "pos": 7
+    },
+    {
+     "id": "aundurraga",
+     "nombre": "A Undurraga",
+     "copa": 25,
+     "rey": 3,
+     "puto": 6,
+     "total": 34,
+     "pos": 8
+    },
+    {
+     "id": "jpo",
+     "nombre": "JP Ochagavía",
+     "copa": 29,
+     "rey": 1.4583333333333333,
+     "puto": 3.3333333333333335,
+     "total": 33.791666666666664,
+     "pos": 9
+    },
+    {
+     "id": "gcarrasco",
+     "nombre": "G Carrasco",
+     "copa": 21,
+     "rey": 0.3333333333333333,
+     "puto": 4.888888888888888,
+     "total": 26.22222222222222,
+     "pos": 10
+    },
+    {
+     "id": "vc",
+     "nombre": "V Castillo",
+     "copa": 19,
+     "rey": 1.3333333333333333,
+     "puto": 5.5555555555555545,
+     "total": 25.888888888888886,
+     "pos": 11
+    },
+    {
+     "id": "fcoutts",
+     "nombre": "F Coutts",
+     "copa": 19,
+     "rey": 1.3333333333333333,
+     "puto": 5.111111111111111,
+     "total": 25.444444444444443,
+     "pos": 12
+    },
+    {
+     "id": "mg",
+     "nombre": "M Guzmán",
+     "copa": 21,
+     "rey": 0.2,
+     "puto": 4,
+     "total": 25.2,
+     "pos": 13
+    },
+    {
+     "id": "leyzaguirre",
+     "nombre": "L Eyzaguirre",
+     "copa": 17,
+     "rey": 0,
+     "puto": 1.5555555555555554,
+     "total": 18.555555555555557,
+     "pos": 14
+    }
+   ]
+  },
+  {
+   "letra": "F",
+   "nombre": "Rey neto ×2",
+   "descripcion": "Copa + Rey del Hoyo neto con doble puntaje + Puto",
+   "sesgo": 0.38105819310159156,
+   "filas": [
+    {
+     "id": "mcovarrubias",
+     "nombre": "M Covarrubias",
+     "copa": 31,
+     "rey": 5.316666666666666,
+     "puto": 10.666666666666664,
+     "total": 46.98333333333333,
+     "pos": 1
+    },
+    {
+     "id": "aguzman",
+     "nombre": "A Guzmán",
+     "copa": 31,
+     "rey": 4.983333333333333,
+     "puto": 6.833333333333334,
+     "total": 42.81666666666667,
+     "pos": 2
+    },
+    {
+     "id": "pm",
+     "nombre": "P Mingo",
+     "copa": 31,
+     "rey": 3.25,
+     "puto": 7.833333333333333,
+     "total": 42.083333333333336,
+     "pos": 3
+    },
+    {
+     "id": "smolina",
+     "nombre": "S Molina",
+     "copa": 32,
+     "rey": 1.9833333333333334,
+     "puto": 6,
+     "total": 39.983333333333334,
+     "pos": 4
+    },
+    {
+     "id": "mundu",
+     "nombre": "M Undurraga",
+     "copa": 30,
+     "rey": 1.3166666666666667,
+     "puto": 7.777777777777777,
+     "total": 39.09444444444444,
+     "pos": 5
+    },
+    {
+     "id": "iu",
+     "nombre": "I Undurraga",
+     "copa": 27,
+     "rey": 2.25,
+     "puto": 8.444444444444443,
+     "total": 37.69444444444444,
+     "pos": 6
+    },
+    {
+     "id": "aundurraga",
+     "nombre": "A Undurraga",
+     "copa": 25,
+     "rey": 6,
+     "puto": 6,
+     "total": 37,
+     "pos": 7
+    },
+    {
+     "id": "aochagavia",
+     "nombre": "A Ochagavía",
+     "copa": 28,
+     "rey": 1.5833333333333333,
+     "puto": 6,
+     "total": 35.58333333333333,
+     "pos": 8
+    },
+    {
+     "id": "jpo",
+     "nombre": "JP Ochagavía",
+     "copa": 29,
+     "rey": 2.9166666666666665,
+     "puto": 3.3333333333333335,
+     "total": 35.25,
+     "pos": 9
+    },
+    {
+     "id": "vc",
+     "nombre": "V Castillo",
+     "copa": 19,
+     "rey": 2.6666666666666665,
+     "puto": 5.5555555555555545,
+     "total": 27.22222222222222,
+     "pos": 10
+    },
+    {
+     "id": "fcoutts",
+     "nombre": "F Coutts",
+     "copa": 19,
+     "rey": 2.6666666666666665,
+     "puto": 5.111111111111111,
+     "total": 26.77777777777778,
+     "pos": 11
+    },
+    {
+     "id": "gcarrasco",
+     "nombre": "G Carrasco",
+     "copa": 21,
+     "rey": 0.6666666666666666,
+     "puto": 4.888888888888888,
+     "total": 26.555555555555557,
+     "pos": 12
+    },
+    {
+     "id": "mg",
+     "nombre": "M Guzmán",
+     "copa": 21,
+     "rey": 0.4,
+     "puto": 4,
+     "total": 25.4,
+     "pos": 13
+    },
+    {
+     "id": "leyzaguirre",
+     "nombre": "L Eyzaguirre",
+     "copa": 17,
+     "rey": 0,
+     "puto": 1.5555555555555554,
+     "total": 18.555555555555557,
+     "pos": 14
+    }
+   ]
+  },
+  {
+   "letra": "G",
+   "nombre": "Sin Rey",
+   "descripcion": "Copa + Puto",
+   "sesgo": 0.48238002479334424,
+   "filas": [
+    {
+     "id": "mcovarrubias",
+     "nombre": "M Covarrubias",
+     "copa": 31,
+     "rey": 0,
+     "puto": 10.666666666666664,
+     "total": 41.666666666666664,
+     "pos": 1
+    },
+    {
+     "id": "pm",
+     "nombre": "P Mingo",
+     "copa": 31,
+     "rey": 0,
+     "puto": 7.833333333333333,
+     "total": 38.833333333333336,
+     "pos": 2
+    },
+    {
+     "id": "smolina",
+     "nombre": "S Molina",
+     "copa": 32,
+     "rey": 0,
+     "puto": 6,
+     "total": 38,
+     "pos": 3
+    },
+    {
+     "id": "aguzman",
+     "nombre": "A Guzmán",
+     "copa": 31,
+     "rey": 0,
+     "puto": 6.833333333333334,
+     "total": 37.833333333333336,
+     "pos": 4
+    },
+    {
+     "id": "mundu",
+     "nombre": "M Undurraga",
+     "copa": 30,
+     "rey": 0,
+     "puto": 7.777777777777777,
+     "total": 37.77777777777778,
+     "pos": 5
+    },
+    {
+     "id": "iu",
+     "nombre": "I Undurraga",
+     "copa": 27,
+     "rey": 0,
+     "puto": 8.444444444444443,
+     "total": 35.44444444444444,
+     "pos": 6
+    },
+    {
+     "id": "aochagavia",
+     "nombre": "A Ochagavía",
+     "copa": 28,
+     "rey": 0,
+     "puto": 6,
+     "total": 34,
+     "pos": 7
+    },
+    {
+     "id": "jpo",
+     "nombre": "JP Ochagavía",
+     "copa": 29,
+     "rey": 0,
+     "puto": 3.3333333333333335,
+     "total": 32.333333333333336,
+     "pos": 8
+    },
+    {
+     "id": "aundurraga",
+     "nombre": "A Undurraga",
+     "copa": 25,
+     "rey": 0,
+     "puto": 6,
+     "total": 31,
+     "pos": 9
+    },
+    {
+     "id": "gcarrasco",
+     "nombre": "G Carrasco",
+     "copa": 21,
+     "rey": 0,
+     "puto": 4.888888888888888,
+     "total": 25.88888888888889,
+     "pos": 10
+    },
+    {
+     "id": "mg",
+     "nombre": "M Guzmán",
+     "copa": 21,
+     "rey": 0,
+     "puto": 4,
+     "total": 25,
+     "pos": 11
+    },
+    {
+     "id": "vc",
+     "nombre": "V Castillo",
+     "copa": 19,
+     "rey": 0,
+     "puto": 5.5555555555555545,
+     "total": 24.555555555555554,
+     "pos": 12
+    },
+    {
+     "id": "fcoutts",
+     "nombre": "F Coutts",
+     "copa": 19,
+     "rey": 0,
+     "puto": 5.111111111111111,
+     "total": 24.11111111111111,
+     "pos": 13
+    },
+    {
+     "id": "leyzaguirre",
+     "nombre": "L Eyzaguirre",
+     "copa": 17,
+     "rey": 0,
+     "puto": 1.5555555555555554,
+     "total": 18.555555555555557,
+     "pos": 14
+    }
+   ]
+  },
+  {
+   "letra": "H",
+   "nombre": "Hcp 100%",
+   "descripcion": "Igual al actual, con el 100% del hándicap en vez del 95%",
+   "sesgo": 0.48017737627830614,
+   "filas": [
+    {
+     "id": "mcovarrubias",
+     "nombre": "M Covarrubias",
+     "copa": 32,
+     "rey": 3.833333333333333,
+     "puto": 9.999999999999998,
+     "total": 45.833333333333336,
+     "pos": 1
+    },
+    {
+     "id": "pm",
+     "nombre": "P Mingo",
+     "copa": 31,
+     "rey": 4.592857142857143,
+     "puto": 7.333333333333333,
+     "total": 42.92619047619048,
+     "pos": 2
+    },
+    {
+     "id": "aguzman",
+     "nombre": "A Guzmán",
+     "copa": 32,
+     "rey": 2.0095238095238095,
+     "puto": 7.333333333333334,
+     "total": 41.34285714285715,
+     "pos": 3
+    },
+    {
+     "id": "mundu",
+     "nombre": "M Undurraga",
+     "copa": 31,
+     "rey": 1.0095238095238095,
+     "puto": 7.999999999999998,
+     "total": 40.00952380952381,
+     "pos": 4
+    },
+    {
+     "id": "smolina",
+     "nombre": "S Molina",
+     "copa": 33,
+     "rey": 0.7499999999999999,
+     "puto": 6,
+     "total": 39.75,
+     "pos": 5
+    },
+    {
+     "id": "iu",
+     "nombre": "I Undurraga",
+     "copa": 28,
+     "rey": 0.75,
+     "puto": 8.444444444444443,
+     "total": 37.19444444444444,
+     "pos": 6
+    },
+    {
+     "id": "aochagavia",
+     "nombre": "A Ochagavía",
+     "copa": 29,
+     "rey": 0.41666666666666663,
+     "puto": 6,
+     "total": 35.41666666666667,
+     "pos": 7
+    },
+    {
+     "id": "jpo",
+     "nombre": "JP Ochagavía",
+     "copa": 30,
+     "rey": 0.8666666666666667,
+     "puto": 3.3333333333333335,
+     "total": 34.2,
+     "pos": 8
+    },
+    {
+     "id": "aundurraga",
+     "nombre": "A Undurraga",
+     "copa": 26,
+     "rey": 1.3928571428571428,
+     "puto": 6,
+     "total": 33.39285714285714,
+     "pos": 9
+    },
+    {
+     "id": "gcarrasco",
+     "nombre": "G Carrasco",
+     "copa": 22,
+     "rey": 0.7595238095238095,
+     "puto": 4.888888888888888,
+     "total": 27.6484126984127,
+     "pos": 10
+    },
+    {
+     "id": "vc",
+     "nombre": "V Castillo",
+     "copa": 20,
+     "rey": 0.7261904761904762,
+     "puto": 6.222222222222221,
+     "total": 26.948412698412696,
+     "pos": 11
+    },
+    {
+     "id": "mg",
+     "nombre": "M Guzmán",
+     "copa": 22,
+     "rey": 0.16666666666666666,
+     "puto": 4.444444444444444,
+     "total": 26.61111111111111,
+     "pos": 12
+    },
+    {
+     "id": "fcoutts",
+     "nombre": "F Coutts",
+     "copa": 19,
+     "rey": 0.7261904761904762,
+     "puto": 4.444444444444444,
+     "total": 24.170634920634917,
+     "pos": 13
+    },
+    {
+     "id": "leyzaguirre",
+     "nombre": "L Eyzaguirre",
+     "copa": 19,
+     "rey": 0,
+     "puto": 1.5555555555555554,
+     "total": 20.555555555555557,
+     "pos": 14
+    }
+   ]
+  },
+  {
+   "letra": "I",
+   "nombre": "Sin Puto",
+   "descripcion": "Copa + Rey del Hoyo (gross)",
+   "sesgo": 0.5286356436091444,
+   "filas": [
+    {
+     "id": "pm",
+     "nombre": "P Mingo",
+     "copa": 31,
+     "rey": 4.592857142857143,
+     "puto": 0,
+     "total": 35.59285714285714,
+     "pos": 1
+    },
+    {
+     "id": "mcovarrubias",
+     "nombre": "M Covarrubias",
+     "copa": 31,
+     "rey": 3.833333333333333,
+     "puto": 0,
+     "total": 34.833333333333336,
+     "pos": 2
+    },
+    {
+     "id": "aguzman",
+     "nombre": "A Guzmán",
+     "copa": 31,
+     "rey": 2.0095238095238095,
+     "puto": 0,
+     "total": 33.00952380952381,
+     "pos": 3
+    },
+    {
+     "id": "smolina",
+     "nombre": "S Molina",
+     "copa": 32,
+     "rey": 0.7499999999999999,
+     "puto": 0,
+     "total": 32.75,
+     "pos": 4
+    },
+    {
+     "id": "mundu",
+     "nombre": "M Undurraga",
+     "copa": 30,
+     "rey": 1.0095238095238095,
+     "puto": 0,
+     "total": 31.00952380952381,
+     "pos": 5
+    },
+    {
+     "id": "jpo",
+     "nombre": "JP Ochagavía",
+     "copa": 29,
+     "rey": 0.8666666666666667,
+     "puto": 0,
+     "total": 29.866666666666667,
+     "pos": 6
+    },
+    {
+     "id": "aochagavia",
+     "nombre": "A Ochagavía",
+     "copa": 28,
+     "rey": 0.41666666666666663,
+     "puto": 0,
+     "total": 28.416666666666668,
+     "pos": 7
+    },
+    {
+     "id": "iu",
+     "nombre": "I Undurraga",
+     "copa": 27,
+     "rey": 0.75,
+     "puto": 0,
+     "total": 27.75,
+     "pos": 8
+    },
+    {
+     "id": "aundurraga",
+     "nombre": "A Undurraga",
+     "copa": 25,
+     "rey": 1.3928571428571428,
+     "puto": 0,
+     "total": 26.392857142857142,
+     "pos": 9
+    },
+    {
+     "id": "gcarrasco",
+     "nombre": "G Carrasco",
+     "copa": 21,
+     "rey": 0.7595238095238095,
+     "puto": 0,
+     "total": 21.75952380952381,
+     "pos": 10
+    },
+    {
+     "id": "mg",
+     "nombre": "M Guzmán",
+     "copa": 21,
+     "rey": 0.16666666666666666,
+     "puto": 0,
+     "total": 21.166666666666668,
+     "pos": 11
+    },
+    {
+     "id": "vc",
+     "nombre": "V Castillo",
+     "copa": 19,
+     "rey": 0.7261904761904762,
+     "puto": 0,
+     "total": 19.726190476190474,
+     "pos": 12
+    },
+    {
+     "id": "fcoutts",
+     "nombre": "F Coutts",
+     "copa": 19,
+     "rey": 0.7261904761904762,
+     "puto": 0,
+     "total": 19.726190476190474,
+     "pos": 13
+    },
+    {
+     "id": "leyzaguirre",
+     "nombre": "L Eyzaguirre",
+     "copa": 17,
+     "rey": 0,
+     "puto": 0,
+     "total": 17,
+     "pos": 14
+    }
+   ]
+  },
+  {
+   "letra": "J",
+   "nombre": "Puto sin escala",
+   "descripcion": "Igual al actual, sin escalar el Puto por tamaño de grupo (×4/3 en grupos de 4)",
+   "sesgo": 0.497798564398611,
+   "filas": [
+    {
+     "id": "pm",
+     "nombre": "P Mingo",
+     "copa": 31,
+     "rey": 4.592857142857143,
+     "puto": 7.833333333333333,
+     "total": 43.42619047619048,
+     "pos": 1
+    },
+    {
+     "id": "mcovarrubias",
+     "nombre": "M Covarrubias",
+     "copa": 31,
+     "rey": 3.833333333333333,
+     "puto": 7.999999999999998,
+     "total": 42.833333333333336,
+     "pos": 2
+    },
+    {
+     "id": "aguzman",
+     "nombre": "A Guzmán",
+     "copa": 31,
+     "rey": 2.0095238095238095,
+     "puto": 6.833333333333333,
+     "total": 39.84285714285715,
+     "pos": 3
+    },
+    {
+     "id": "smolina",
+     "nombre": "S Molina",
+     "copa": 32,
+     "rey": 0.7499999999999999,
+     "puto": 6,
+     "total": 38.75,
+     "pos": 4
+    },
+    {
+     "id": "mundu",
+     "nombre": "M Undurraga",
+     "copa": 30,
+     "rey": 1.0095238095238095,
+     "puto": 5.833333333333332,
+     "total": 36.84285714285714,
+     "pos": 5
+    },
+    {
+     "id": "aochagavia",
+     "nombre": "A Ochagavía",
+     "copa": 28,
+     "rey": 0.41666666666666663,
+     "puto": 6,
+     "total": 34.41666666666667,
+     "pos": 6
+    },
+    {
+     "id": "iu",
+     "nombre": "I Undurraga",
+     "copa": 27,
+     "rey": 0.75,
+     "puto": 6.333333333333332,
+     "total": 34.08333333333333,
+     "pos": 7
+    },
+    {
+     "id": "jpo",
+     "nombre": "JP Ochagavía",
+     "copa": 29,
+     "rey": 0.8666666666666667,
+     "puto": 3.3333333333333335,
+     "total": 33.2,
+     "pos": 8
+    },
+    {
+     "id": "aundurraga",
+     "nombre": "A Undurraga",
+     "copa": 25,
+     "rey": 1.3928571428571428,
+     "puto": 6,
+     "total": 32.39285714285714,
+     "pos": 9
+    },
+    {
+     "id": "gcarrasco",
+     "nombre": "G Carrasco",
+     "copa": 21,
+     "rey": 0.7595238095238095,
+     "puto": 3.666666666666666,
+     "total": 25.426190476190477,
+     "pos": 10
+    },
+    {
+     "id": "mg",
+     "nombre": "M Guzmán",
+     "copa": 21,
+     "rey": 0.16666666666666666,
+     "puto": 3,
+     "total": 24.166666666666668,
+     "pos": 11
+    },
+    {
+     "id": "vc",
+     "nombre": "V Castillo",
+     "copa": 19,
+     "rey": 0.7261904761904762,
+     "puto": 4.166666666666666,
+     "total": 23.89285714285714,
+     "pos": 12
+    },
+    {
+     "id": "fcoutts",
+     "nombre": "F Coutts",
+     "copa": 19,
+     "rey": 0.7261904761904762,
+     "puto": 3.833333333333333,
+     "total": 23.559523809523807,
+     "pos": 13
+    },
+    {
+     "id": "leyzaguirre",
+     "nombre": "L Eyzaguirre",
+     "copa": 17,
+     "rey": 0,
+     "puto": 1.1666666666666665,
+     "total": 18.166666666666668,
+     "pos": 14
+    }
+   ]
+  }
+ ],
+ "slopes": [
+  {
+   "nombre": "Actual",
+   "slope": 113,
+   "rating": 70,
+   "copa": [
+    {
+     "id": "smolina",
+     "nombre": "S Molina",
+     "pos": 1,
+     "puntos": 32
+    },
+    {
+     "id": "mcovarrubias",
+     "nombre": "M Covarrubias",
+     "pos": 2,
+     "puntos": 31
+    },
+    {
+     "id": "pm",
+     "nombre": "P Mingo",
+     "pos": 3,
+     "puntos": 31
+    },
+    {
+     "id": "aguzman",
+     "nombre": "A Guzmán",
+     "pos": 4,
+     "puntos": 31
+    },
+    {
+     "id": "mundu",
+     "nombre": "M Undurraga",
+     "pos": 5,
+     "puntos": 30
+    },
+    {
+     "id": "jpo",
+     "nombre": "JP Ochagavía",
+     "pos": 6,
+     "puntos": 29
+    },
+    {
+     "id": "aochagavia",
+     "nombre": "A Ochagavía",
+     "pos": 7,
+     "puntos": 28
+    },
+    {
+     "id": "iu",
+     "nombre": "I Undurraga",
+     "pos": 8,
+     "puntos": 27
+    },
+    {
+     "id": "aundurraga",
+     "nombre": "A Undurraga",
+     "pos": 9,
+     "puntos": 25
+    },
+    {
+     "id": "gcarrasco",
+     "nombre": "G Carrasco",
+     "pos": 10,
+     "puntos": 21
+    },
+    {
+     "id": "mg",
+     "nombre": "M Guzmán",
+     "pos": 11,
+     "puntos": 21
+    },
+    {
+     "id": "vc",
+     "nombre": "V Castillo",
+     "pos": 12,
+     "puntos": 19
+    },
+    {
+     "id": "fcoutts",
+     "nombre": "F Coutts",
+     "pos": 13,
+     "puntos": 19
+    },
+    {
+     "id": "leyzaguirre",
+     "nombre": "L Eyzaguirre",
+     "pos": 14,
+     "puntos": 17
+    }
+   ],
+   "general": [
+    {
+     "id": "mcovarrubias",
+     "nombre": "M Covarrubias",
+     "pos": 1,
+     "total": 45.5
+    },
+    {
+     "id": "pm",
+     "nombre": "P Mingo",
+     "pos": 2,
+     "total": 43.42619047619048
+    },
+    {
+     "id": "aguzman",
+     "nombre": "A Guzmán",
+     "pos": 3,
+     "total": 39.84285714285715
+    },
+    {
+     "id": "mundu",
+     "nombre": "M Undurraga",
+     "pos": 4,
+     "total": 38.787301587301585
+    },
+    {
+     "id": "smolina",
+     "nombre": "S Molina",
+     "pos": 5,
+     "total": 38.75
+    },
+    {
+     "id": "iu",
+     "nombre": "I Undurraga",
+     "pos": 6,
+     "total": 36.19444444444444
+    },
+    {
+     "id": "aochagavia",
+     "nombre": "A Ochagavía",
+     "pos": 7,
+     "total": 34.41666666666667
+    },
+    {
+     "id": "jpo",
+     "nombre": "JP Ochagavía",
+     "pos": 8,
+     "total": 33.2
+    },
+    {
+     "id": "aundurraga",
+     "nombre": "A Undurraga",
+     "pos": 9,
+     "total": 32.39285714285714
+    },
+    {
+     "id": "gcarrasco",
+     "nombre": "G Carrasco",
+     "pos": 10,
+     "total": 26.6484126984127
+    },
+    {
+     "id": "vc",
+     "nombre": "V Castillo",
+     "pos": 11,
+     "total": 25.281746031746028
+    },
+    {
+     "id": "mg",
+     "nombre": "M Guzmán",
+     "pos": 12,
+     "total": 25.166666666666668
+    },
+    {
+     "id": "fcoutts",
+     "nombre": "F Coutts",
+     "pos": 13,
+     "total": 24.837301587301585
+    },
+    {
+     "id": "leyzaguirre",
+     "nombre": "L Eyzaguirre",
+     "pos": 14,
+     "total": 18.555555555555557
+    }
+   ]
+  },
+  {
+   "nombre": "Estimado",
+   "slope": 125,
+   "rating": 71.5,
+   "copa": [
+    {
+     "id": "smolina",
+     "nombre": "S Molina",
+     "pos": 1,
+     "puntos": 35
+    },
+    {
+     "id": "mcovarrubias",
+     "nombre": "M Covarrubias",
+     "pos": 2,
+     "puntos": 34
+    },
+    {
+     "id": "aguzman",
+     "nombre": "A Guzmán",
+     "pos": 3,
+     "puntos": 34
+    },
+    {
+     "id": "mundu",
+     "nombre": "M Undurraga",
+     "pos": 4,
+     "puntos": 33
+    },
+    {
+     "id": "pm",
+     "nombre": "P Mingo",
+     "pos": 5,
+     "puntos": 32
+    },
+    {
+     "id": "jpo",
+     "nombre": "JP Ochagavía",
+     "pos": 6,
+     "puntos": 32
+    },
+    {
+     "id": "iu",
+     "nombre": "I Undurraga",
+     "pos": 7,
+     "puntos": 31
+    },
+    {
+     "id": "aochagavia",
+     "nombre": "A Ochagavía",
+     "pos": 8,
+     "puntos": 30
+    },
+    {
+     "id": "aundurraga",
+     "nombre": "A Undurraga",
+     "pos": 9,
+     "puntos": 29
+    },
+    {
+     "id": "gcarrasco",
+     "nombre": "G Carrasco",
+     "pos": 10,
+     "puntos": 24
+    },
+    {
+     "id": "mg",
+     "nombre": "M Guzmán",
+     "pos": 11,
+     "puntos": 24
+    },
+    {
+     "id": "fcoutts",
+     "nombre": "F Coutts",
+     "pos": 12,
+     "puntos": 22
+    },
+    {
+     "id": "vc",
+     "nombre": "V Castillo",
+     "pos": 13,
+     "puntos": 21
+    },
+    {
+     "id": "leyzaguirre",
+     "nombre": "L Eyzaguirre",
+     "pos": 14,
+     "puntos": 20
+    }
+   ],
+   "general": [
+    {
+     "id": "mcovarrubias",
+     "nombre": "M Covarrubias",
+     "pos": 1,
+     "total": 48.05555555555556
+    },
+    {
+     "id": "aguzman",
+     "nombre": "A Guzmán",
+     "pos": 2,
+     "total": 43.67619047619048
+    },
+    {
+     "id": "pm",
+     "nombre": "P Mingo",
+     "pos": 3,
+     "total": 43.259523809523806
+    },
+    {
+     "id": "mundu",
+     "nombre": "M Undurraga",
+     "pos": 4,
+     "total": 42.231746031746034
+    },
+    {
+     "id": "smolina",
+     "nombre": "S Molina",
+     "pos": 5,
+     "total": 41.916666666666664
+    },
+    {
+     "id": "iu",
+     "nombre": "I Undurraga",
+     "pos": 6,
+     "total": 38.861111111111114
+    },
+    {
+     "id": "aochagavia",
+     "nombre": "A Ochagavía",
+     "pos": 7,
+     "total": 36.583333333333336
+    },
+    {
+     "id": "jpo",
+     "nombre": "JP Ochagavía",
+     "pos": 8,
+     "total": 36.53333333333333
+    },
+    {
+     "id": "aundurraga",
+     "nombre": "A Undurraga",
+     "pos": 9,
+     "total": 36.05952380952381
+    },
+    {
+     "id": "gcarrasco",
+     "nombre": "G Carrasco",
+     "pos": 10,
+     "total": 30.98174603174603
+    },
+    {
+     "id": "fcoutts",
+     "nombre": "F Coutts",
+     "pos": 11,
+     "total": 28.281746031746028
+    },
+    {
+     "id": "mg",
+     "nombre": "M Guzmán",
+     "pos": 12,
+     "total": 27.5
+    },
+    {
+     "id": "vc",
+     "nombre": "V Castillo",
+     "pos": 13,
+     "total": 26.837301587301585
+    },
+    {
+     "id": "leyzaguirre",
+     "nombre": "L Eyzaguirre",
+     "pos": 14,
+     "total": 22.22222222222222
+    }
+   ]
+  },
+  {
+   "nombre": "Estimado alto",
+   "slope": 130,
+   "rating": 72,
+   "copa": [
+    {
+     "id": "smolina",
+     "nombre": "S Molina",
+     "pos": 1,
+     "puntos": 37
+    },
+    {
+     "id": "aguzman",
+     "nombre": "A Guzmán",
+     "pos": 2,
+     "puntos": 36
+    },
+    {
+     "id": "mcovarrubias",
+     "nombre": "M Covarrubias",
+     "pos": 3,
+     "puntos": 35
+    },
+    {
+     "id": "mundu",
+     "nombre": "M Undurraga",
+     "pos": 4,
+     "puntos": 34
+    },
+    {
+     "id": "pm",
+     "nombre": "P Mingo",
+     "pos": 5,
+     "puntos": 33
+    },
+    {
+     "id": "jpo",
+     "nombre": "JP Ochagavía",
+     "pos": 6,
+     "puntos": 33
+    },
+    {
+     "id": "iu",
+     "nombre": "I Undurraga",
+     "pos": 7,
+     "puntos": 32
+    },
+    {
+     "id": "aochagavia",
+     "nombre": "A Ochagavía",
+     "pos": 8,
+     "puntos": 32
+    },
+    {
+     "id": "aundurraga",
+     "nombre": "A Undurraga",
+     "pos": 9,
+     "puntos": 30
+    },
+    {
+     "id": "gcarrasco",
+     "nombre": "G Carrasco",
+     "pos": 10,
+     "puntos": 25
+    },
+    {
+     "id": "mg",
+     "nombre": "M Guzmán",
+     "pos": 11,
+     "puntos": 25
+    },
+    {
+     "id": "fcoutts",
+     "nombre": "F Coutts",
+     "pos": 12,
+     "puntos": 23
+    },
+    {
+     "id": "vc",
+     "nombre": "V Castillo",
+     "pos": 13,
+     "puntos": 22
+    },
+    {
+     "id": "leyzaguirre",
+     "nombre": "L Eyzaguirre",
+     "pos": 14,
+     "puntos": 20
+    }
+   ],
+   "general": [
+    {
+     "id": "mcovarrubias",
+     "nombre": "M Covarrubias",
+     "pos": 1,
+     "total": 49.72222222222222
+    },
+    {
+     "id": "aguzman",
+     "nombre": "A Guzmán",
+     "pos": 2,
+     "total": 45.84285714285715
+    },
+    {
+     "id": "pm",
+     "nombre": "P Mingo",
+     "pos": 3,
+     "total": 44.42619047619048
+    },
+    {
+     "id": "smolina",
+     "nombre": "S Molina",
+     "pos": 4,
+     "total": 43.416666666666664
+    },
+    {
+     "id": "mundu",
+     "nombre": "M Undurraga",
+     "pos": 5,
+     "total": 42.34285714285714
+    },
+    {
+     "id": "iu",
+     "nombre": "I Undurraga",
+     "pos": 6,
+     "total": 39.861111111111114
+    },
+    {
+     "id": "aochagavia",
+     "nombre": "A Ochagavía",
+     "pos": 7,
+     "total": 38.58333333333333
+    },
+    {
+     "id": "aundurraga",
+     "nombre": "A Undurraga",
+     "pos": 8,
+     "total": 37.55952380952381
+    },
+    {
+     "id": "jpo",
+     "nombre": "JP Ochagavía",
+     "pos": 9,
+     "total": 37.2
+    },
+    {
+     "id": "gcarrasco",
+     "nombre": "G Carrasco",
+     "pos": 10,
+     "total": 31.98174603174603
+    },
+    {
+     "id": "fcoutts",
+     "nombre": "F Coutts",
+     "pos": 11,
+     "total": 29.281746031746028
+    },
+    {
+     "id": "mg",
+     "nombre": "M Guzmán",
+     "pos": 12,
+     "total": 28.944444444444446
+    },
+    {
+     "id": "vc",
+     "nombre": "V Castillo",
+     "pos": 13,
+     "total": 27.837301587301585
+    },
+    {
+     "id": "leyzaguirre",
+     "nombre": "L Eyzaguirre",
+     "pos": 14,
+     "total": 22
+    }
+   ]
+  }
+ ],
+ "juegos": [
+  {
+   "nombre": "Copa (Stableford neto)",
+   "pearson": -0.4614797454631267,
+   "spearman": -0.45565858241427165
+  },
+  {
+   "nombre": "Rey del Hoyo (gross)",
+   "pearson": -0.7498182846091306,
+   "spearman": -0.49944903564532833
+  },
+  {
+   "nombre": "Puto (grupo neto)",
+   "pearson": -0.49171070008323675,
+   "spearman": -0.3230096400707655
+  },
+  {
+   "nombre": "General",
+   "pearson": -0.5757280279281726,
+   "spearman": -0.48017737627830614
+  }
+ ],
+ "jugadores": [
+  {
+   "id": "pm",
+   "nombre": "P Mingo",
+   "indice": 2.7,
+   "hcp": 3,
+   "gross": 78,
+   "netoSobrePar": 5,
+   "puntos": 31,
+   "posCopa": 3,
+   "grupo": 2
+  },
+  {
+   "id": "mcovarrubias",
+   "nombre": "M Covarrubias",
+   "indice": 12.6,
+   "hcp": 12,
+   "gross": 87,
+   "netoSobrePar": 5,
+   "puntos": 31,
+   "posCopa": 2,
+   "grupo": 4
+  },
+  {
+   "id": "fcoutts",
+   "nombre": "F Coutts",
+   "indice": 13.4,
+   "hcp": 13,
+   "gross": 109,
+   "netoSobrePar": 26,
+   "puntos": 19,
+   "posCopa": 13,
+   "grupo": 3
+  },
+  {
+   "id": "gcarrasco",
+   "nombre": "G Carrasco",
+   "indice": 15,
+   "hcp": 14,
+   "gross": 100,
+   "netoSobrePar": 16,
+   "puntos": 21,
+   "posCopa": 10,
+   "grupo": 3
+  },
+  {
+   "id": "mundu",
+   "nombre": "M Undurraga",
+   "indice": 15.8,
+   "hcp": 15,
+   "gross": 91,
+   "netoSobrePar": 6,
+   "puntos": 30,
+   "posCopa": 5,
+   "grupo": 4
+  },
+  {
+   "id": "jpo",
+   "nombre": "JP Ochagavía",
+   "indice": 17.8,
+   "hcp": 17,
+   "gross": 96,
+   "netoSobrePar": 9,
+   "puntos": 29,
+   "posCopa": 6,
+   "grupo": 2
+  },
+  {
+   "id": "aochagavia",
+   "nombre": "A Ochagavía",
+   "indice": 18,
+   "hcp": 17,
+   "gross": 98,
+   "netoSobrePar": 11,
+   "puntos": 28,
+   "posCopa": 7,
+   "grupo": 1
+  },
+  {
+   "id": "smolina",
+   "nombre": "S Molina",
+   "indice": 18,
+   "hcp": 17,
+   "gross": 91,
+   "netoSobrePar": 4,
+   "puntos": 32,
+   "posCopa": 1,
+   "grupo": 1
+  },
+  {
+   "id": "aguzman",
+   "nombre": "A Guzmán",
+   "indice": 18.1,
+   "hcp": 17,
+   "gross": 94,
+   "netoSobrePar": 7,
+   "puntos": 31,
+   "posCopa": 4,
+   "grupo": 2
+  },
+  {
+   "id": "mg",
+   "nombre": "M Guzmán",
+   "indice": 18.8,
+   "hcp": 18,
+   "gross": 107,
+   "netoSobrePar": 19,
+   "puntos": 21,
+   "posCopa": 11,
+   "grupo": 4
+  },
+  {
+   "id": "iu",
+   "nombre": "I Undurraga",
+   "indice": 22.1,
+   "hcp": 21,
+   "gross": 101,
+   "netoSobrePar": 10,
+   "puntos": 27,
+   "posCopa": 8,
+   "grupo": 3
+  },
+  {
+   "id": "vc",
+   "nombre": "V Castillo",
+   "indice": 22.1,
+   "hcp": 21,
+   "gross": 112,
+   "netoSobrePar": 21,
+   "puntos": 19,
+   "posCopa": 12,
+   "grupo": 3
+  },
+  {
+   "id": "aundurraga",
+   "nombre": "A Undurraga",
+   "indice": 23,
+   "hcp": 22,
+   "gross": 106,
+   "netoSobrePar": 14,
+   "puntos": 25,
+   "posCopa": 9,
+   "grupo": 1
+  },
+  {
+   "id": "leyzaguirre",
+   "nombre": "L Eyzaguirre",
+   "indice": 27.8,
+   "hcp": 26,
+   "gross": 121,
+   "netoSobrePar": 25,
+   "puntos": 17,
+   "posCopa": 14,
+   "grupo": 4
+  }
+ ]
+}

@@ -51,3 +51,9 @@ node scripts/estadisticas.mjs . data/torneo-2026.json data/torneo-2026-stats.jso
 python scripts/estadisticas_pdf.py data/torneo-2026-stats.json entregables/docs/PAICAZO-estadisticas-2026.pdf
 ```
 
+Análisis de la modalidad (10 formas de sumar los juegos con los mismos golpes):
+
+```bash
+node scripts/simular_modalidades.mjs . data/torneo-2026.json data/torneo-2026-modalidades.json
+python scripts/analisis_modalidad_pdf.py data/torneo-2026-modalidades.json entregables/docs/PAICAZO-analisis-modalidad-2026.pdf
+```
