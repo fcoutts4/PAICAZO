@@ -1,0 +1,3100 @@
+{
+ "bajado": "2026-11-02T11:38:03.465Z",
+ "cancha": {
+  "club": "Paico Alto Club de Golf",
+  "par": 70,
+  "yardas": 6454,
+  "salidaPrimera": "10:00"
+ },
+ "general": [
+  {
+   "id": "mcovarrubias",
+   "nombre": "M Covarrubias",
+   "jugados": 18,
+   "stableford": 31,
+   "skins": 3.833333333333333,
+   "grupo": 10.666666666666664,
+   "total": 45.5,
+   "pos": 1
+  },
+  {
+   "id": "pm",
+   "nombre": "P Mingo",
+   "jugados": 18,
+   "stableford": 31,
+   "skins": 4.592857142857143,
+   "grupo": 7.833333333333333,
+   "total": 43.42619047619048,
+   "pos": 2
+  },
+  {
+   "id": "aguzman",
+   "nombre": "A Guzmán",
+   "jugados": 18,
+   "stableford": 31,
+   "skins": 2.0095238095238095,
+   "grupo": 6.833333333333334,
+   "total": 39.84285714285715,
+   "pos": 3
+  },
+  {
+   "id": "mundu",
+   "nombre": "M Undurraga",
+   "jugados": 18,
+   "stableford": 30,
+   "skins": 1.0095238095238095,
+   "grupo": 7.777777777777777,
+   "total": 38.787301587301585,
+   "pos": 4
+  },
+  {
+   "id": "smolina",
+   "nombre": "S Molina",
+   "jugados": 18,
+   "stableford": 32,
+   "skins": 0.7499999999999999,
+   "grupo": 6,
+   "total": 38.75,
+   "pos": 5
+  },
+  {
+   "id": "iu",
+   "nombre": "I Undurraga",
+   "jugados": 18,
+   "stableford": 27,
+   "skins": 0.75,
+   "grupo": 8.444444444444443,
+   "total": 36.19444444444444,
+   "pos": 6
+  },
+  {
+   "id": "aochagavia",
+   "nombre": "A Ochagavía",
+   "jugados": 18,
+   "stableford": 28,
+   "skins": 0.41666666666666663,
+   "grupo": 6,
+   "total": 34.41666666666667,
+   "pos": 7
+  },
+  {
+   "id": "jpo",
+   "nombre": "JP Ochagavía",
+   "jugados": 18,
+   "stableford": 29,
+   "skins": 0.8666666666666667,
+   "grupo": 3.3333333333333335,
+   "total": 33.2,
+   "pos": 8
+  },
+  {
+   "id": "aundurraga",
+   "nombre": "A Undurraga",
+   "jugados": 18,
+   "stableford": 25,
+   "skins": 1.3928571428571428,
+   "grupo": 6,
+   "total": 32.39285714285714,
+   "pos": 9
+  },
+  {
+   "id": "gcarrasco",
+   "nombre": "G Carrasco",
+   "jugados": 18,
+   "stableford": 21,
+   "skins": 0.7595238095238095,
+   "grupo": 4.888888888888888,
+   "total": 26.6484126984127,
+   "pos": 10
+  },
+  {
+   "id": "vc",
+   "nombre": "V Castillo",
+   "jugados": 18,
+   "stableford": 19,
+   "skins": 0.7261904761904762,
+   "grupo": 5.5555555555555545,
+   "total": 25.281746031746028,
+   "pos": 11
+  },
+  {
+   "id": "mg",
+   "nombre": "M Guzmán",
+   "jugados": 18,
+   "stableford": 21,
+   "skins": 0.16666666666666666,
+   "grupo": 4,
+   "total": 25.166666666666668,
+   "pos": 12
+  },
+  {
+   "id": "fcoutts",
+   "nombre": "F Coutts",
+   "jugados": 18,
+   "stableford": 19,
+   "skins": 0.7261904761904762,
+   "grupo": 5.111111111111111,
+   "total": 24.837301587301585,
+   "pos": 13
+  },
+  {
+   "id": "leyzaguirre",
+   "nombre": "L Eyzaguirre",
+   "jugados": 18,
+   "stableford": 17,
+   "skins": 0,
+   "grupo": 1.5555555555555554,
+   "total": 18.555555555555557,
+   "pos": 14
+  }
+ ],
+ "copa": [
+  {
+   "id": "smolina",
+   "nombre": "S Molina",
+   "hj": 17,
+   "jugados": 18,
+   "puntos": 32,
+   "gross": 91,
+   "vsPar": 21,
+   "pos": 1,
+   "firmada": false,
+   "neto": 73
+  },
+  {
+   "id": "mcovarrubias",
+   "nombre": "M Covarrubias",
+   "hj": 12,
+   "jugados": 18,
+   "puntos": 31,
+   "gross": 87,
+   "vsPar": 17,
+   "pos": 2,
+   "firmada": false,
+   "neto": 74.4
+  },
+  {
+   "id": "pm",
+   "nombre": "P Mingo",
+   "hj": 3,
+   "jugados": 18,
+   "puntos": 31,
+   "gross": 78,
+   "vsPar": 8,
+   "pos": 3,
+   "firmada": false,
+   "neto": 75.3
+  },
+  {
+   "id": "aguzman",
+   "nombre": "A Guzmán",
+   "hj": 17,
+   "jugados": 18,
+   "puntos": 31,
+   "gross": 94,
+   "vsPar": 24,
+   "pos": 4,
+   "firmada": false,
+   "neto": 75.9
+  },
+  {
+   "id": "mundu",
+   "nombre": "M Undurraga",
+   "hj": 15,
+   "jugados": 18,
+   "puntos": 30,
+   "gross": 91,
+   "vsPar": 21,
+   "pos": 5,
+   "firmada": false,
+   "neto": 75.2
+  },
+  {
+   "id": "jpo",
+   "nombre": "JP Ochagavía",
+   "hj": 17,
+   "jugados": 18,
+   "puntos": 29,
+   "gross": 96,
+   "vsPar": 26,
+   "pos": 6,
+   "firmada": false,
+   "neto": 78.2
+  },
+  {
+   "id": "aochagavia",
+   "nombre": "A Ochagavía",
+   "hj": 17,
+   "jugados": 18,
+   "puntos": 28,
+   "gross": 98,
+   "vsPar": 28,
+   "pos": 7,
+   "firmada": false,
+   "neto": 80
+  },
+  {
+   "id": "iu",
+   "nombre": "I Undurraga",
+   "hj": 21,
+   "jugados": 18,
+   "puntos": 27,
+   "gross": 101,
+   "vsPar": 31,
+   "pos": 8,
+   "firmada": false,
+   "neto": 78.9
+  },
+  {
+   "id": "aundurraga",
+   "nombre": "A Undurraga",
+   "hj": 22,
+   "jugados": 18,
+   "puntos": 25,
+   "gross": 106,
+   "vsPar": 36,
+   "pos": 9,
+   "firmada": false,
+   "neto": 83
+  },
+  {
+   "id": "gcarrasco",
+   "nombre": "G Carrasco",
+   "hj": 14,
+   "jugados": 18,
+   "puntos": 21,
+   "gross": 100,
+   "vsPar": 30,
+   "pos": 10,
+   "firmada": false,
+   "neto": 85
+  },
+  {
+   "id": "mg",
+   "nombre": "M Guzmán",
+   "hj": 18,
+   "jugados": 18,
+   "puntos": 21,
+   "gross": 107,
+   "vsPar": 37,
+   "pos": 11,
+   "firmada": false,
+   "neto": 88.2
+  },
+  {
+   "id": "vc",
+   "nombre": "V Castillo",
+   "hj": 21,
+   "jugados": 18,
+   "puntos": 19,
+   "gross": 112,
+   "vsPar": 42,
+   "pos": 12,
+   "firmada": false,
+   "neto": 89.9
+  },
+  {
+   "id": "fcoutts",
+   "nombre": "F Coutts",
+   "hj": 13,
+   "jugados": 18,
+   "puntos": 19,
+   "gross": 109,
+   "vsPar": 39,
+   "pos": 13,
+   "firmada": false,
+   "neto": 95.6
+  },
+  {
+   "id": "leyzaguirre",
+   "nombre": "L Eyzaguirre",
+   "hj": 26,
+   "jugados": 18,
+   "puntos": 17,
+   "gross": 121,
+   "vsPar": 51,
+   "pos": 14,
+   "firmada": false,
+   "neto": 93.2
+  }
+ ],
+ "grupos": [
+  {
+   "grupo": 1,
+   "jugadores": [
+    {
+     "id": "aochagavia",
+     "nombre": "A Ochagavía",
+     "puntos": 6
+    },
+    {
+     "id": "smolina",
+     "nombre": "S Molina",
+     "puntos": 6
+    },
+    {
+     "id": "aundurraga",
+     "nombre": "A Undurraga",
+     "puntos": 6
+    }
+   ],
+   "hoyos": 18
+  },
+  {
+   "grupo": 2,
+   "jugadores": [
+    {
+     "id": "pm",
+     "nombre": "P Mingo",
+     "puntos": 7.833333333333333
+    },
+    {
+     "id": "aguzman",
+     "nombre": "A Guzmán",
+     "puntos": 6.833333333333334
+    },
+    {
+     "id": "jpo",
+     "nombre": "JP Ochagavía",
+     "puntos": 3.3333333333333335
+    }
+   ],
+   "hoyos": 18
+  },
+  {
+   "grupo": 3,
+   "jugadores": [
+    {
+     "id": "iu",
+     "nombre": "I Undurraga",
+     "puntos": 8.444444444444443
+    },
+    {
+     "id": "vc",
+     "nombre": "V Castillo",
+     "puntos": 5.5555555555555545
+    },
+    {
+     "id": "fcoutts",
+     "nombre": "F Coutts",
+     "puntos": 5.111111111111111
+    },
+    {
+     "id": "gcarrasco",
+     "nombre": "G Carrasco",
+     "puntos": 4.888888888888888
+    }
+   ],
+   "hoyos": 18
+  },
+  {
+   "grupo": 4,
+   "jugadores": [
+    {
+     "id": "mcovarrubias",
+     "nombre": "M Covarrubias",
+     "puntos": 10.666666666666664
+    },
+    {
+     "id": "mundu",
+     "nombre": "M Undurraga",
+     "puntos": 7.777777777777777
+    },
+    {
+     "id": "mg",
+     "nombre": "M Guzmán",
+     "puntos": 4
+    },
+    {
+     "id": "leyzaguirre",
+     "nombre": "L Eyzaguirre",
+     "puntos": 1.5555555555555554
+    }
+   ],
+   "hoyos": 18
+  }
+ ],
+ "rey": {
+  "jugados": 18,
+  "ganados": [
+   {
+    "hoyo": 1,
+    "ids": [
+     "pm",
+     "fcoutts",
+     "jpo"
+    ],
+    "valor": 0.3333333333333333,
+    "nombres": [
+     "P Mingo",
+     "F Coutts",
+     "JP Ochagavía"
+    ]
+   },
+   {
+    "hoyo": 2,
+    "ids": [
+     "mundu",
+     "jpo",
+     "smolina"
+    ],
+    "valor": 0.3333333333333333,
+    "nombres": [
+     "M Undurraga",
+     "JP Ochagavía",
+     "S Molina"
+    ]
+   },
+   {
+    "hoyo": 3,
+    "ids": [
+     "mcovarrubias",
+     "gcarrasco",
+     "mundu",
+     "aochagavia",
+     "aguzman",
+     "iu"
+    ],
+    "valor": 0.16666666666666666,
+    "nombres": [
+     "M Covarrubias",
+     "G Carrasco",
+     "M Undurraga",
+     "A Ochagavía",
+     "A Guzmán",
+     "I Undurraga"
+    ]
+   },
+   {
+    "hoyo": 4,
+    "ids": [
+     "pm",
+     "fcoutts",
+     "gcarrasco",
+     "mundu",
+     "aguzman",
+     "vc",
+     "aundurraga"
+    ],
+    "valor": 0.14285714285714285,
+    "nombres": [
+     "P Mingo",
+     "F Coutts",
+     "G Carrasco",
+     "M Undurraga",
+     "A Guzmán",
+     "V Castillo",
+     "A Undurraga"
+    ]
+   },
+   {
+    "hoyo": 5,
+    "ids": [
+     "pm"
+    ],
+    "valor": 1,
+    "nombres": [
+     "P Mingo"
+    ]
+   },
+   {
+    "hoyo": 6,
+    "ids": [
+     "mcovarrubias",
+     "aundurraga"
+    ],
+    "valor": 0.5,
+    "nombres": [
+     "M Covarrubias",
+     "A Undurraga"
+    ]
+   },
+   {
+    "hoyo": 7,
+    "ids": [
+     "mcovarrubias"
+    ],
+    "valor": 1,
+    "nombres": [
+     "M Covarrubias"
+    ]
+   },
+   {
+    "hoyo": 8,
+    "ids": [
+     "pm",
+     "mcovarrubias",
+     "fcoutts",
+     "aochagavia"
+    ],
+    "valor": 0.25,
+    "nombres": [
+     "P Mingo",
+     "M Covarrubias",
+     "F Coutts",
+     "A Ochagavía"
+    ]
+   },
+   {
+    "hoyo": 9,
+    "ids": [
+     "mcovarrubias"
+    ],
+    "valor": 1,
+    "nombres": [
+     "M Covarrubias"
+    ]
+   },
+   {
+    "hoyo": 10,
+    "ids": [
+     "pm"
+    ],
+    "valor": 1,
+    "nombres": [
+     "P Mingo"
+    ]
+   },
+   {
+    "hoyo": 11,
+    "ids": [
+     "aguzman"
+    ],
+    "valor": 1,
+    "nombres": [
+     "A Guzmán"
+    ]
+   },
+   {
+    "hoyo": 12,
+    "ids": [
+     "mcovarrubias",
+     "aundurraga"
+    ],
+    "valor": 0.5,
+    "nombres": [
+     "M Covarrubias",
+     "A Undurraga"
+    ]
+   },
+   {
+    "hoyo": 13,
+    "ids": [
+     "pm",
+     "gcarrasco",
+     "mundu",
+     "jpo",
+     "aguzman"
+    ],
+    "valor": 0.2,
+    "nombres": [
+     "P Mingo",
+     "G Carrasco",
+     "M Undurraga",
+     "JP Ochagavía",
+     "A Guzmán"
+    ]
+   },
+   {
+    "hoyo": 14,
+    "ids": [
+     "pm",
+     "mcovarrubias",
+     "vc",
+     "aundurraga"
+    ],
+    "valor": 0.25,
+    "nombres": [
+     "P Mingo",
+     "M Covarrubias",
+     "V Castillo",
+     "A Undurraga"
+    ]
+   },
+   {
+    "hoyo": 15,
+    "ids": [
+     "aguzman",
+     "iu",
+     "vc"
+    ],
+    "valor": 0.3333333333333333,
+    "nombres": [
+     "A Guzmán",
+     "I Undurraga",
+     "V Castillo"
+    ]
+   },
+   {
+    "hoyo": 16,
+    "ids": [
+     "pm",
+     "gcarrasco",
+     "smolina",
+     "iu"
+    ],
+    "valor": 0.25,
+    "nombres": [
+     "P Mingo",
+     "G Carrasco",
+     "S Molina",
+     "I Undurraga"
+    ]
+   },
+   {
+    "hoyo": 17,
+    "ids": [
+     "pm",
+     "mcovarrubias",
+     "mundu",
+     "smolina",
+     "aguzman",
+     "mg"
+    ],
+    "valor": 0.16666666666666666,
+    "nombres": [
+     "P Mingo",
+     "M Covarrubias",
+     "M Undurraga",
+     "S Molina",
+     "A Guzmán",
+     "M Guzmán"
+    ]
+   },
+   {
+    "hoyo": 18,
+    "ids": [
+     "pm"
+    ],
+    "valor": 1,
+    "nombres": [
+     "P Mingo"
+    ]
+   }
+  ]
+ },
+ "jugador": [
+  {
+   "id": "pm",
+   "nombre": "P Mingo",
+   "indice": 2.7,
+   "grupo": 2,
+   "hcp": 3,
+   "puntos": 31,
+   "gross": 78,
+   "vsPar": 8,
+   "neto": 75.3,
+   "ida": 14,
+   "vuelta": 17,
+   "grossIda": 40,
+   "grossVta": 38,
+   "eagle": 0,
+   "birdie": 2,
+   "par": 8,
+   "bogey": 6,
+   "doble": 2,
+   "netoBirdies": 3,
+   "golpes": [
+    4,
+    6,
+    5,
+    5,
+    2,
+    5,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    5,
+    3,
+    6,
+    4,
+    3,
+    3
+   ],
+   "puntosHoyo": [
+    2,
+    0,
+    1,
+    2,
+    3,
+    1,
+    1,
+    2,
+    2,
+    2,
+    1,
+    1,
+    2,
+    3,
+    0,
+    2,
+    2,
+    4
+   ],
+   "recibidos": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    1
+   ],
+   "rey": 4.592857142857143,
+   "reyHoyos": [
+    {
+     "hoyo": 1,
+     "valor": 0.3333333333333333
+    },
+    {
+     "hoyo": 4,
+     "valor": 0.14285714285714285
+    },
+    {
+     "hoyo": 5,
+     "valor": 1
+    },
+    {
+     "hoyo": 8,
+     "valor": 0.25
+    },
+    {
+     "hoyo": 10,
+     "valor": 1
+    },
+    {
+     "hoyo": 13,
+     "valor": 0.2
+    },
+    {
+     "hoyo": 14,
+     "valor": 0.25
+    },
+    {
+     "hoyo": 16,
+     "valor": 0.25
+    },
+    {
+     "hoyo": 17,
+     "valor": 0.16666666666666666
+    },
+    {
+     "hoyo": 18,
+     "valor": 1
+    }
+   ]
+  },
+  {
+   "id": "mcovarrubias",
+   "nombre": "M Covarrubias",
+   "indice": 12.6,
+   "grupo": 4,
+   "hcp": 12,
+   "puntos": 31,
+   "gross": 87,
+   "vsPar": 17,
+   "neto": 74.4,
+   "ida": 15,
+   "vuelta": 16,
+   "grossIda": 44,
+   "grossVta": 43,
+   "eagle": 0,
+   "birdie": 0,
+   "par": 8,
+   "bogey": 4,
+   "doble": 6,
+   "netoBirdies": 5,
+   "golpes": [
+    6,
+    7,
+    4,
+    7,
+    5,
+    4,
+    4,
+    3,
+    4,
+    5,
+    5,
+    4,
+    7,
+    3,
+    5,
+    5,
+    3,
+    6
+   ],
+   "puntosHoyo": [
+    1,
+    0,
+    2,
+    0,
+    1,
+    2,
+    3,
+    3,
+    3,
+    2,
+    2,
+    2,
+    0,
+    3,
+    1,
+    2,
+    3,
+    1
+   ],
+   "recibidos": [
+    1,
+    1,
+    0,
+    0,
+    1,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    1,
+    0,
+    1,
+    1,
+    1
+   ],
+   "rey": 3.833333333333333,
+   "reyHoyos": [
+    {
+     "hoyo": 3,
+     "valor": 0.16666666666666666
+    },
+    {
+     "hoyo": 6,
+     "valor": 0.5
+    },
+    {
+     "hoyo": 7,
+     "valor": 1
+    },
+    {
+     "hoyo": 8,
+     "valor": 0.25
+    },
+    {
+     "hoyo": 9,
+     "valor": 1
+    },
+    {
+     "hoyo": 12,
+     "valor": 0.5
+    },
+    {
+     "hoyo": 14,
+     "valor": 0.25
+    },
+    {
+     "hoyo": 17,
+     "valor": 0.16666666666666666
+    }
+   ]
+  },
+  {
+   "id": "fcoutts",
+   "nombre": "F Coutts",
+   "indice": 13.4,
+   "grupo": 3,
+   "hcp": 13,
+   "puntos": 19,
+   "gross": 109,
+   "vsPar": 39,
+   "neto": 95.6,
+   "ida": 11,
+   "vuelta": 8,
+   "grossIda": 49,
+   "grossVta": 60,
+   "eagle": 0,
+   "birdie": 0,
+   "par": 4,
+   "bogey": 4,
+   "doble": 10,
+   "netoBirdies": 3,
+   "golpes": [
+    4,
+    7,
+    6,
+    5,
+    3,
+    6,
+    7,
+    3,
+    8,
+    6,
+    11,
+    5,
+    6,
+    6,
+    5,
+    11,
+    4,
+    6
+   ],
+   "puntosHoyo": [
+    3,
+    0,
+    0,
+    2,
+    3,
+    0,
+    0,
+    3,
+    0,
+    1,
+    0,
+    1,
+    1,
+    0,
+    2,
+    0,
+    2,
+    1
+   ],
+   "recibidos": [
+    1,
+    1,
+    0,
+    0,
+    1,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "rey": 0.7261904761904762,
+   "reyHoyos": [
+    {
+     "hoyo": 1,
+     "valor": 0.3333333333333333
+    },
+    {
+     "hoyo": 4,
+     "valor": 0.14285714285714285
+    },
+    {
+     "hoyo": 8,
+     "valor": 0.25
+    }
+   ]
+  },
+  {
+   "id": "gcarrasco",
+   "nombre": "G Carrasco",
+   "indice": 15,
+   "grupo": 3,
+   "hcp": 14,
+   "puntos": 21,
+   "gross": 100,
+   "vsPar": 30,
+   "neto": 85,
+   "ida": 12,
+   "vuelta": 9,
+   "grossIda": 49,
+   "grossVta": 51,
+   "eagle": 0,
+   "birdie": 0,
+   "par": 4,
+   "bogey": 4,
+   "doble": 10,
+   "netoBirdies": 1,
+   "golpes": [
+    6,
+    5,
+    4,
+    5,
+    4,
+    6,
+    7,
+    4,
+    8,
+    7,
+    7,
+    6,
+    5,
+    5,
+    6,
+    4,
+    6,
+    5
+   ],
+   "puntosHoyo": [
+    1,
+    2,
+    2,
+    2,
+    2,
+    1,
+    0,
+    2,
+    0,
+    0,
+    0,
+    0,
+    2,
+    1,
+    1,
+    3,
+    0,
+    2
+   ],
+   "recibidos": [
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "rey": 0.7595238095238095,
+   "reyHoyos": [
+    {
+     "hoyo": 3,
+     "valor": 0.16666666666666666
+    },
+    {
+     "hoyo": 4,
+     "valor": 0.14285714285714285
+    },
+    {
+     "hoyo": 13,
+     "valor": 0.2
+    },
+    {
+     "hoyo": 16,
+     "valor": 0.25
+    }
+   ]
+  },
+  {
+   "id": "mundu",
+   "nombre": "M Undurraga",
+   "indice": 15.8,
+   "grupo": 4,
+   "hcp": 15,
+   "puntos": 30,
+   "gross": 91,
+   "vsPar": 21,
+   "neto": 75.2,
+   "ida": 17,
+   "vuelta": 13,
+   "grossIda": 43,
+   "grossVta": 48,
+   "eagle": 0,
+   "birdie": 0,
+   "par": 5,
+   "bogey": 7,
+   "doble": 6,
+   "netoBirdies": 2,
+   "golpes": [
+    5,
+    4,
+    4,
+    5,
+    4,
+    6,
+    6,
+    4,
+    5,
+    5,
+    6,
+    5,
+    5,
+    6,
+    5,
+    6,
+    3,
+    7
+   ],
+   "puntosHoyo": [
+    2,
+    3,
+    2,
+    2,
+    2,
+    1,
+    1,
+    2,
+    2,
+    2,
+    1,
+    2,
+    2,
+    0,
+    2,
+    1,
+    3,
+    0
+   ],
+   "recibidos": [
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "rey": 1.0095238095238095,
+   "reyHoyos": [
+    {
+     "hoyo": 2,
+     "valor": 0.3333333333333333
+    },
+    {
+     "hoyo": 3,
+     "valor": 0.16666666666666666
+    },
+    {
+     "hoyo": 4,
+     "valor": 0.14285714285714285
+    },
+    {
+     "hoyo": 13,
+     "valor": 0.2
+    },
+    {
+     "hoyo": 17,
+     "valor": 0.16666666666666666
+    }
+   ]
+  },
+  {
+   "id": "jpo",
+   "nombre": "JP Ochagavía",
+   "indice": 17.8,
+   "grupo": 2,
+   "hcp": 17,
+   "puntos": 29,
+   "gross": 96,
+   "vsPar": 26,
+   "neto": 78.2,
+   "ida": 14,
+   "vuelta": 15,
+   "grossIda": 47,
+   "grossVta": 49,
+   "eagle": 0,
+   "birdie": 0,
+   "par": 3,
+   "bogey": 9,
+   "doble": 6,
+   "netoBirdies": 3,
+   "golpes": [
+    4,
+    4,
+    5,
+    6,
+    4,
+    7,
+    7,
+    4,
+    6,
+    5,
+    5,
+    6,
+    5,
+    5,
+    5,
+    9,
+    4,
+    5
+   ],
+   "puntosHoyo": [
+    3,
+    3,
+    2,
+    1,
+    2,
+    0,
+    0,
+    2,
+    1,
+    2,
+    2,
+    1,
+    3,
+    1,
+    2,
+    0,
+    2,
+    2
+   ],
+   "recibidos": [
+    1,
+    1,
+    1,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "rey": 0.8666666666666667,
+   "reyHoyos": [
+    {
+     "hoyo": 1,
+     "valor": 0.3333333333333333
+    },
+    {
+     "hoyo": 2,
+     "valor": 0.3333333333333333
+    },
+    {
+     "hoyo": 13,
+     "valor": 0.2
+    }
+   ]
+  },
+  {
+   "id": "aochagavia",
+   "nombre": "A Ochagavía",
+   "indice": 18,
+   "grupo": 1,
+   "hcp": 17,
+   "puntos": 28,
+   "gross": 98,
+   "vsPar": 28,
+   "neto": 80,
+   "ida": 16,
+   "vuelta": 12,
+   "grossIda": 46,
+   "grossVta": 52,
+   "eagle": 0,
+   "birdie": 0,
+   "par": 2,
+   "bogey": 11,
+   "doble": 5,
+   "netoBirdies": 2,
+   "golpes": [
+    5,
+    5,
+    4,
+    6,
+    4,
+    8,
+    6,
+    3,
+    5,
+    5,
+    5,
+    5,
+    6,
+    4,
+    8,
+    7,
+    4,
+    8
+   ],
+   "puntosHoyo": [
+    2,
+    2,
+    3,
+    1,
+    2,
+    0,
+    1,
+    3,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    0,
+    0,
+    2,
+    0
+   ],
+   "recibidos": [
+    1,
+    1,
+    1,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "rey": 0.41666666666666663,
+   "reyHoyos": [
+    {
+     "hoyo": 3,
+     "valor": 0.16666666666666666
+    },
+    {
+     "hoyo": 8,
+     "valor": 0.25
+    }
+   ]
+  },
+  {
+   "id": "smolina",
+   "nombre": "S Molina",
+   "indice": 18,
+   "grupo": 1,
+   "hcp": 17,
+   "puntos": 32,
+   "gross": 91,
+   "vsPar": 21,
+   "neto": 73,
+   "ida": 14,
+   "vuelta": 18,
+   "grossIda": 47,
+   "grossVta": 44,
+   "eagle": 0,
+   "birdie": 0,
+   "par": 3,
+   "bogey": 9,
+   "doble": 6,
+   "netoBirdies": 3,
+   "golpes": [
+    5,
+    4,
+    5,
+    6,
+    5,
+    6,
+    6,
+    4,
+    6,
+    5,
+    5,
+    5,
+    7,
+    4,
+    6,
+    4,
+    3,
+    5
+   ],
+   "puntosHoyo": [
+    2,
+    3,
+    2,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    2,
+    2,
+    2,
+    1,
+    2,
+    1,
+    3,
+    3,
+    2
+   ],
+   "recibidos": [
+    1,
+    1,
+    1,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "rey": 0.7499999999999999,
+   "reyHoyos": [
+    {
+     "hoyo": 2,
+     "valor": 0.3333333333333333
+    },
+    {
+     "hoyo": 16,
+     "valor": 0.25
+    },
+    {
+     "hoyo": 17,
+     "valor": 0.16666666666666666
+    }
+   ]
+  },
+  {
+   "id": "aguzman",
+   "nombre": "A Guzmán",
+   "indice": 18.1,
+   "grupo": 2,
+   "hcp": 17,
+   "puntos": 31,
+   "gross": 94,
+   "vsPar": 24,
+   "neto": 75.9,
+   "ida": 11,
+   "vuelta": 20,
+   "grossIda": 52,
+   "grossVta": 42,
+   "eagle": 0,
+   "birdie": 0,
+   "par": 6,
+   "bogey": 5,
+   "doble": 7,
+   "netoBirdies": 5,
+   "golpes": [
+    6,
+    9,
+    4,
+    5,
+    4,
+    6,
+    7,
+    5,
+    6,
+    5,
+    4,
+    5,
+    5,
+    4,
+    4,
+    7,
+    3,
+    5
+   ],
+   "puntosHoyo": [
+    1,
+    0,
+    3,
+    2,
+    2,
+    1,
+    0,
+    1,
+    1,
+    2,
+    3,
+    2,
+    3,
+    2,
+    3,
+    0,
+    3,
+    2
+   ],
+   "recibidos": [
+    1,
+    1,
+    1,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "rey": 2.0095238095238095,
+   "reyHoyos": [
+    {
+     "hoyo": 3,
+     "valor": 0.16666666666666666
+    },
+    {
+     "hoyo": 4,
+     "valor": 0.14285714285714285
+    },
+    {
+     "hoyo": 11,
+     "valor": 1
+    },
+    {
+     "hoyo": 13,
+     "valor": 0.2
+    },
+    {
+     "hoyo": 15,
+     "valor": 0.3333333333333333
+    },
+    {
+     "hoyo": 17,
+     "valor": 0.16666666666666666
+    }
+   ]
+  },
+  {
+   "id": "mg",
+   "nombre": "M Guzmán",
+   "indice": 18.8,
+   "grupo": 4,
+   "hcp": 18,
+   "puntos": 21,
+   "gross": 107,
+   "vsPar": 37,
+   "neto": 88.2,
+   "ida": 8,
+   "vuelta": 13,
+   "grossIda": 56,
+   "grossVta": 51,
+   "eagle": 0,
+   "birdie": 0,
+   "par": 1,
+   "bogey": 6,
+   "doble": 11,
+   "netoBirdies": 1,
+   "golpes": [
+    5,
+    9,
+    7,
+    6,
+    5,
+    5,
+    7,
+    5,
+    7,
+    6,
+    6,
+    5,
+    7,
+    4,
+    9,
+    5,
+    3,
+    6
+   ],
+   "puntosHoyo": [
+    2,
+    0,
+    0,
+    2,
+    1,
+    2,
+    0,
+    1,
+    0,
+    1,
+    1,
+    2,
+    1,
+    2,
+    0,
+    2,
+    3,
+    1
+   ],
+   "recibidos": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "rey": 0.16666666666666666,
+   "reyHoyos": [
+    {
+     "hoyo": 17,
+     "valor": 0.16666666666666666
+    }
+   ]
+  },
+  {
+   "id": "iu",
+   "nombre": "I Undurraga",
+   "indice": 22.1,
+   "grupo": 3,
+   "hcp": 21,
+   "puntos": 27,
+   "gross": 101,
+   "vsPar": 31,
+   "neto": 78.9,
+   "ida": 10,
+   "vuelta": 17,
+   "grossIda": 54,
+   "grossVta": 47,
+   "eagle": 0,
+   "birdie": 0,
+   "par": 3,
+   "bogey": 6,
+   "doble": 9,
+   "netoBirdies": 4,
+   "golpes": [
+    7,
+    7,
+    4,
+    6,
+    5,
+    6,
+    8,
+    4,
+    7,
+    5,
+    6,
+    6,
+    6,
+    4,
+    4,
+    4,
+    4,
+    8
+   ],
+   "puntosHoyo": [
+    0,
+    0,
+    3,
+    2,
+    1,
+    1,
+    0,
+    2,
+    1,
+    2,
+    1,
+    1,
+    2,
+    3,
+    3,
+    3,
+    2,
+    0
+   ],
+   "recibidos": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    2
+   ],
+   "rey": 0.75,
+   "reyHoyos": [
+    {
+     "hoyo": 3,
+     "valor": 0.16666666666666666
+    },
+    {
+     "hoyo": 15,
+     "valor": 0.3333333333333333
+    },
+    {
+     "hoyo": 16,
+     "valor": 0.25
+    }
+   ]
+  },
+  {
+   "id": "vc",
+   "nombre": "V Castillo",
+   "indice": 22.1,
+   "grupo": 3,
+   "hcp": 21,
+   "puntos": 19,
+   "gross": 112,
+   "vsPar": 42,
+   "neto": 89.9,
+   "ida": 8,
+   "vuelta": 11,
+   "grossIda": 58,
+   "grossVta": 54,
+   "eagle": 0,
+   "birdie": 0,
+   "par": 3,
+   "bogey": 4,
+   "doble": 11,
+   "netoBirdies": 3,
+   "golpes": [
+    8,
+    6,
+    5,
+    5,
+    4,
+    8,
+    7,
+    7,
+    8,
+    7,
+    8,
+    5,
+    6,
+    3,
+    4,
+    7,
+    6,
+    8
+   ],
+   "puntosHoyo": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    2,
+    4,
+    3,
+    0,
+    0,
+    0
+   ],
+   "recibidos": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    2
+   ],
+   "rey": 0.7261904761904762,
+   "reyHoyos": [
+    {
+     "hoyo": 4,
+     "valor": 0.14285714285714285
+    },
+    {
+     "hoyo": 14,
+     "valor": 0.25
+    },
+    {
+     "hoyo": 15,
+     "valor": 0.3333333333333333
+    }
+   ]
+  },
+  {
+   "id": "aundurraga",
+   "nombre": "A Undurraga",
+   "indice": 23,
+   "grupo": 1,
+   "hcp": 22,
+   "puntos": 25,
+   "gross": 106,
+   "vsPar": 36,
+   "neto": 83,
+   "ida": 12,
+   "vuelta": 13,
+   "grossIda": 52,
+   "grossVta": 54,
+   "eagle": 0,
+   "birdie": 0,
+   "par": 4,
+   "bogey": 2,
+   "doble": 12,
+   "netoBirdies": 4,
+   "golpes": [
+    6,
+    7,
+    7,
+    5,
+    6,
+    4,
+    5,
+    6,
+    6,
+    7,
+    6,
+    4,
+    9,
+    3,
+    9,
+    5,
+    5,
+    6
+   ],
+   "puntosHoyo": [
+    1,
+    0,
+    0,
+    3,
+    1,
+    3,
+    2,
+    0,
+    2,
+    0,
+    1,
+    3,
+    0,
+    4,
+    0,
+    2,
+    1,
+    2
+   ],
+   "recibidos": [
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    2
+   ],
+   "rey": 1.3928571428571428,
+   "reyHoyos": [
+    {
+     "hoyo": 4,
+     "valor": 0.14285714285714285
+    },
+    {
+     "hoyo": 6,
+     "valor": 0.5
+    },
+    {
+     "hoyo": 12,
+     "valor": 0.5
+    },
+    {
+     "hoyo": 14,
+     "valor": 0.25
+    }
+   ]
+  },
+  {
+   "id": "leyzaguirre",
+   "nombre": "L Eyzaguirre",
+   "indice": 27.8,
+   "grupo": 4,
+   "hcp": 26,
+   "puntos": 17,
+   "gross": 121,
+   "vsPar": 51,
+   "neto": 93.2,
+   "ida": 12,
+   "vuelta": 5,
+   "grossIda": 55,
+   "grossVta": 66,
+   "eagle": 0,
+   "birdie": 0,
+   "par": 0,
+   "bogey": 2,
+   "doble": 16,
+   "netoBirdies": 0,
+   "golpes": [
+    6,
+    8,
+    5,
+    7,
+    5,
+    8,
+    6,
+    4,
+    6,
+    8,
+    7,
+    6,
+    7,
+    6,
+    8,
+    6,
+    9,
+    9
+   ],
+   "puntosHoyo": [
+    2,
+    0,
+    2,
+    1,
+    2,
+    0,
+    1,
+    2,
+    2,
+    0,
+    1,
+    1,
+    1,
+    1,
+    0,
+    1,
+    0,
+    0
+   ],
+   "recibidos": [
+    2,
+    2,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    2,
+    2,
+    2,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    2
+   ],
+   "rey": 0,
+   "reyHoyos": []
+  }
+ ],
+ "hoyos": [
+  {
+   "hoyo": 1,
+   "par": 4,
+   "yardas": 410,
+   "hcp": 6,
+   "promedio": 5.5,
+   "sobrePar": 1.5,
+   "birdies": 0,
+   "pares": 3,
+   "bogeys": 4,
+   "dobles": 7,
+   "mejor": 4,
+   "peor": 8,
+   "rey": [
+    "P Mingo",
+    "F Coutts",
+    "JP Ochagavía"
+   ]
+  },
+  {
+   "hoyo": 2,
+   "par": 4,
+   "yardas": 392,
+   "hcp": 8,
+   "promedio": 6.285714285714286,
+   "sobrePar": 2.2857142857142856,
+   "birdies": 0,
+   "pares": 3,
+   "bogeys": 2,
+   "dobles": 9,
+   "mejor": 4,
+   "peor": 9,
+   "rey": [
+    "M Undurraga",
+    "JP Ochagavía",
+    "S Molina"
+   ]
+  },
+  {
+   "hoyo": 3,
+   "par": 4,
+   "yardas": 389,
+   "hcp": 16,
+   "promedio": 4.928571428571429,
+   "sobrePar": 0.9285714285714288,
+   "birdies": 0,
+   "pares": 6,
+   "bogeys": 5,
+   "dobles": 3,
+   "mejor": 4,
+   "peor": 7,
+   "rey": [
+    "M Covarrubias",
+    "G Carrasco",
+    "M Undurraga",
+    "A Ochagavía",
+    "A Guzmán",
+    "I Undurraga"
+   ]
+  },
+  {
+   "hoyo": 4,
+   "par": 5,
+   "yardas": 485,
+   "hcp": 18,
+   "promedio": 5.642857142857143,
+   "sobrePar": 0.6428571428571432,
+   "birdies": 0,
+   "pares": 7,
+   "bogeys": 5,
+   "dobles": 2,
+   "mejor": 5,
+   "peor": 7,
+   "rey": [
+    "P Mingo",
+    "F Coutts",
+    "G Carrasco",
+    "M Undurraga",
+    "A Guzmán",
+    "V Castillo",
+    "A Undurraga"
+   ]
+  },
+  {
+   "hoyo": 5,
+   "par": 3,
+   "yardas": 210,
+   "hcp": 4,
+   "promedio": 4.285714285714286,
+   "sobrePar": 1.2857142857142856,
+   "birdies": 1,
+   "pares": 1,
+   "bogeys": 6,
+   "dobles": 6,
+   "mejor": 2,
+   "peor": 6,
+   "rey": [
+    "P Mingo"
+   ]
+  },
+  {
+   "hoyo": 6,
+   "par": 4,
+   "yardas": 407,
+   "hcp": 14,
+   "promedio": 6.071428571428571,
+   "sobrePar": 2.071428571428571,
+   "birdies": 0,
+   "pares": 2,
+   "bogeys": 2,
+   "dobles": 10,
+   "mejor": 4,
+   "peor": 8,
+   "rey": [
+    "M Covarrubias",
+    "A Undurraga"
+   ]
+  },
+  {
+   "hoyo": 7,
+   "par": 4,
+   "yardas": 312,
+   "hcp": 10,
+   "promedio": 6.285714285714286,
+   "sobrePar": 2.2857142857142856,
+   "birdies": 0,
+   "pares": 1,
+   "bogeys": 2,
+   "dobles": 11,
+   "mejor": 4,
+   "peor": 8,
+   "rey": [
+    "M Covarrubias"
+   ]
+  },
+  {
+   "hoyo": 8,
+   "par": 3,
+   "yardas": 187,
+   "hcp": 12,
+   "promedio": 4.214285714285714,
+   "sobrePar": 1.2142857142857144,
+   "birdies": 0,
+   "pares": 4,
+   "bogeys": 6,
+   "dobles": 4,
+   "mejor": 3,
+   "peor": 7,
+   "rey": [
+    "P Mingo",
+    "M Covarrubias",
+    "F Coutts",
+    "A Ochagavía"
+   ]
+  },
+  {
+   "hoyo": 9,
+   "par": 4,
+   "yardas": 450,
+   "hcp": 2,
+   "promedio": 6.214285714285714,
+   "sobrePar": 2.2142857142857144,
+   "birdies": 0,
+   "pares": 1,
+   "bogeys": 3,
+   "dobles": 10,
+   "mejor": 4,
+   "peor": 8,
+   "rey": [
+    "M Covarrubias"
+   ]
+  },
+  {
+   "hoyo": 10,
+   "par": 4,
+   "yardas": 393,
+   "hcp": 5,
+   "promedio": 5.714285714285714,
+   "sobrePar": 1.7142857142857144,
+   "birdies": 0,
+   "pares": 1,
+   "bogeys": 7,
+   "dobles": 6,
+   "mejor": 4,
+   "peor": 8,
+   "rey": [
+    "P Mingo"
+   ]
+  },
+  {
+   "hoyo": 11,
+   "par": 4,
+   "yardas": 416,
+   "hcp": 7,
+   "promedio": 6.142857142857143,
+   "sobrePar": 2.1428571428571432,
+   "birdies": 0,
+   "pares": 1,
+   "bogeys": 5,
+   "dobles": 8,
+   "mejor": 4,
+   "peor": 11,
+   "rey": [
+    "A Guzmán"
+   ]
+  },
+  {
+   "hoyo": 12,
+   "par": 4,
+   "yardas": 379,
+   "hcp": 15,
+   "promedio": 5.142857142857143,
+   "sobrePar": 1.1428571428571432,
+   "birdies": 0,
+   "pares": 2,
+   "bogeys": 8,
+   "dobles": 4,
+   "mejor": 4,
+   "peor": 6,
+   "rey": [
+    "M Covarrubias",
+    "A Undurraga"
+   ]
+  },
+  {
+   "hoyo": 13,
+   "par": 5,
+   "yardas": 492,
+   "hcp": 17,
+   "promedio": 6.142857142857143,
+   "sobrePar": 1.1428571428571432,
+   "birdies": 0,
+   "pares": 5,
+   "bogeys": 4,
+   "dobles": 5,
+   "mejor": 5,
+   "peor": 9,
+   "rey": [
+    "P Mingo",
+    "G Carrasco",
+    "M Undurraga",
+    "JP Ochagavía",
+    "A Guzmán"
+   ]
+  },
+  {
+   "hoyo": 14,
+   "par": 3,
+   "yardas": 191,
+   "hcp": 3,
+   "promedio": 4.285714285714286,
+   "sobrePar": 1.2857142857142856,
+   "birdies": 0,
+   "pares": 4,
+   "bogeys": 5,
+   "dobles": 5,
+   "mejor": 3,
+   "peor": 6,
+   "rey": [
+    "P Mingo",
+    "M Covarrubias",
+    "V Castillo",
+    "A Undurraga"
+   ]
+  },
+  {
+   "hoyo": 15,
+   "par": 4,
+   "yardas": 382,
+   "hcp": 13,
+   "promedio": 6,
+   "sobrePar": 2,
+   "birdies": 0,
+   "pares": 3,
+   "bogeys": 4,
+   "dobles": 7,
+   "mejor": 4,
+   "peor": 9,
+   "rey": [
+    "A Guzmán",
+    "I Undurraga",
+    "V Castillo"
+   ]
+  },
+  {
+   "hoyo": 16,
+   "par": 4,
+   "yardas": 321,
+   "hcp": 9,
+   "promedio": 6,
+   "sobrePar": 2,
+   "birdies": 0,
+   "pares": 4,
+   "bogeys": 3,
+   "dobles": 7,
+   "mejor": 4,
+   "peor": 11,
+   "rey": [
+    "P Mingo",
+    "G Carrasco",
+    "S Molina",
+    "I Undurraga"
+   ]
+  },
+  {
+   "hoyo": 17,
+   "par": 3,
+   "yardas": 178,
+   "hcp": 11,
+   "promedio": 4.285714285714286,
+   "sobrePar": 1.2857142857142856,
+   "birdies": 0,
+   "pares": 6,
+   "bogeys": 4,
+   "dobles": 4,
+   "mejor": 3,
+   "peor": 9,
+   "rey": [
+    "P Mingo",
+    "M Covarrubias",
+    "M Undurraga",
+    "S Molina",
+    "A Guzmán",
+    "M Guzmán"
+   ]
+  },
+  {
+   "hoyo": 18,
+   "par": 4,
+   "yardas": 460,
+   "hcp": 1,
+   "promedio": 6.214285714285714,
+   "sobrePar": 2.2142857142857144,
+   "birdies": 1,
+   "pares": 0,
+   "bogeys": 4,
+   "dobles": 9,
+   "mejor": 3,
+   "peor": 9,
+   "rey": [
+    "P Mingo"
+   ]
+  }
+ ],
+ "puestos": {
+  "copa": {
+   "pm": [
+    3,
+    7,
+    9,
+    10,
+    6,
+    6,
+    5,
+    5,
+    6,
+    6,
+    6,
+    6,
+    7,
+    6,
+    7,
+    7,
+    7,
+    3
+   ],
+   "mcovarrubias": [
+    12,
+    12,
+    11,
+    14,
+    14,
+    14,
+    8,
+    7,
+    3,
+    3,
+    3,
+    3,
+    4,
+    3,
+    4,
+    1,
+    2,
+    2
+   ],
+   "fcoutts": [
+    2,
+    6,
+    10,
+    8,
+    6,
+    8,
+    10,
+    8,
+    10,
+    10,
+    12,
+    11,
+    12,
+    14,
+    13,
+    14,
+    13,
+    13
+   ],
+   "gcarrasco": [
+    11,
+    5,
+    5,
+    5,
+    4,
+    3,
+    7,
+    6,
+    9,
+    12,
+    11,
+    12,
+    11,
+    12,
+    11,
+    10,
+    11,
+    10
+   ],
+   "mundu": [
+    7,
+    3,
+    2,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    2,
+    2,
+    5
+   ],
+   "jpo": [
+    1,
+    1,
+    1,
+    2,
+    2,
+    2,
+    3,
+    4,
+    5,
+    5,
+    5,
+    5,
+    3,
+    5,
+    5,
+    8,
+    8,
+    6
+   ],
+   "aochagavia": [
+    4,
+    4,
+    3,
+    3,
+    3,
+    5,
+    4,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    1,
+    3,
+    5,
+    5,
+    7
+   ],
+   "smolina": [
+    4,
+    2,
+    3,
+    3,
+    5,
+    3,
+    2,
+    3,
+    4,
+    4,
+    4,
+    4,
+    5,
+    4,
+    6,
+    2,
+    1,
+    1
+   ],
+   "aguzman": [
+    10,
+    13,
+    7,
+    7,
+    9,
+    7,
+    9,
+    11,
+    11,
+    7,
+    7,
+    7,
+    6,
+    7,
+    2,
+    4,
+    4,
+    4
+   ],
+   "mg": [
+    4,
+    9,
+    13,
+    13,
+    13,
+    13,
+    14,
+    14,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    14,
+    13,
+    10,
+    11
+   ],
+   "iu": [
+    13,
+    14,
+    8,
+    9,
+    11,
+    11,
+    13,
+    12,
+    12,
+    9,
+    9,
+    9,
+    8,
+    9,
+    8,
+    6,
+    6,
+    8
+   ],
+   "vc": [
+    14,
+    11,
+    12,
+    6,
+    8,
+    10,
+    12,
+    13,
+    14,
+    14,
+    14,
+    14,
+    14,
+    11,
+    10,
+    11,
+    12,
+    12
+   ],
+   "aundurraga": [
+    9,
+    10,
+    14,
+    12,
+    12,
+    9,
+    6,
+    9,
+    7,
+    8,
+    8,
+    8,
+    9,
+    8,
+    9,
+    9,
+    9,
+    9
+   ],
+   "leyzaguirre": [
+    8,
+    8,
+    6,
+    11,
+    10,
+    12,
+    11,
+    10,
+    8,
+    10,
+    10,
+    10,
+    10,
+    10,
+    12,
+    12,
+    14,
+    14
+   ]
+  },
+  "general": {
+   "pm": [
+    8,
+    9,
+    11,
+    10,
+    5,
+    4,
+    2,
+    4,
+    4,
+    3,
+    4,
+    4,
+    4,
+    3,
+    5,
+    2,
+    4,
+    2
+   ],
+   "mcovarrubias": [
+    12,
+    12,
+    10,
+    14,
+    14,
+    14,
+    6,
+    3,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "fcoutts": [
+    1,
+    4,
+    8,
+    8,
+    4,
+    8,
+    9,
+    5,
+    6,
+    7,
+    9,
+    10,
+    10,
+    11,
+    11,
+    12,
+    11,
+    13
+   ],
+   "gcarrasco": [
+    11,
+    6,
+    5,
+    5,
+    7,
+    5,
+    8,
+    8,
+    9,
+    11,
+    11,
+    12,
+    11,
+    12,
+    12,
+    11,
+    13,
+    10
+   ],
+   "mundu": [
+    6,
+    2,
+    2,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    2,
+    3,
+    3,
+    2,
+    4,
+    2,
+    3,
+    2,
+    4
+   ],
+   "jpo": [
+    2,
+    1,
+    1,
+    2,
+    2,
+    2,
+    3,
+    6,
+    5,
+    5,
+    5,
+    7,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8
+   ],
+   "aochagavia": [
+    3,
+    5,
+    4,
+    4,
+    3,
+    3,
+    4,
+    2,
+    3,
+    4,
+    2,
+    2,
+    3,
+    2,
+    4,
+    6,
+    7,
+    7
+   ],
+   "smolina": [
+    3,
+    3,
+    3,
+    3,
+    6,
+    6,
+    7,
+    7,
+    8,
+    6,
+    6,
+    6,
+    7,
+    8,
+    8,
+    7,
+    5,
+    5
+   ],
+   "aguzman": [
+    10,
+    13,
+    6,
+    6,
+    8,
+    7,
+    10,
+    10,
+    12,
+    10,
+    7,
+    5,
+    5,
+    5,
+    3,
+    4,
+    3,
+    3
+   ],
+   "mg": [
+    5,
+    8,
+    13,
+    13,
+    13,
+    12,
+    14,
+    14,
+    14,
+    13,
+    13,
+    13,
+    14,
+    14,
+    14,
+    13,
+    12,
+    12
+   ],
+   "iu": [
+    13,
+    14,
+    9,
+    9,
+    11,
+    11,
+    13,
+    12,
+    11,
+    8,
+    8,
+    9,
+    8,
+    9,
+    6,
+    5,
+    6,
+    6
+   ],
+   "vc": [
+    14,
+    11,
+    12,
+    7,
+    9,
+    10,
+    11,
+    13,
+    13,
+    14,
+    14,
+    14,
+    13,
+    10,
+    10,
+    10,
+    10,
+    11
+   ],
+   "aundurraga": [
+    9,
+    10,
+    14,
+    12,
+    12,
+    9,
+    5,
+    9,
+    7,
+    9,
+    10,
+    8,
+    9,
+    7,
+    9,
+    9,
+    9,
+    9
+   ],
+   "leyzaguirre": [
+    7,
+    7,
+    7,
+    11,
+    10,
+    13,
+    12,
+    11,
+    10,
+    12,
+    12,
+    11,
+    12,
+    13,
+    13,
+    14,
+    14,
+    14
+   ]
+  }
+ },
+ "lideresCopa": {
+  "pm": 0,
+  "mcovarrubias": 1,
+  "fcoutts": 0,
+  "gcarrasco": 0,
+  "mundu": 11,
+  "jpo": 3,
+  "aochagavia": 1,
+  "smolina": 2,
+  "aguzman": 0,
+  "mg": 0,
+  "iu": 0,
+  "vc": 0,
+  "aundurraga": 0,
+  "leyzaguirre": 0
+ },
+ "subida": [
+  {
+   "id": "aguzman",
+   "nombre": "A Guzmán",
+   "de": 11,
+   "a": 4,
+   "sube": 7
+  },
+  {
+   "id": "iu",
+   "nombre": "I Undurraga",
+   "de": 12,
+   "a": 8,
+   "sube": 4
+  },
+  {
+   "id": "pm",
+   "nombre": "P Mingo",
+   "de": 6,
+   "a": 3,
+   "sube": 3
+  },
+  {
+   "id": "smolina",
+   "nombre": "S Molina",
+   "de": 4,
+   "a": 1,
+   "sube": 3
+  },
+  {
+   "id": "mg",
+   "nombre": "M Guzmán",
+   "de": 13,
+   "a": 11,
+   "sube": 2
+  },
+  {
+   "id": "vc",
+   "nombre": "V Castillo",
+   "de": 14,
+   "a": 12,
+   "sube": 2
+  },
+  {
+   "id": "mcovarrubias",
+   "nombre": "M Covarrubias",
+   "de": 3,
+   "a": 2,
+   "sube": 1
+  },
+  {
+   "id": "gcarrasco",
+   "nombre": "G Carrasco",
+   "de": 9,
+   "a": 10,
+   "sube": -1
+  },
+  {
+   "id": "jpo",
+   "nombre": "JP Ochagavía",
+   "de": 5,
+   "a": 6,
+   "sube": -1
+  },
+  {
+   "id": "aundurraga",
+   "nombre": "A Undurraga",
+   "de": 7,
+   "a": 9,
+   "sube": -2
+  },
+  {
+   "id": "fcoutts",
+   "nombre": "F Coutts",
+   "de": 10,
+   "a": 13,
+   "sube": -3
+  },
+  {
+   "id": "mundu",
+   "nombre": "M Undurraga",
+   "de": 1,
+   "a": 5,
+   "sube": -4
+  },
+  {
+   "id": "aochagavia",
+   "nombre": "A Ochagavía",
+   "de": 2,
+   "a": 7,
+   "sube": -5
+  },
+  {
+   "id": "leyzaguirre",
+   "nombre": "L Eyzaguirre",
+   "de": 8,
+   "a": 14,
+   "sube": -6
+  }
+ ]
+}

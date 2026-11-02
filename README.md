@@ -40,3 +40,14 @@ Los mapas se regeneran con `npm run mapa` (escribe `public/mapa-9-hoyos.svg` y `
 
 - `data/jugadores.json`: lista inicial (nombre, índice, grupo y a quién marca cada uno). Desde **Admin** se agregan jugadores (entran al grupo más chico), se cambia nombre o índice y se quita a cualquiera menos al admin (su id y su PIN no se reutilizan). Para un ausente o retirado es mejor "No juega".
 - `data/cancha.json`: par, yardas y HCP por hoyo de la tarjeta oficial 2025 (salida azul). Slope 113 y rating 70 por decisión del organizador: el hándicap de juego es el 95% del índice.
+
+## Estadísticas del campeonato (PDF)
+
+Baja los scores de producción (solo lectura), los procesa con el mismo motor de la app y arma el PDF:
+
+```bash
+node scripts/bajar_scores.mjs . data/torneo-2026.json
+node scripts/estadisticas.mjs . data/torneo-2026.json data/torneo-2026-stats.json
+python scripts/estadisticas_pdf.py data/torneo-2026-stats.json entregables/docs/PAICAZO-estadisticas-2026.pdf
+```
+
